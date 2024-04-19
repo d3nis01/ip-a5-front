@@ -1,5 +1,6 @@
 export interface ICreateAccount {
   username: string;
+  password: string;
   email: string;
   matricol: string;
 }
@@ -12,6 +13,12 @@ export interface ICreateSamba {
 export interface UpdateSambaParams {
   newIpAddress: string;
   newDescription?: string;
+}
+
+export interface UpdateAccountParams {
+  Username: string;
+  Password: string;
+  Email: string;
 }
 
 export interface ICreateVpn {
