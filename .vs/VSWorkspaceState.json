@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\modules",
+    "\\src\\modules\\DeleteVPN",
+    "\\src\\modules\\home",
+    "\\src\\router",
+    "\\src\\services",
+    "\\src\\theme",
+    "\\src\\types",
+    "\\src\\utils"
+  ],
+  "SelectedNode": "\\src\\modules\\DeleteVPN\\DeleteVpn.tsx",
+  "PreviewInSolutionExplorer": false
+}

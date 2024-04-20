@@ -1,9 +1,12 @@
 import { HomeContainer, HomeInnerContainer } from './styles';
+import DeleteVpn from '../../modules/DeleteVPN/DeleteVpn';
 
 const Home = (): JSX.Element => {
   return (
     <HomeContainer>
-      <HomeInnerContainer>Home</HomeInnerContainer>
+      <HomeInnerContainer>
+        <DeleteVpn />
+      </HomeInnerContainer>
     </HomeContainer>
   );
 };
