@@ -1,6 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
-  DeleteVpnContainer, DeleteVpnTitle, UUIDForm, UUIDLabel, UUIDInput, SubmitButton, ResponseSection, ResponseItem, ResponseLabel,
+  DeleteSambaContainer, DeleteSambaTitle, UUIDForm, UUIDLabel, UUIDInput, SubmitButton, ResponseSection, ResponseItem, ResponseLabel,
   ResponseValue, ResponseContent, ResponseBox, RequestResponseLabel, CopyButton
 } from './styles';
 
@@ -17,7 +17,7 @@ const copyToClipboard = async (text: string) => {
   }
 };
 
-const DeleteVpn = (): JSX.Element => {
+const DeleteSamba = (): JSX.Element => {
   const [uuid, setUuid] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -26,8 +26,8 @@ const DeleteVpn = (): JSX.Element => {
     setSubmitted(true);
   };
   return (
-    <DeleteVpnContainer>
-      <DeleteVpnTitle><b>Delete VPN</b></DeleteVpnTitle>
+    <DeleteSambaContainer>
+      <DeleteSambaTitle><b>Delete Samba</b></DeleteSambaTitle>
       <UUIDForm onSubmit={handleSubmit}>
         <UUIDLabel htmlFor="uuid">UUID</UUIDLabel>
         <UUIDInput
@@ -43,15 +43,6 @@ const DeleteVpn = (): JSX.Element => {
       {submitted && (
   <ResponseSection>
     <RequestResponseLabel>Request response</RequestResponseLabel>
-    <ResponseLabel>UUID</ResponseLabel>
-    <ResponseItem>
-      <ResponseBox>
-        <ResponseContent>
-          <ResponseValue>{uuid || 'None provided'}</ResponseValue>
-          <CopyButton onClick={() => copyToClipboard(uuid || 'None provided')}>Copy</CopyButton>
-        </ResponseContent>
-      </ResponseBox>
-    </ResponseItem>
     <ResponseLabel>Status code</ResponseLabel>
     <ResponseItem>
       <ResponseBox>
@@ -63,8 +54,8 @@ const DeleteVpn = (): JSX.Element => {
     </ResponseItem>
   </ResponseSection>
 )}
-    </DeleteVpnContainer>
+    </DeleteSambaContainer>
   );
 };
 
-export default DeleteVpn;
+export default DeleteSamba;
