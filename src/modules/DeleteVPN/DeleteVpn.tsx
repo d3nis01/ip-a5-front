@@ -55,7 +55,7 @@ const DeleteVpn = (): JSX.Element => {
         <ResponseSection>
           <RequestResponseLabel>Request response</RequestResponseLabel>
           {responseItems.map((item, index) => (
-            <>
+            <React.Fragment key={index}>
               <ResponseLabel>{item.title}</ResponseLabel>
               <ResponseItem key={index}>
                 <ResponseBox>
@@ -65,7 +65,7 @@ const DeleteVpn = (): JSX.Element => {
                   </ResponseContent>
                 </ResponseBox>
               </ResponseItem>
-            </>
+            </React.Fragment>
           ))}
         </ResponseSection>
       )}

@@ -5,7 +5,7 @@ const Home = (): JSX.Element => {
   return (
     <HomeContainer>
       <HomeInnerContainer>
-        <DeleteVpn />
+        <p>Home</p>
       </HomeInnerContainer>
     </HomeContainer>
   );
