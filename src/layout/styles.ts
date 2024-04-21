@@ -13,6 +13,10 @@ export const LayoutCenterContainer = styled.div`
   height: 100%;
   min-height: 100vh;
   width: calc(100vw - 250px);
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 `;
 
 export const LayoutContentWrapper = styled.div`

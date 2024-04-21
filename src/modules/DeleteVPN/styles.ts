@@ -1,163 +1,125 @@
 import styled from 'styled-components';
-export const DeleteVpnContainer = styled.div`
-  font-family: 'Arial ', sans-serif; //sau.. ${props => props.theme.fonts.poppins}
-  background-color: ${props => props.theme.colors.white};
-  max-width: 400px;
-  margin: 50px auto;
+
+export const VpnDeleteContainer = styled.div`
+  width: 100%;
+  background-color: ${props => props.theme.colors.backgroundGray};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
-  @media (max-width: 1024px) { 
-    max-width: 80%;
-    padding: 25px;
-    margin: 40px auto;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 95%;
+  @media (max-width: 550px) {
     padding: 20px;
-    margin: 30px auto;
+  }
+  @media (max-width: 380px) {
+    padding: 15px;
+  }
+`;
+
+export const VpnDeleteInnerContainer = styled.div`
+  background-color: ${props => props.theme.colors.white};
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (max-width: 550px) {
+    padding: 20px;
+  }
+  @media (max-width: 380px) {
+    padding: 20px 10px;
   }
 `;
 
 export const DeleteVpnTitle = styled.h1`
-  font-size: 1.4rem;
+  font-size: ${props => props.theme.fontSize.gig};
+  font-weight: ${props => props.theme.fontWeights.bold};
   color: ${props => props.theme.colors.textPrimary};
   text-align: left;
-  margin-bottom: 1.5rem;
 
-  @media (max-width: 1024px) {
-    font-size: 1.3rem;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+  @media (max-width: 550px) {
+    font-size: 32px;
   }
 `;
 
 export const UUIDForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  padding-left: 12px;
 `;
 
 export const UUIDLabel = styled.label`
-  font-size: 1rem;
-  color: ${props => props.theme.colors.textPrimary}; 
+  font-size: 18px;
+  color: ${props => props.theme.colors.textPrimary};
   text-align: left;
-  font-weight: ${props => props.theme.fontWeights.bold}; 
+  font-weight: ${props => props.theme.fontWeights.bold};
 `;
 
 export const UUIDInput = styled.input`
   padding: 10px;
-  border: 1.5px solid #b3b8f5;
+  border: 2px solid ${props => props.theme.colors.primaryPurple};
   border-radius: 5px;
-  font-size: 1rem;
-  width: 380px; 
-
-  @media (max-width: 1024px) {
-    padding: 9px;
-    width: 47vw;
-  }
-
-  @media (max-width: 890px) {
-    padding: 8px;
-    width: 40vw;
-  }
-
-  @media (max-width: 515px) {
-    padding: 8px;
-    width: 25vw;
-  }
-
+  font-size: 16px;
 `;
 
 export const SubmitButton = styled.button`
-  padding: 10px 20px; 
-  background-color: ${props => props.theme.colors.primaryPurple}; 
+  padding: 10px 20px;
+  background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
   border: none;
-  border-radius: 25px; 
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
   align-self: flex-end;
-  margin-top: 10px; 
-
-  @media (max-width: 1024px) {
-    padding: 9px 18px;
-    font-size: 0.95rem;
-  }
-
-  @media (max-width: 768px) {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
 `;
 
 export const ResponseSection = styled.section`
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 export const ResponseItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 1rem; 
 `;
 
-export const ResponseLabel = styled.span`
+export const ResponseLabel = styled.div`
   font-weight: ${props => props.theme.fontWeights.bold};
-  display: block; 
-  margin-bottom: 0.5rem; 
-  margin-left: 10px;
   color: ${props => props.theme.colors.textPrimary};
+  font-size: 18px;
 `;
 
-export const ResponseValue = styled.span`
-  color: #264653; 
-  padding-left: 10px; 
-  flex-grow: 1;
-  font-size: 14px;
-`;
+export const ResponseValue = styled.div`
+  color: ${props => props.theme.colors.textPrimary};
+  font-size: 16px;
 
-export const ResponseContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-export const ResponseBox = styled.div`
-  border: 1.5px solid #b3b8f5;
-  border-radius: 30px;
-  padding: 5px 10px; 
-  box-sizing: border-box;
-  flex-grow: 0; 
-  flex-shrink: 0; 
-  flex-basis: 370px;
-  margin-right: 10px; 
-
-  @media (max-width: 1024px) {  
-    flex-basis: 90%; 
-    margin-right: 5px;  
+  @media (max-width: 550px) {
+    font-size: 14px;
   }
-
-  @media (max-width: 768px) {  
-    flex-basis: 100%; 
-    margin-right: 0;  
-    padding: 10px; 
+  @media (max-width: 430px) {
+    font-size: 12px;
+  }
+  @media (max-width: 330px) {
+    font-size: 10px;
   }
 `;
 
 export const RequestResponseLabel = styled.h2`
-  font-size: 1.2rem;
+  font-size: 28px;
   color: ${props => props.theme.colors.textPrimary};
   text-align: left;
-  margin-top: 10px; 
-  margin-bottom: 15px; 
+
+  @media (max-width: 550px) {
+    font-size: 22px;
+  }
 `;
 
 export const CopyButton = styled.button`
@@ -165,19 +127,37 @@ export const CopyButton = styled.button`
   color: white;
   border: none;
   border-radius: 15px;
-  padding: 6px 10px;
+  padding: 6px 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 0.8rem;
-  margin-left: 0; 
+  font-size: 16px;
+`;
 
-  @media (max-width: 1024px) {
-    padding: 5px 9px;
-    font-size: 0.75rem;
-  }
+export const UuidInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
 
-  @media (max-width: 768px) {
-    padding: 4px 8px;
-    font-size: 0.7rem;
-  }
+export const VpnDeleteResponseWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 12px;
+  width: 100%;
+  max-width: 400px;
+`;
+
+export const VpnDeleteResponseItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+export const VpnDeleteResponseBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid ${props => props.theme.colors.primaryPurple};
+  border-radius: 25px;
+  padding: 5px 5px 5px 10px;
 `;
