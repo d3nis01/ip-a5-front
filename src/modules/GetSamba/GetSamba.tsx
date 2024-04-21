@@ -9,7 +9,6 @@ import {
   InputWrapper,
   CopyButton,
   SambaResponseSection,
-  SambaResponseItem,
   SambaResponseLabel,
   SambaResponseValue,
   SambaRequestResponseLabel,
@@ -52,40 +51,37 @@ const GetSamba = (): JSX.Element => {
 
         {isFormSubmitted && (
           <SambaResponseSection>
+
             <SambaRequestResponseLabel>Request response</SambaRequestResponseLabel>
+            
             <SambaResponsesWrapper>
-              <SambaResponseItem>
-                <SambaResponseLabel>UUID</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseItem>
 
-              <SambaResponseItem>
                 <SambaResponseLabel>UUID</SambaResponseLabel>
                 <ResponseValueWrapper>
                   <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
                   <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
 
-              <SambaResponseItem>
                 <SambaResponseLabel>UUID</SambaResponseLabel>
                 <ResponseValueWrapper>
                   <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
                   <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
 
-              <SambaResponseItem>
                 <SambaResponseLabel>UUID</SambaResponseLabel>
                 <ResponseValueWrapper>
                   <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
                   <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
+
+                <SambaResponseLabel>UUID</SambaResponseLabel>
+                <ResponseValueWrapper>
+                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                </ResponseValueWrapper>
+
             </SambaResponsesWrapper>
+
           </SambaResponseSection>
         )}
       </SambaInnerContainer>
