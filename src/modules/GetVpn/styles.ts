@@ -1,33 +1,56 @@
 import styled from 'styled-components';
 
 export const VPNContainer = styled.div`
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-family: ${({ theme }) => theme.fonts.poppins}, sans-serif;
-  padding: 0 30px;
-  max-width: 1000px; 
+  width: 100%;
+  background-color: ${props => props.theme.colors.backgroundGray};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
 
-  @media (max-width: 768px) {
-    padding: 0 15px; 
+  @media (max-width: 550px) {
+    padding: 20px;
+  }
+  @media (max-width: 380px) {
+    padding: 15px;
+  }
+`;
+
+export const VPNInnerContainer = styled.div`
+  background-color: ${props => props.theme.colors.white};
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  padding: 40px 40px;
+
+  @media (max-width: 550px) {
+    padding: 20px;
+  }
+  @media (max-width: 380px) {
+    padding: 20px 10px;
   }
 `;
 
 export const VPNTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.xxl};
+  font-size: ${({ theme }) => theme.fontSize.gig};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   color: ${({ theme }) => theme.colors.textPrimary};
   text-align: left;
   margin-bottom: 2rem;
-  
-  @media (max-width: 768px) { 
-    font-size: 24px; 
+
+  @media (max-width: 768px) {
+    font-size: 24px;
   }
 `;
 
 export const VPNForm = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;  
+  align-items: flex-start;
   width: 100%;
+  padding-left: 12px;
+  max-width: 600px;
+  gap: 24px;
 `;
 
 export const VPNLabel = styled.label`
@@ -39,14 +62,10 @@ export const VPNLabel = styled.label`
 
 export const UUIDInput = styled.input`
   padding: 10px;
-  border: 2px solid ${({ theme }) => theme.colors.primaryPurple};
+  border: 2px solid ${props => props.theme.colors.primaryPurple};
   border-radius: 5px;
   font-size: ${({ theme }) => theme.fontSize.lg};
-  width: 400px; 
-  
-  @media (max-width: 768px) {
-    max-width: 100%; 
-  }
+  width: 100%;
 `;
 
 export const SubmitButton = styled.button`
@@ -57,29 +76,16 @@ export const SubmitButton = styled.button`
   border-radius: 25px;
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${props => props.theme.fontWeights.bold};
   transition: background-color 0.3s ease;
   align-self: flex-end;
-  justify-self: end; 
-  margin-top: 10px;
-
-  @media (max-width: 768px) {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
 `;
 
 export const InputWrapper = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); 
-  grid-gap: 10px; 
-  width: 100%; 
-  max-width: 500px; 
-  margin-bottom: 20px; 
-
-  @media (max-width: 768px) {
-    width: 100%; 
-    padding: 0.625rem; 
-  }
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 6px;
 `;
 
 export const CopyButton = styled.button`
@@ -87,51 +93,35 @@ export const CopyButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   border: none;
   border-radius: 15px;
-  padding: 6px 12px;
+  padding: 6px 18px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 14px;
-  margin-left: 0; 
-
-  @media (max-width: 768px) {
-    padding: 4px 8px;
-    font-size: 0.7rem;
-  }
+  margin-left: 0;
 `;
 
 export const VPNResponseSection = styled.section`
-  margin-top: 20px;
-
-  @media (max-width: 768px) { 
-    margin-top: 10px;
-  }
+  padding: 20px 0 0 0;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 `;
 
 export const VPNResponseItem = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-  flex-wrap: wrap; 
-
-  @media (max-width: 768px) {
-    justify-content: center; 
-  }
+  flex-direction: column;
+  gap: 6px;
 `;
 
-export const VPNResponseLabel = styled.span`
+export const VPNResponseLabel = styled.div`
   font-size: 18px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  display: block;
-  margin-bottom: 5px;
-  margin-left: 10px;
   color: ${({ theme }) => theme.colors.textPrimary};
 `;
 
-export const VPNResponseValue = styled.span`
+export const VPNResponseValue = styled.div`
   color: ${({ theme }) => theme.colors.textPrimary};
-  padding-left: 10px; 
-  flex-grow: 1;
   font-size: 14px;
 `;
 
@@ -145,29 +135,31 @@ export const VPNResponseContent = styled.div`
 export const VPNResponseBox = styled.div`
   border: 2px solid #303972;
   border-radius: 30px;
-  padding: 5px 10px; 
-  box-sizing: border-box;
-  flex-grow: 0; 
-  flex-shrink: 0; 
-  flex-basis: 370px;
-  margin-right: 10px;
-
-  @media (max-width: 768px) {  
-    flex-basis: 100%; 
-    margin-right: 0;  
-    padding: 10px; 
-  }
+  padding: 5px 10px;
 `;
 
 export const VPNRequestResponseLabel = styled.h2`
   color: ${({ theme }) => theme.colors.textPrimary};
-  font-size: ${({ theme }) => theme.fontSize.xxl};
+  font-size: 28px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  display: block;
-  margin-bottom: 20px; 
 
   @media (max-width: 768px) {
-    font-size: 24px; 
-    text-align: center; 
+    font-size: 24px;
   }
+`;
+
+export const VPNResponsesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 12px;
+`;
+
+export const ResponseValueWrapper = styled.div`
+  border: 2px solid ${props => props.theme.colors.primaryPurple};
+  border-radius: 30px;
+  padding: 5px 5px 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

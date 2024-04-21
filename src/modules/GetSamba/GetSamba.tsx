@@ -1,105 +1,96 @@
 import React, { useState } from 'react';
-import { 
-  SambaContainer, 
-  SambaTitle, 
-  SambaForm, 
-  SambaLabel, 
-  UUIDInput, 
-  SubmitButton, 
-  InputWrapper, 
-  CopyButton, 
-  SambaResponseSection, 
-  SambaResponseItem, 
-  SambaResponseLabel, 
-  SambaResponseValue, 
-  SambaResponseContent, 
-  SambaResponseBox, 
-  SambaRequestResponseLabel 
-} from './styles'; 
+import {
+  SambaContainer,
+  SambaTitle,
+  SambaForm,
+  SambaLabel,
+  UUIDInput,
+  SubmitButton,
+  InputWrapper,
+  CopyButton,
+  SambaResponseSection,
+  SambaResponseItem,
+  SambaResponseLabel,
+  SambaResponseValue,
+  SambaRequestResponseLabel,
+  SambaInnerContainer,
+  SambaResponsesWrapper,
+  ResponseValueWrapper,
+} from './styles';
 
 const GetSamba = (): JSX.Element => {
-  const [uuid, setUuid] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [uuid, setUuid] = useState<string>('');
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-    }).catch(err => {
-      console.error('Eroare la copierea în clipboard: ', err);
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {})
+      .catch(err => {
+        console.error('Eroare la copierea în clipboard: ', err);
+      });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+    setIsFormSubmitted(true);
   };
 
   return (
     <SambaContainer>
-    <SambaTitle><b>Get Samba</b></SambaTitle>
-    <SambaForm onSubmit={handleSubmit}>
-     <SambaLabel htmlFor="uuid">UUID</SambaLabel>
-       <InputWrapper>
-         <UUIDInput
-           id="uuid"
-           type="text"
-           value={uuid}
-           onChange={(e) => setUuid(e.target.value)}
-           placeholder="00000000-0000-0000-0000-000000000000"
-           required
-         />
-       <SubmitButton type="submit">Submit</SubmitButton>
-      </InputWrapper>
-    </SambaForm>
+      <SambaInnerContainer>
+        <SambaTitle>
+          <b>Get Samba</b>
+        </SambaTitle>
+        <SambaForm onSubmit={handleSubmit}>
+          <InputWrapper>
+            <SambaLabel htmlFor="uuid">UUID</SambaLabel>
+            <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
+          </InputWrapper>
+          <SubmitButton type="submit">Submit</SubmitButton>
+        </SambaForm>
 
-    {submitted && (     
-    <SambaResponseSection>
+        {isFormSubmitted && (
+          <SambaResponseSection>
+            <SambaRequestResponseLabel>Request response</SambaRequestResponseLabel>
+            <SambaResponsesWrapper>
+              <SambaResponseItem>
+                <SambaResponseLabel>UUID</SambaResponseLabel>
+                <ResponseValueWrapper>
+                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                </ResponseValueWrapper>
+              </SambaResponseItem>
 
-    <SambaRequestResponseLabel>Request response</SambaRequestResponseLabel>
-    <SambaResponseLabel>UUID</SambaResponseLabel>
-    <SambaResponseItem>
-    <SambaResponseBox>
-    <SambaResponseContent>
-        <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-        <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
-    </SambaResponseContent>
-    </SambaResponseBox>
-    </SambaResponseItem>
+              <SambaResponseItem>
+                <SambaResponseLabel>UUID</SambaResponseLabel>
+                <ResponseValueWrapper>
+                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                </ResponseValueWrapper>
+              </SambaResponseItem>
 
-    <SambaResponseLabel>Description</SambaResponseLabel>
-    <SambaResponseItem>
-    <SambaResponseBox>
-    <SambaResponseContent>
-        <SambaResponseValue>string</SambaResponseValue>
-        <CopyButton onClick={() => copyToClipboard('string')}>Copy</CopyButton>
-    </SambaResponseContent>
-    </SambaResponseBox>
-    </SambaResponseItem>
+              <SambaResponseItem>
+                <SambaResponseLabel>UUID</SambaResponseLabel>
+                <ResponseValueWrapper>
+                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                </ResponseValueWrapper>
+              </SambaResponseItem>
 
-    <SambaResponseLabel>iPv4Address</SambaResponseLabel>
-    <SambaResponseItem>
-    <SambaResponseBox>
-    <SambaResponseContent>
-        <SambaResponseValue>string</SambaResponseValue>
-        <CopyButton onClick={() => copyToClipboard('string')}>Copy</CopyButton>
-    </SambaResponseContent>
-    </SambaResponseBox>
-    </SambaResponseItem>
-
-    <SambaResponseLabel>Status code</SambaResponseLabel>
-    <SambaResponseItem>
-    <SambaResponseBox>
-    <SambaResponseContent>
-        <SambaResponseValue>200 Success</SambaResponseValue>
-        <CopyButton onClick={() => copyToClipboard('200 Success')}>Copy</CopyButton>
-    </SambaResponseContent>
-    </SambaResponseBox>
-    </SambaResponseItem>
-
-    </SambaResponseSection>
-    )}
-
+              <SambaResponseItem>
+                <SambaResponseLabel>UUID</SambaResponseLabel>
+                <ResponseValueWrapper>
+                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                </ResponseValueWrapper>
+              </SambaResponseItem>
+            </SambaResponsesWrapper>
+          </SambaResponseSection>
+        )}
+      </SambaInnerContainer>
     </SambaContainer>
-    );
-    };
+  );
+};
 
 export default GetSamba;
