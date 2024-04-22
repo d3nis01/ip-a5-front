@@ -2,7 +2,7 @@ import { useState } from 'react';
 import MenuItem from './menuItem/MenuItem';
 import { SidebarContainer, SidebarHeaderContainer, SidebarMenuContainer } from './styles';
 
-const MENU_OPTIONS = ['profile', 'courses', 'exams', 'taxes', 'settings'];
+import { MENU_OPTIONS } from './constats';
 
 const Sidebar = (): JSX.Element => {
   const [isActive, setIsActive] = useState('profile');
@@ -12,8 +12,7 @@ const Sidebar = (): JSX.Element => {
       <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
       <SidebarMenuContainer>
         {MENU_OPTIONS.map((option: string) => {
-          const title = option.charAt(0).toUpperCase() + option.slice(1);
-          return <MenuItem active={isActive === option} title={title} onClick={() => setIsActive(option)} />;
+          return <MenuItem key={option} active={isActive === option} title={option} onClick={() => setIsActive(option)} />;
         })}
       </SidebarMenuContainer>
     </SidebarContainer>

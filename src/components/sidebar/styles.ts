@@ -3,38 +3,39 @@ import { styled } from 'styled-components';
 export const SidebarContainer = styled.div`
   position: sticky;
   top: 0;
-  padding-left: 30px;
   height: 100vh;
-  width: 250px;
+  width: 20%;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
 `;
 
 export const SidebarHeaderContainer = styled.div`
   width: 100%;
-  height: 60px;
-  /* margin-left: 100px; */
 
   font-size: ${props => props.theme.fontSize.xxl};
   font-weight: ${props => props.theme.fontWeights.bold};
 
+  padding: 30px 0px 0px 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  @media (max-width: 800px) {
+    padding-left: 15px;
+  }
 `;
 
 export const SidebarMenuContainer = styled.div`
   width: 100%;
-  /* margin-left: 100px; */
-  margin-top: 30px;
+  padding: 30px 0px 0px 20px;
+  gap: 30px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  @media (max-width: 800px) {
+    padding-left: 15px;
+  }
 `;
