@@ -28,6 +28,11 @@ export const SidebarHeaderContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  @media (max-width: 992px) {
+    display: none;
+    visibility: hidden;
+  }
 `;
 
 export const SidebarMenuContainer = styled.div`
