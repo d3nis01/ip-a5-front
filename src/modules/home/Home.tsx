@@ -4,9 +4,7 @@ import GetSamba from '../../modules/GetSamba/GetSamba';
 const Home = (): JSX.Element => {
   return (
     <HomeContainer>
-      <HomeInnerContainer>
-        <GetVpn />
-      </HomeInnerContainer>
+      <HomeInnerContainer>home</HomeInnerContainer>
     </HomeContainer>
   );
 };
