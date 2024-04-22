@@ -19,7 +19,8 @@ import {
   VpnPostResponseValueContainer,
 } from './styles';
 
-import { IResponseItem, createResponseItems } from './constants';
+import { createVpnAccount } from '../../services/vpnService';
+import { ICreateVpn, ICreateVpnResponse } from '../../types/IServiceTypesRequests';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -37,12 +38,18 @@ const PostVpn = (): JSX.Element => {
   const [iPv4Address, setIPv4Address] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
+  const [postResponse, setResponse] = useState<ICreateVpnResponse>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems('uuid', '200 Success');
-    setResponseItems(newResponseItems);
+
+    const requestBody: ICreateVpn = {
+      iPv4Address,
+      description,
+    };
+
+    const response = await createVpnAccount(requestBody);
+    setResponse(response);
     setIsFormSubmitted(true);
   };
 
@@ -52,7 +59,7 @@ const PostVpn = (): JSX.Element => {
         <PostVpnTitle>Post VPN</PostVpnTitle>
         <VpnPostForm onSubmit={handleSubmit}>
           <VpnPostInputWrapper>
-            <VpnPostLabel htmlFor="ipv4Address">IPv4Address</VpnPostLabel>
+            <VpnPostLabel htmlFor="ipv4Address">IPv4 Address</VpnPostLabel>
             <VpnPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
           </VpnPostInputWrapper>
           <VpnPostInputWrapper>
@@ -62,7 +69,7 @@ const PostVpn = (): JSX.Element => {
               name="description"
               value={description}
               onChange={e => setDescription(e.target.value)}
-              placeholder="description: Lorem ipsum dolor sit amet. "
+              placeholder="Description: Lorem ipsum dolor sit amet."
               required
             />
           </VpnPostInputWrapper>
@@ -72,15 +79,21 @@ const PostVpn = (): JSX.Element => {
           <VpnPostResponseSection>
             <RequestResponseLabel>Request response</RequestResponseLabel>
             <VpnPostResponseWrapper>
-              {responseItems.map((item, index) => (
-                <VpnPostResponseItemWrapper>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <VpnPostResponseValueContainer>
-                    <ResponseValue>{item.value}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </VpnPostResponseValueContainer>
-                </VpnPostResponseItemWrapper>
-              ))}
+              <VpnPostResponseItemWrapper>
+                <ResponseLabel>UUID</ResponseLabel>
+                <VpnPostResponseValueContainer>
+                  <ResponseValue>{postResponse?.uuid}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(postResponse?.uuid || '')}>Copy</CopyButton>
+                </VpnPostResponseValueContainer>
+              </VpnPostResponseItemWrapper>
+
+              <VpnPostResponseItemWrapper>
+                <ResponseLabel>Status code</ResponseLabel>
+                <VpnPostResponseValueContainer>
+                  <ResponseValue>{String(postResponse?.status) + ' ' + postResponse?.statusText}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(postResponse?.status) || '')}>Copy</CopyButton>
+                </VpnPostResponseValueContainer>
+              </VpnPostResponseItemWrapper>
             </VpnPostResponseWrapper>
           </VpnPostResponseSection>
         )}

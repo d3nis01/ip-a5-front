@@ -19,7 +19,8 @@ import {
   SambaPostResponseValueContainer,
 } from './styles';
 
-import { IResponseItem, createResponseItems } from './constants';
+import { createSambaAccount } from '../../services/sambaService';
+import { ICreateSamba, ICreateSambaResponse } from '../../types/IServiceTypesRequests';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -37,12 +38,18 @@ const PostSamba = (): JSX.Element => {
   const [iPv4Address, setIPv4Address] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
+  const [postResponse, setResponse] = useState<ICreateSambaResponse>();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems('uuid', '200 Success');
-    setResponseItems(newResponseItems);
+
+    const requestBody: ICreateSamba = {
+      iPv4Address,
+      description,
+    };
+
+    const response = await createSambaAccount(requestBody);
+    setResponse(response);
     setIsFormSubmitted(true);
   };
 
@@ -72,15 +79,21 @@ const PostSamba = (): JSX.Element => {
           <SambaPostResponseSection>
             <RequestResponseLabel>Request response</RequestResponseLabel>
             <SambaPostResponseWrapper>
-              {responseItems.map((item, index) => (
-                <SambaPostResponseItemWrapper>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <SambaPostResponseValueContainer>
-                    <ResponseValue>{item.value}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </SambaPostResponseValueContainer>
-                </SambaPostResponseItemWrapper>
-              ))}
+              <SambaPostResponseItemWrapper>
+                <ResponseLabel>UUID</ResponseLabel>
+                <SambaPostResponseValueContainer>
+                  <ResponseValue>{postResponse?.uuid}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(postResponse?.uuid || '')}>Copy</CopyButton>
+                </SambaPostResponseValueContainer>
+              </SambaPostResponseItemWrapper>
+
+              <SambaPostResponseItemWrapper>
+                <ResponseLabel>Status code</ResponseLabel>
+                <SambaPostResponseValueContainer>
+                  <ResponseValue>{String(postResponse?.status) + ' ' + postResponse?.statusText}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(postResponse?.status) || '')}>Copy</CopyButton>
+                </SambaPostResponseValueContainer>
+              </SambaPostResponseItemWrapper>
             </SambaPostResponseWrapper>
           </SambaPostResponseSection>
         )}

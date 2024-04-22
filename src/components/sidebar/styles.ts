@@ -4,7 +4,7 @@ export const SidebarContainer = styled.div`
   position: sticky;
   top: 0;
   height: 100vh;
-  width: 20%;
+  width: 250px;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
   display: flex;
@@ -28,24 +28,14 @@ export const SidebarHeaderContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-
-  @media (max-width: 992px) {
-    display: none;
-    visibility: hidden;
-  }
 `;
 
 export const SidebarMenuContainer = styled.div`
   width: 100%;
   padding: 30px 0px 0px 20px;
-  gap: 30px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-
-  @media (max-width: 992px) {
-    display: none;
-    visibility: hidden;
-  }
 `;

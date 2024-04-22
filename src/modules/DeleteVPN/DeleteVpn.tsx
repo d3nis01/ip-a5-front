@@ -17,7 +17,9 @@ import {
   VpnDeleteResponseItem,
   VpnDeleteResponseBox,
 } from './styles';
-import { IResponseItem, createResponseItems } from './constants';
+
+import { deleteVpnAccount } from '../../services/vpnService';
+import { IVpnDeleteResponse } from '../../types/IServiceTypesRequests';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -33,21 +35,19 @@ const copyToClipboard = async (text: string) => {
 
 const DeleteVpn = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [response, setResponse] = useState<IVpnDeleteResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems(uuid, '200 Success');
-    setResponseItems(newResponseItems);
-    setIsFormSubmitted(true);
-  };
-
-  const handleValueSize = (value: string): string => {
-    if (value.length > 50) {
-      return `${value.slice(0, 25)}...`;
+    try {
+      const response = await deleteVpnAccount(uuid);
+      setResponse(response);
+    } catch (error) {
+      console.error('Failed to delete VPN account:', error);
+      setResponse(null);
     }
-    return value;
+    setIsFormSubmitted(true);
   };
 
   return (
@@ -61,19 +61,19 @@ const DeleteVpn = (): JSX.Element => {
           </UuidInputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </UUIDForm>
-        {isFormSubmitted && (
+        {isFormSubmitted && response && (
           <ResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
+            <RequestResponseLabel>Request Response</RequestResponseLabel>
             <VpnDeleteResponseWrapper>
-              {responseItems.map(item => (
-                <VpnDeleteResponseItem>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <VpnDeleteResponseBox>
-                    <ResponseValue>{handleValueSize(item.value)}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </VpnDeleteResponseBox>
-                </VpnDeleteResponseItem>
-              ))}
+              <VpnDeleteResponseItem>
+                <ResponseLabel>Status Code</ResponseLabel>
+                <VpnDeleteResponseBox>
+                  <ResponseValue>
+                    {response.status} {response.statusText}
+                  </ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(`${response.status} ${response.statusText}`)}>Copy</CopyButton>
+                </VpnDeleteResponseBox>
+              </VpnDeleteResponseItem>
             </VpnDeleteResponseWrapper>
           </ResponseSection>
         )}

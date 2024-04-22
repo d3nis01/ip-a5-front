@@ -9,17 +9,21 @@ import {
   InputWrapper,
   CopyButton,
   VPNResponseSection,
-  VPNResponseItem,
   VPNResponseLabel,
   VPNResponseValue,
   VPNRequestResponseLabel,
   VPNInnerContainer,
   VPNResponsesWrapper,
   ResponseValueWrapper,
+  VpnResponseBox,
 } from './styles';
+
+import { getVpnAccount } from '../../services/vpnService';
+import { IVpnGetResponse } from '../../types/IServiceTypesRequests';
 
 const GetVpn = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [vpnData, setVpnData] = useState<IVpnGetResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const copyToClipboard = (text: string) => {
@@ -27,12 +31,18 @@ const GetVpn = (): JSX.Element => {
       .writeText(text)
       .then(() => {})
       .catch(err => {
-        console.error('Eroare la copierea în clipboard: ', err);
+        console.error('Error copying to clipboard: ', err);
       });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    try {
+      const response = await getVpnAccount(uuid);
+      setVpnData(response);
+    } catch (error) {
+      console.error('Failed to retrieve VPN account details:', error);
+    }
     setIsFormSubmitted(true);
   };
 
@@ -50,41 +60,38 @@ const GetVpn = (): JSX.Element => {
           <SubmitButton type="submit">Submit</SubmitButton>
         </VPNForm>
 
-        {isFormSubmitted && (
+        {isFormSubmitted && vpnData && (
           <VPNResponseSection>
-            <VPNRequestResponseLabel>Request response</VPNRequestResponseLabel>
+            <VPNRequestResponseLabel>Request Response</VPNRequestResponseLabel>
             <VPNResponsesWrapper>
-              <VPNResponseItem>
+              <VpnResponseBox>
                 <VPNResponseLabel>UUID</VPNResponseLabel>
                 <ResponseValueWrapper>
-                  <VPNResponseValue>{uuid || 'None provided'}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <VPNResponseValue>{vpnData.data.id}</VPNResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(vpnData.data.id)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </VPNResponseItem>
-
-              <VPNResponseItem>
-                <VPNResponseLabel>UUID</VPNResponseLabel>
+              </VpnResponseBox>
+              <VpnResponseBox>
+                <VPNResponseLabel>IPv4 Address</VPNResponseLabel>
                 <ResponseValueWrapper>
-                  <VPNResponseValue>{uuid || 'None provided'}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <VPNResponseValue>{vpnData.data.iPv4Address}</VPNResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(vpnData.data.iPv4Address)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </VPNResponseItem>
-
-              <VPNResponseItem>
-                <VPNResponseLabel>UUID</VPNResponseLabel>
+              </VpnResponseBox>
+              <VpnResponseBox>
+                <VPNResponseLabel>Description</VPNResponseLabel>
                 <ResponseValueWrapper>
-                  <VPNResponseValue>{uuid || 'None provided'}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <VPNResponseValue>{vpnData.data.description}</VPNResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(vpnData.data.description)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </VPNResponseItem>
-
-              <VPNResponseItem>
-                <VPNResponseLabel>UUID</VPNResponseLabel>
+              </VpnResponseBox>
+              <VpnResponseBox>
+                <VPNResponseLabel>Status</VPNResponseLabel>
                 <ResponseValueWrapper>
-                  <VPNResponseValue>{uuid || 'None provided'}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <VPNResponseValue>{vpnData.status + ' ' + vpnData.statusText}</VPNResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(vpnData.status) || '')}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </VPNResponseItem>
+              </VpnResponseBox>
             </VPNResponsesWrapper>
           </VPNResponseSection>
         )}

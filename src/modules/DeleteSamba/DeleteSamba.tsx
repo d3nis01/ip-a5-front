@@ -17,7 +17,9 @@ import {
   SambaDeleteResponseItem,
   SambaDeleteResponseBox,
 } from './styles';
-import { IResponseItem, createResponseItems } from './constants';
+
+import { deleteSambaAccount } from '../../services/sambaService';
+import { ISambaDeleteResponse } from '../../types/IServiceTypesRequests';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -27,27 +29,25 @@ const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {
-    console.error('Failed to copy text: ', err);
+    console.error('Failed to copy text:', err);
   }
 };
 
 const DeleteSamba = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [response, setResponse] = useState<ISambaDeleteResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems(uuid, '200 Success');
-    setResponseItems(newResponseItems);
-    setIsFormSubmitted(true);
-  };
-
-  const handleValueSize = (value: string): string => {
-    if (value.length > 50) {
-      return `${value.slice(0, 25)}...`;
+    try {
+      const deleteResponse = await deleteSambaAccount(uuid);
+      setResponse(deleteResponse);
+    } catch (error) {
+      console.error('Failed to delete Samba account:', error);
+      setResponse(null);
     }
-    return value;
+    setIsFormSubmitted(true);
   };
 
   return (
@@ -61,19 +61,20 @@ const DeleteSamba = (): JSX.Element => {
           </UuidInputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </UUIDForm>
-        {isFormSubmitted && (
+
+        {isFormSubmitted && response && (
           <ResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
+            <RequestResponseLabel>Request Response</RequestResponseLabel>
             <SambaDeleteResponseWrapper>
-              {responseItems.map(item => (
-                <SambaDeleteResponseItem>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <SambaDeleteResponseBox>
-                    <ResponseValue>{handleValueSize(item.value)}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </SambaDeleteResponseBox>
-                </SambaDeleteResponseItem>
-              ))}
+              <SambaDeleteResponseItem>
+                <ResponseLabel>Status Code</ResponseLabel>
+                <SambaDeleteResponseBox>
+                  <ResponseValue>
+                    {response.status} {response.statusText}
+                  </ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(`${response.status} ${response.statusText}`)}>Copy</CopyButton>
+                </SambaDeleteResponseBox>
+              </SambaDeleteResponseItem>
             </SambaDeleteResponseWrapper>
           </ResponseSection>
         )}

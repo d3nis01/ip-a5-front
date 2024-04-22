@@ -9,17 +9,21 @@ import {
   InputWrapper,
   CopyButton,
   SambaResponseSection,
-  SambaResponseItem,
   SambaResponseLabel,
   SambaResponseValue,
   SambaRequestResponseLabel,
   SambaInnerContainer,
   SambaResponsesWrapper,
   ResponseValueWrapper,
+  SambaResponseBox,
 } from './styles';
+
+import { getSambaAccount } from '../../services/sambaService';
+import { ISambaGetResponse } from '../../types/IServiceTypesRequests';
 
 const GetSamba = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [sambaData, setSambaData] = useState<ISambaGetResponse>();
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
 
   const copyToClipboard = (text: string) => {
@@ -31,8 +35,14 @@ const GetSamba = (): JSX.Element => {
       });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    try {
+      const response = await getSambaAccount(uuid);
+      setSambaData(response);
+    } catch (error) {
+      console.error('Failed to retrieve Samba account details:', error);
+    }
     setIsFormSubmitted(true);
   };
 
@@ -50,41 +60,38 @@ const GetSamba = (): JSX.Element => {
           <SubmitButton type="submit">Submit</SubmitButton>
         </SambaForm>
 
-        {isFormSubmitted && (
+        {isFormSubmitted && sambaData && (
           <SambaResponseSection>
-            <SambaRequestResponseLabel>Request response</SambaRequestResponseLabel>
+            <SambaRequestResponseLabel>Request Response</SambaRequestResponseLabel>
             <SambaResponsesWrapper>
-              <SambaResponseItem>
+              <SambaResponseBox>
                 <SambaResponseLabel>UUID</SambaResponseLabel>
                 <ResponseValueWrapper>
-                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <SambaResponseValue>{sambaData.data.id}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(sambaData.data.id)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
-
-              <SambaResponseItem>
-                <SambaResponseLabel>UUID</SambaResponseLabel>
+              </SambaResponseBox>
+              <SambaResponseBox>
+                <SambaResponseLabel>IPv4 Address</SambaResponseLabel>
                 <ResponseValueWrapper>
-                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <SambaResponseValue>{sambaData.data.iPv4Address}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(sambaData.data.iPv4Address)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
-
-              <SambaResponseItem>
-                <SambaResponseLabel>UUID</SambaResponseLabel>
+              </SambaResponseBox>
+              <SambaResponseBox>
+                <SambaResponseLabel>Description</SambaResponseLabel>
                 <ResponseValueWrapper>
-                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <SambaResponseValue>{sambaData.data.description}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(sambaData.data.description)}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
-
-              <SambaResponseItem>
-                <SambaResponseLabel>UUID</SambaResponseLabel>
+              </SambaResponseBox>
+              <SambaResponseBox>
+                <SambaResponseLabel>Status</SambaResponseLabel>
                 <ResponseValueWrapper>
-                  <SambaResponseValue>{uuid || 'None provided'}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(uuid || '')}>Copy</CopyButton>
+                  <SambaResponseValue>{sambaData.status + ' ' + sambaData.statusText}</SambaResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(sambaData.status) || '')}>Copy</CopyButton>
                 </ResponseValueWrapper>
-              </SambaResponseItem>
+              </SambaResponseBox>
             </SambaResponsesWrapper>
           </SambaResponseSection>
         )}

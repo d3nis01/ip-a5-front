@@ -17,6 +17,8 @@ const AppRouter = (): JSX.Element => {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path={ROUTE__VPN_GET} element={<GetVpn />} />
+          <Route path={ROUTE__SAMBA_GET} element={<GetSamba />} />
           <Route path={ROUTE__SAMBA_POST} element={<PostSamba />} />
           <Route path={ROUTE__VPN_POST} element={<PostVpn />} />
           <Route path={ROUTE__VPN_DELETE} element={<DeleteVpn />} />
