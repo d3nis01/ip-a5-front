@@ -10,6 +10,11 @@ export const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 992px) {
+    display: none;
+    visibility: hidden;
+  }
 `;
 
 export const SidebarHeaderContainer = styled.div`
@@ -23,9 +28,6 @@ export const SidebarHeaderContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  @media (max-width: 800px) {
-    padding-left: 15px;
-  }
 `;
 
 export const SidebarMenuContainer = styled.div`
@@ -35,7 +37,5 @@ export const SidebarMenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  @media (max-width: 800px) {
-    padding-left: 15px;
-  }
+  justify-content: center;
 `;
