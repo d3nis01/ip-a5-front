@@ -1,14 +1,10 @@
+import { MenuItemProps } from './constants';
 import { MenuItemContainer } from './styles';
 
-type MenuItemProps = {
-  title: string;
-  onClick: () => void;
-  active?: boolean;
-};
-
-const MenuItem = ({ title, onClick, active = false }: MenuItemProps): JSX.Element => {
+const MenuItem = ({ title, active, Icon, onClick }: MenuItemProps): JSX.Element => {
   return (
     <MenuItemContainer $active={active} onClick={onClick}>
+      <Icon $active={active} />
       <div>{title}</div>
     </MenuItemContainer>
   );
