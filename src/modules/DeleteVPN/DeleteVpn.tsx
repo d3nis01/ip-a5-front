@@ -16,10 +16,12 @@ import {
   VpnDeleteResponseWrapper,
   VpnDeleteResponseItem,
   VpnDeleteResponseBox,
+  VpnInputError,
 } from './styles';
 
 import { deleteVpnAccount } from '../../services/vpnService';
 import { IVpnDeleteResponse } from '../../types/IServiceTypesRequests';
+import { isUUID } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -37,16 +39,20 @@ const DeleteVpn = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
   const [response, setResponse] = useState<IVpnDeleteResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+  const [uuidError, setUuidError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response = await deleteVpnAccount(uuid);
-      setResponse(response);
-    } catch (error) {
-      console.error('Failed to delete VPN account:', error);
-      setResponse(null);
+      
+    if (isUUID(uuid) === false) {
+      setUuidError('Invalid UUID!');
+      console.error('Invalid UUID');
+      return;
     }
+    setUuidError('');
+  
+    const response = await deleteVpnAccount(uuid);
+    setResponse(response);
     setIsFormSubmitted(true);
   };
 
@@ -58,6 +64,7 @@ const DeleteVpn = (): JSX.Element => {
           <UuidInputWrapper>
             <UUIDLabel htmlFor="uuid">UUID</UUIDLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
+            {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
           </UuidInputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </UUIDForm>
