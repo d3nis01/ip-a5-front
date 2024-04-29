@@ -17,10 +17,12 @@ import {
   SambaPostResponseWrapper,
   SambaPostResponseItemWrapper,
   SambaPostResponseValueContainer,
+  SambaInputError,
 } from './styles';
 
 import { createSambaAccount } from '../../services/sambaService';
 import { ICreateSamba, ICreateSambaResponse } from '../../types/IServiceTypesRequests';
+import { isIPv4 } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -39,6 +41,7 @@ const PostSamba = (): JSX.Element => {
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [postResponse, setResponse] = useState<ICreateSambaResponse>();
+  const [adressError, setAdressError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,6 +50,13 @@ const PostSamba = (): JSX.Element => {
       iPv4Address,
       description,
     };
+
+    if (isIPv4(iPv4Address) === false) {
+      setAdressError('Invalid Adress!');
+      console.error('Invalid IPv4 address');
+      return;
+    }
+    setAdressError('');
 
     const response = await createSambaAccount(requestBody);
     setResponse(response);
@@ -61,6 +71,7 @@ const PostSamba = (): JSX.Element => {
           <SambaPostInputWrapper>
             <SambaPostLabel htmlFor="ipv4Address">IPv4Address</SambaPostLabel>
             <SambaPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
+            {adressError && <SambaInputError>Invalid Adress!</SambaInputError>}
           </SambaPostInputWrapper>
           <SambaPostInputWrapper>
             <SambaPostLabel htmlFor="description">Description *</SambaPostLabel>

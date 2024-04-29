@@ -7,8 +7,9 @@ import { mapSambaResponseToSamba } from '../mappers/samba-mappers';
 
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
   try {
-    const response = await api.post('/samba', data);
-    const urlPath = response.data;
+    const response = await api.post('/v1/sambas', data);
+    const urlPath = response.headers;
+    console.log(urlPath);
     const id = urlPath.split('/').pop();
     console.log(response);
     return { uuid: id, status: response.status, statusText: response.statusText };
