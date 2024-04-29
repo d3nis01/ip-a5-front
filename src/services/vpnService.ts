@@ -6,10 +6,8 @@ import { mapVpnResponseToVpn } from '../mappers/vpn-mappers';
 
 export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResponse> => {
   try {
-    const response = await api.post('/vpn', data);
-    const urlPath = response.data;
-    const id = urlPath.split('/').pop();
-    return { uuid: id, status: response.status, statusText: response.statusText };
+    const response = await api.post('/vpns', data);
+    return { uuid: response.data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
@@ -22,9 +20,9 @@ export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResp
 
 export const getVpnAccount = async (id: string): Promise<IVpnGetResponse> => {
   try {
-    const response = await api.get(`/vpn/${id}`);
+    const response = await api.get(`/vpns/${id}`);
     const data = mapVpnResponseToVpn(response.data);
-    return { data, status: response.status, statusText: response.statusText };
+    return { data: data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);

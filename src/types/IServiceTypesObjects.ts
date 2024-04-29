@@ -4,6 +4,8 @@ export interface IAccount {
   password: string;
   email: string;
   matricol: string;
+  createdOnUtc: string;
+  lastUpdatedOnUtc: string;
 }
 
 export interface ISamba {

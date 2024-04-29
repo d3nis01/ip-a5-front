@@ -7,6 +7,22 @@ export interface ICreateAccount {
   matricol: string;
 }
 
+export interface ICreateAccountResponse {
+  uuid: string;
+  status: number;
+  statusText: string;
+}
+
+export interface IAccountDeleteResponse {
+  status: number;
+  statusText: string;
+}
+
+export interface IAccountUpdateResponse {
+  status: number;
+  statusText: string;
+}
+
 export interface ICreateSamba {
   description: string;
   iPv4Address: string;

@@ -21,7 +21,7 @@ const Sidebar = (): JSX.Element => {
       <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
       <SidebarMenuContainer>
         {MENU_OPTIONS.map((option: IMenuOption) => (
-          <MenuItem active={location.pathname === option.route} title={option.title} onClick={() => handleNavOptions(option.route)} />
+          <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} onClick={() => handleNavOptions(option.route)} />
         ))}
       </SidebarMenuContainer>
     </SidebarContainer>
