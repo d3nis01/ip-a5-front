@@ -25,7 +25,7 @@ export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSam
 
 export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> => {
   try {
-    const response = await api.get(`/v1/sambas/${id}`);
+    const response = await api.get(`/sambas/${id}`);
     const data = mapSambaResponseToSamba(response.data);
     return { data, status: response.status, statusText: response.statusText };
   } catch (error) {
@@ -38,7 +38,7 @@ export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> =>
 
 export const deleteSambaAccount = async (id: string): Promise<ISambaDeleteResponse> => {
   try {
-    const response = await api.delete(`/samba/${id}`);
+    const response = await api.delete(`/sambas/${id}`);
     return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -50,12 +50,7 @@ export const deleteSambaAccount = async (id: string): Promise<ISambaDeleteRespon
 
 export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<any> => {
   try {
-    const queryParams = new URLSearchParams();
-    queryParams.append('newIpAddress', params.newIpAddress);
-    if (params.newDescription) {
-      queryParams.append('newDescription', params.newDescription);
-    }
-    const response = await api.put(`/samba/update/${id}?${queryParams}`);
+    const response = await api.put(`/sambas/${id}`, params);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
