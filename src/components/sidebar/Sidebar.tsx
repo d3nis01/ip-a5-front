@@ -1,29 +1,47 @@
-import { useState } from 'react';
 import MenuItem from './menuItem/MenuItem';
-import { SidebarContainer, SidebarHeaderContainer, SidebarMenuContainer } from './styles';
+import { SidebarBurgerButton, SidebarContainer, SidebarExtendedContainer, SidebarHeaderContainer, SidebarInnerContainer, SidebarMenuContainer } from './styles';
 
 import { IMenuOption, MENU_OPTIONS } from './constants';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Sidebar = (): JSX.Element => {
-  const [isActive, setIsActive] = useState('profile');
+  const [extendNavbar, setExtendNavbar] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleNavOptions = (route: string) => {
     if (route !== location.pathname) {
+      setExtendNavbar(false);
       navigate(route);
     }
   };
 
+  const handleBurgerClick = () => {
+    setExtendNavbar(prev => !prev);
+  };
+
   return (
-    <SidebarContainer>
-      <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
-      <SidebarMenuContainer>
-        {MENU_OPTIONS.map((option: IMenuOption) => (
-          <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} onClick={() => handleNavOptions(option.route)} />
-        ))}
-      </SidebarMenuContainer>
+    <SidebarContainer $isExtended={extendNavbar}>
+      <SidebarInnerContainer>
+        <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
+        <SidebarBurgerButton $isExtended={extendNavbar} onClick={handleBurgerClick}>
+          {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
+        </SidebarBurgerButton>
+        <SidebarMenuContainer>
+          {MENU_OPTIONS.map((option: IMenuOption) => (
+            <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={false} onClick={() => handleNavOptions(option.route)} />
+          ))}
+        </SidebarMenuContainer>
+      </SidebarInnerContainer>
+      {extendNavbar && (
+        <SidebarExtendedContainer>
+          {MENU_OPTIONS.map((option: IMenuOption) => (
+            <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={true} onClick={() => handleNavOptions(option.route)} />
+          ))}
+        </SidebarExtendedContainer>
+      )}
     </SidebarContainer>
   );
 };

@@ -40,7 +40,6 @@ const GetSamba = (): JSX.Element => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('UUID:', isUUID(uuid));
 
     if (isUUID(uuid) === false) {
       setUuidError('Invalid UUID!');
