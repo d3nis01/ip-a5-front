@@ -32,9 +32,9 @@ export const SambaInnerContainer = styled.div`
 `;
 
 export const SambaTitle = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.gig};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-size: ${props => props.theme.fontSize.gig};
+  font-weight: ${props => props.theme.fontWeights.bold};
+  color: ${props => props.theme.colors.textPrimary};
   text-align: left;
   margin-bottom: 2rem;
 
@@ -49,14 +49,14 @@ export const SambaForm = styled.form`
   align-items: flex-start;
   width: 100%;
   padding-left: 12px;
-  max-width: 600px;
+  max-width: 500px;
   gap: 24px;
 `;
 
 export const SambaLabel = styled.label`
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  color: ${props => props.theme.colors.textPrimary};
+  font-size: ${props => props.theme.fontSize.lg};
+  font-weight: ${props => props.theme.fontWeights.bold};
   text-align: left;
 `;
 
@@ -64,18 +64,18 @@ export const UUIDInput = styled.input`
   padding: 10px;
   border: 2px solid ${props => props.theme.colors.primaryPurple};
   border-radius: 5px;
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-size: ${props => props.theme.fontSize.lg};
   width: 100%;
 `;
 
 export const SubmitButton = styled.button`
   padding: 10px 30px;
-  background-color: ${({ theme }) => theme.colors.primaryPurple};
-  color: ${({ theme }) => theme.colors.white};
+  background-color: ${props => props.theme.colors.primaryPurple};
+  color: ${props => props.theme.colors.white};
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-size: ${props => props.theme.fontSize.lg};
   font-weight: ${props => props.theme.fontWeights.bold};
   transition: background-color 0.3s ease;
   align-self: flex-end;
@@ -89,8 +89,8 @@ export const InputWrapper = styled.div`
 `;
 
 export const CopyButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primaryPurple};
-  color: ${({ theme }) => theme.colors.white};
+  background-color: ${props => props.theme.colors.primaryPurple};
+  color: ${props => props.theme.colors.white};
   border: none;
   border-radius: 15px;
   padding: 6px 18px;
@@ -108,20 +108,14 @@ export const SambaResponseSection = styled.section`
   gap: 18px;
 `;
 
-export const SambaResponseItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-
 export const SambaResponseLabel = styled.div`
   font-size: 18px;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  color: ${({ theme }) => theme.colors.textPrimary};
+  font-weight: ${props => props.theme.fontWeights.bold};
+  color: ${props => props.theme.colors.textPrimary};
 `;
 
 export const SambaResponseValue = styled.div`
-  color: ${({ theme }) => theme.colors.textPrimary};
+  color: ${props => props.theme.colors.textPrimary};
   font-size: 14px;
 `;
 
@@ -133,15 +127,15 @@ export const SambaResponseContent = styled.div`
 `;
 
 export const SambaResponseBox = styled.div`
-  border: 2px solid #303972;
-  border-radius: 30px;
-  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 `;
 
 export const SambaRequestResponseLabel = styled.h2`
-  color: ${({ theme }) => theme.colors.textPrimary};
+  color: ${props => props.theme.colors.textPrimary};
   font-size: 28px;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-weight: ${props => props.theme.fontWeights.bold};
 
   @media (max-width: 768px) {
     font-size: 24px;
@@ -162,4 +156,11 @@ export const ResponseValueWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+export const SambaInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
 `;

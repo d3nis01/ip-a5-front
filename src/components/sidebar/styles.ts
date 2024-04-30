@@ -1,25 +1,40 @@
-/// <reference types="vite-plugin-svgr/client" />
 import { styled } from 'styled-components';
 
-import Profile from '../../assets/sidebar/profile.svg?react';
-import Courses from '../../assets/sidebar/courses.svg?react';
-import Exams from '../../assets/sidebar/exams.svg?react';
-import Taxes from '../../assets/sidebar/taxes.svg?react';
-import Settings from '../../assets/sidebar/settings.svg?react';
-
-export const SidebarContainer = styled.div`
+export const SidebarContainer = styled.div<{ $isExtended: boolean }>`
   position: sticky;
   top: 0;
-  width: 20%;
   height: 100vh;
-
+  width: 250px;
   background-color: ${props => props.theme.colors.primaryPurple};
-  user-select: none;
+  color: ${props => props.theme.colors.white};
 
+  @media (max-width: 992px) {
+    position: ${props => (props.$isExtended ? 'fixed' : 'sticky')};
+    width: ${props => (props.$isExtended ? '100vw' : '80px')};
+  }
+`;
+
+export const SidebarInnerContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-left: 30px;
+
+  width: 100%;
+  height: 100%;
+`;
+
+export const SidebarHeaderContainer = styled.div`
+  width: 100%;
+
+  font-size: ${props => props.theme.fontSize.xxl};
+  font-weight: ${props => props.theme.fontWeights.bold};
+
+  padding: 30px 0px 0px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 
   @media (max-width: 992px) {
     display: none;
@@ -27,22 +42,27 @@ export const SidebarContainer = styled.div`
   }
 `;
 
-export const SidebarHeaderContainer = styled.div`
-  width: 100%;
+export const SidebarBurgerButton = styled.button<{ $isExtended: boolean }>`
+  position: absolute;
+  top: 0px;
+  right: 0px;
 
+  width: ${props => (props.$isExtended ? '80px' : '100%')};
+  height: 80px;
+
+  background: none;
+  border: none;
+
+  color: ${props => props.theme.colors.white};
   font-size: ${props => props.theme.fontSize.gig};
-  font-weight: ${props => props.theme.fontWeights.bold};
-  color: ${props => props.theme.colors.backgroundGray};
+  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-  padding-top: 30px;
-  padding-bottom: 30px;
+  cursor: pointer;
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  z-index: 10;
 
-  @media (max-width: 992px) {
+  @media (min-width: 992px) {
     display: none;
     visibility: hidden;
   }
@@ -50,12 +70,12 @@ export const SidebarHeaderContainer = styled.div`
 
 export const SidebarMenuContainer = styled.div`
   width: 100%;
-
+  padding: 30px 0px 0px 20px;
+  gap: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 8px;
 
   @media (max-width: 992px) {
     display: none;
@@ -63,37 +83,21 @@ export const SidebarMenuContainer = styled.div`
   }
 `;
 
-export const StyledProfile = styled(Profile)<{ $active: boolean }>`
-  width: 30px;
-  path {
-    fill: ${props => (props.$active ? props.theme.colors.primaryPurple : props.theme.colors.backgroundGray)};
-  }
-`;
+export const SidebarExtendedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-export const StyledCourses = styled(Courses)<{ $active: boolean }>`
-  width: 30px;
-  path {
-    fill: ${props => (props.$active ? props.theme.colors.primaryPurple : props.theme.colors.backgroundGray)};
-  }
-`;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 
-export const StyledExams = styled(Exams)<{ $active: boolean }>`
-  width: 30px;
-  path {
-    fill: ${props => (props.$active ? props.theme.colors.primaryPurple : props.theme.colors.backgroundGray)};
-  }
-`;
+  width: 100%;
+  height: 100%;
 
-export const StyledTaxes = styled(Taxes)<{ $active: boolean }>`
-  width: 30px;
-  path {
-    fill: ${props => (props.$active ? props.theme.colors.primaryPurple : props.theme.colors.backgroundGray)};
-  }
-`;
-
-export const StyledSettings = styled(Settings)<{ $active: boolean }>`
-  width: 30px;
-  path {
-    fill: ${props => (props.$active ? props.theme.colors.primaryPurple : props.theme.colors.backgroundGray)};
+  @media (min-width: 992px) {
+    display: none;
+    visibility: hidden;
   }
 `;

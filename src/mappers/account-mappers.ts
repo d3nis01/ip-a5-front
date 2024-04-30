@@ -7,6 +7,8 @@ export const mapAccountResponseToAccount = (data: Partial<IAccount>): IAccount =
     username: typeof data?.username === 'string' ? data.username : '',
     email: typeof data?.email === 'string' ? data.email : '',
     matricol: typeof data?.matricol === 'string' ? data.matricol : '',
+    createdOnUtc: typeof data?.createdOnUtc === 'string' ? data.createdOnUtc : '',
+    lastUpdatedOnUtc: typeof data?.lastUpdatedOnUtc === 'string' ? data.lastUpdatedOnUtc : '',
   };
   return account;
 };

@@ -2,15 +2,13 @@ import axios from 'axios';
 import { IAccount } from '../types/IServiceTypesObjects';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateAccount, UpdateAccountParams } from '../types/IServiceTypesRequests';
+import { IAccountDeleteResponse, ICreateAccount, ICreateAccountResponse, UpdateAccountParams } from '../types/IServiceTypesRequests';
 import { mapAccountResponseToAccount } from '../mappers/account-mappers';
 
-export const createAccount = async (accountData: ICreateAccount): Promise<string> => {
+export const createAccount = async (accountData: ICreateAccount): Promise<ICreateAccountResponse> => {
   try {
-    const response = await api.post('/v1/accounts', accountData);
-    const urlPath = response.data;
-    const id = urlPath.split('/').pop();
-    return id;
+    const response = await api.post('/accounts', accountData);
+    return { uuid: response.data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
@@ -23,7 +21,7 @@ export const createAccount = async (accountData: ICreateAccount): Promise<string
 
 export const getAccount = async (id: string): Promise<IAccount> => {
   try {
-    const response = await api.get(`/v1/accounts/${id}`);
+    const response = await api.get(`/accounts/${id}`);
     const data = mapAccountResponseToAccount(response.data);
     return data;
   } catch (error) {
@@ -34,10 +32,10 @@ export const getAccount = async (id: string): Promise<IAccount> => {
   }
 };
 
-export const deleteAccount = async (id: string): Promise<boolean> => {
+export const deleteAccount = async (id: string): Promise<IAccountDeleteResponse> => {
   try {
-    const response = await api.delete(`/v1/accounts/${id}`);
-    return response.status == 200;
+    const response = await api.delete(`/accounts/${id}`);
+    return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to delete account', error.response?.status || 500, error.response?.data);
@@ -46,20 +44,10 @@ export const deleteAccount = async (id: string): Promise<boolean> => {
   }
 };
 
-export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<any> => {
+export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<boolean> => {
   try {
-    const queryParams = new URLSearchParams();
-    if (params.Username) {
-      queryParams.append('Username', params.Username);
-    }
-    if (params.Password) {
-      queryParams.append('Password', params.Password);
-    }
-    if (params.Email) {
-      queryParams.append('Email', params.Email);
-    }
-    const response = await api.put(`/v1/accounts/update/${id}?${queryParams}`);
-    return response.data;
+    const response = await api.put(`/accounts/${id}`, params);
+    return response.status == 200;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);

@@ -2,16 +2,16 @@ import ITheme from '../types/ITheme';
 
 const defaultTheme: ITheme = {
   colors: {
-    textPrimary: '#303972',
+    textPrimary: '#002D51',
     white: '#FFFFFF',
     black: '#000000',
-    primaryPurple: '#241D79',
+    primaryPurple: '#3388cc',
     secondaryPurple: '#C4CEFF',
     green: '#4CBC9A',
     red: '#FF4550',
-    primaryGray: '#A098AE',
-    secondaryGray: '#617CA9',
-    backgroundGray: '#F3F4FF',
+    primaryGray: '#D3EBFF',
+    secondaryGray: '#617CA9', //rgb(51, 136, 204)
+    backgroundGray: '#F1F8FF',
   },
   fontSize: {
     xxs: '8px',
@@ -29,7 +29,7 @@ const defaultTheme: ITheme = {
     light: 400,
   },
   fonts: {
-    poppins: 'Poppins',
+    roboto: 'Roboto',
   },
 };
 

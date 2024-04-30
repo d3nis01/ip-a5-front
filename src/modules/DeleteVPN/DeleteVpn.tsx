@@ -16,8 +16,12 @@ import {
   VpnDeleteResponseWrapper,
   VpnDeleteResponseItem,
   VpnDeleteResponseBox,
+  VpnInputError,
 } from './styles';
-import { IResponseItem, createResponseItems } from './constants';
+
+import { deleteVpnAccount } from '../../services/vpnService';
+import { IVpnDeleteResponse } from '../../types/IServiceTypesRequests';
+import { isUUID } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -33,21 +37,23 @@ const copyToClipboard = async (text: string) => {
 
 const DeleteVpn = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [response, setResponse] = useState<IVpnDeleteResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
+  const [uuidError, setUuidError] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems(uuid, '200 Success');
-    setResponseItems(newResponseItems);
-    setIsFormSubmitted(true);
-  };
-
-  const handleValueSize = (value: string): string => {
-    if (value.length > 50) {
-      return `${value.slice(0, 25)}...`;
+      
+    if (isUUID(uuid) === false) {
+      setUuidError('Invalid UUID!');
+      console.error('Invalid UUID');
+      return;
     }
-    return value;
+    setUuidError('');
+  
+    const response = await deleteVpnAccount(uuid);
+    setResponse(response);
+    setIsFormSubmitted(true);
   };
 
   return (
@@ -58,22 +64,23 @@ const DeleteVpn = (): JSX.Element => {
           <UuidInputWrapper>
             <UUIDLabel htmlFor="uuid">UUID</UUIDLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
+            {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
           </UuidInputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </UUIDForm>
-        {isFormSubmitted && (
+        {isFormSubmitted && response && (
           <ResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
+            <RequestResponseLabel>Request Response</RequestResponseLabel>
             <VpnDeleteResponseWrapper>
-              {responseItems.map(item => (
-                <VpnDeleteResponseItem>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <VpnDeleteResponseBox>
-                    <ResponseValue>{handleValueSize(item.value)}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </VpnDeleteResponseBox>
-                </VpnDeleteResponseItem>
-              ))}
+              <VpnDeleteResponseItem>
+                <ResponseLabel>Status Code</ResponseLabel>
+                <VpnDeleteResponseBox>
+                  <ResponseValue>
+                    {response.status} {response.statusText}
+                  </ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(`${response.status} ${response.statusText}`)}>Copy</CopyButton>
+                </VpnDeleteResponseBox>
+              </VpnDeleteResponseItem>
             </VpnDeleteResponseWrapper>
           </ResponseSection>
         )}

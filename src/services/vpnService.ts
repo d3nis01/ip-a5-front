@@ -1,16 +1,13 @@
 import axios from 'axios';
-import { IVpn } from '../types/IServiceTypesObjects';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateVpn, UpdateVpnParams } from '../types/IServiceTypesRequests';
+import { ICreateVpn, ICreateVpnResponse, IVpnDeleteResponse, IVpnGetResponse, UpdateVpnParams } from '../types/IServiceTypesRequests';
 import { mapVpnResponseToVpn } from '../mappers/vpn-mappers';
 
-export const createVpnAccount = async (data: ICreateVpn): Promise<string> => {
+export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResponse> => {
   try {
-    const response = await api.post('/vpn', data);
-    const urlPath = response.data;
-    const id = urlPath.split('/').pop();
-    return id;
+    const response = await api.post('/vpns', data);
+    return { uuid: response.data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
@@ -21,11 +18,11 @@ export const createVpnAccount = async (data: ICreateVpn): Promise<string> => {
   }
 };
 
-export const getVpnAccount = async (id: string): Promise<IVpn> => {
+export const getVpnAccount = async (id: string): Promise<IVpnGetResponse> => {
   try {
-    const response = await api.get(`/vpn/${id}`);
+    const response = await api.get(`/vpns/${id}`);
     const data = mapVpnResponseToVpn(response.data);
-    return data;
+    return { data: data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
@@ -34,10 +31,10 @@ export const getVpnAccount = async (id: string): Promise<IVpn> => {
   }
 };
 
-export const deleteVpnAccount = async (id: string): Promise<boolean> => {
+export const deleteVpnAccount = async (id: string): Promise<IVpnDeleteResponse> => {
   try {
-    const response = await api.delete(`/vpn/${id}`);
-    return response.status == 200;
+    const response = await api.delete(`/vpn/delete/${id}`);
+    return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to delete VPN account', error.response?.status || 500, error.response?.data);

@@ -17,9 +17,12 @@ import {
   SambaPostResponseWrapper,
   SambaPostResponseItemWrapper,
   SambaPostResponseValueContainer,
+  SambaInputError,
 } from './styles';
 
-import { IResponseItem, createResponseItems } from './constants';
+import { createSambaAccount } from '../../services/sambaService';
+import { ICreateSamba, ICreateSambaResponse } from '../../types/IServiceTypesRequests';
+import { isIPv4 } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -37,12 +40,26 @@ const PostSamba = (): JSX.Element => {
   const [iPv4Address, setIPv4Address] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
+  const [postResponse, setResponse] = useState<ICreateSambaResponse>();
+  const [adressError, setAdressError] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems('uuid', '200 Success');
-    setResponseItems(newResponseItems);
+
+    const requestBody: ICreateSamba = {
+      iPv4Address,
+      description,
+    };
+
+    if (isIPv4(iPv4Address) === false) {
+      setAdressError('Invalid Adress!');
+      console.error('Invalid IPv4 address');
+      return;
+    }
+    setAdressError('');
+
+    const response = await createSambaAccount(requestBody);
+    setResponse(response);
     setIsFormSubmitted(true);
   };
 
@@ -54,6 +71,7 @@ const PostSamba = (): JSX.Element => {
           <SambaPostInputWrapper>
             <SambaPostLabel htmlFor="ipv4Address">IPv4Address</SambaPostLabel>
             <SambaPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
+            {adressError && <SambaInputError>Invalid Adress!</SambaInputError>}
           </SambaPostInputWrapper>
           <SambaPostInputWrapper>
             <SambaPostLabel htmlFor="description">Description *</SambaPostLabel>
@@ -72,15 +90,21 @@ const PostSamba = (): JSX.Element => {
           <SambaPostResponseSection>
             <RequestResponseLabel>Request response</RequestResponseLabel>
             <SambaPostResponseWrapper>
-              {responseItems.map((item, index) => (
-                <SambaPostResponseItemWrapper>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <SambaPostResponseValueContainer>
-                    <ResponseValue>{item.value}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </SambaPostResponseValueContainer>
-                </SambaPostResponseItemWrapper>
-              ))}
+              <SambaPostResponseItemWrapper>
+                <ResponseLabel>UUID</ResponseLabel>
+                <SambaPostResponseValueContainer>
+                  <ResponseValue>{postResponse?.uuid}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(postResponse?.uuid || '')}>Copy</CopyButton>
+                </SambaPostResponseValueContainer>
+              </SambaPostResponseItemWrapper>
+
+              <SambaPostResponseItemWrapper>
+                <ResponseLabel>Status code</ResponseLabel>
+                <SambaPostResponseValueContainer>
+                  <ResponseValue>{String(postResponse?.status) + ' ' + postResponse?.statusText}</ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(postResponse?.status) || '')}>Copy</CopyButton>
+                </SambaPostResponseValueContainer>
+              </SambaPostResponseItemWrapper>
             </SambaPostResponseWrapper>
           </SambaPostResponseSection>
         )}

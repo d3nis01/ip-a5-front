@@ -161,3 +161,11 @@ export const VpnDeleteResponseBox = styled.div`
   border-radius: 25px;
   padding: 5px 5px 5px 10px;
 `;
+
+export const VpnInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
+`;

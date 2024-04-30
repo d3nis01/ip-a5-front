@@ -49,7 +49,7 @@ type fontWeights = {
 };
 
 type fonts = {
-  poppins: string;
+  roboto: string;
 };
 
 interface ITheme {

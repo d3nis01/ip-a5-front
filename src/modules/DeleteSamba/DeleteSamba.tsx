@@ -16,8 +16,12 @@ import {
   SambaDeleteResponseWrapper,
   SambaDeleteResponseItem,
   SambaDeleteResponseBox,
+  SambaInputError,
 } from './styles';
-import { IResponseItem, createResponseItems } from './constants';
+
+import { deleteSambaAccount } from '../../services/sambaService';
+import { ISambaDeleteResponse } from '../../types/IServiceTypesRequests';
+import { isUUID } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -27,29 +31,32 @@ const copyToClipboard = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
   } catch (err) {
-    console.error('Failed to copy text: ', err);
+    console.error('Failed to copy text:', err);
   }
 };
 
 const DeleteSamba = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
+  const [response, setResponse] = useState<ISambaDeleteResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [responseItems, setResponseItems] = useState<IResponseItem[]>([]);
+  const [uuidError, setUuidError] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newResponseItems = createResponseItems(uuid, '200 Success');
-    setResponseItems(newResponseItems);
+      
+    if (isUUID(uuid) === false) {
+      setUuidError('Invalid UUID!');
+      console.error('Invalid UUID');
+      return;
+    }
+    setUuidError('');
+  
+    const response = await deleteSambaAccount(uuid);
+    setResponse(response);
     setIsFormSubmitted(true);
   };
-
-  const handleValueSize = (value: string): string => {
-    if (value.length > 50) {
-      return `${value.slice(0, 25)}...`;
-    }
-    return value;
-  };
-
+  
+  
   return (
     <SambaDeleteContainer>
       <SambaDeleteInnerContainer>
@@ -58,22 +65,24 @@ const DeleteSamba = (): JSX.Element => {
           <UuidInputWrapper>
             <UUIDLabel htmlFor="uuid">UUID</UUIDLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
+            {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
           </UuidInputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </UUIDForm>
-        {isFormSubmitted && (
+
+        {isFormSubmitted && response && (
           <ResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
+            <RequestResponseLabel>Request Response</RequestResponseLabel>
             <SambaDeleteResponseWrapper>
-              {responseItems.map(item => (
-                <SambaDeleteResponseItem>
-                  <ResponseLabel>{item.title}</ResponseLabel>
-                  <SambaDeleteResponseBox>
-                    <ResponseValue>{handleValueSize(item.value)}</ResponseValue>
-                    <CopyButton onClick={() => copyToClipboard(item.value)}>Copy</CopyButton>
-                  </SambaDeleteResponseBox>
-                </SambaDeleteResponseItem>
-              ))}
+              <SambaDeleteResponseItem>
+                <ResponseLabel>Status Code</ResponseLabel>
+                <SambaDeleteResponseBox>
+                  <ResponseValue>
+                    {response.status} {response.statusText}
+                  </ResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(`${response.status} ${response.statusText}`)}>Copy</CopyButton>
+                </SambaDeleteResponseBox>
+              </SambaDeleteResponseItem>
             </SambaDeleteResponseWrapper>
           </ResponseSection>
         )}

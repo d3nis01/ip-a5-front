@@ -1,23 +1,47 @@
-import { useState } from 'react';
-import { SidebarContainer, SidebarHeaderContainer, SidebarMenuContainer, StyledProfile, StyledCourses, StyledExams, StyledTaxes, StyledSettings } from './styles';
-
 import MenuItem from './menuItem/MenuItem';
+import { SidebarBurgerButton, SidebarContainer, SidebarExtendedContainer, SidebarHeaderContainer, SidebarInnerContainer, SidebarMenuContainer } from './styles';
 
-import { SIDEBAR__COURSES, SIDEBAR__EXAMS, SIDEBAR__PROFILE, SIDEBAR__SETTINGS, SIDEBAR__TAXES, SIDEBAR__TITLE } from './constats';
+import { IMenuOption, MENU_OPTIONS } from './constants';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Sidebar = (): JSX.Element => {
-  const [isActive, setIsActive] = useState('profile');
+  const [extendNavbar, setExtendNavbar] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavOptions = (route: string) => {
+    if (route !== location.pathname) {
+      setExtendNavbar(false);
+      navigate(route);
+    }
+  };
+
+  const handleBurgerClick = () => {
+    setExtendNavbar(prev => !prev);
+  };
 
   return (
-    <SidebarContainer>
-      <SidebarHeaderContainer>{SIDEBAR__TITLE}</SidebarHeaderContainer>
-      <SidebarMenuContainer>
-        <MenuItem active={isActive === SIDEBAR__PROFILE} Icon={StyledProfile} title={SIDEBAR__PROFILE} onClick={() => setIsActive(SIDEBAR__PROFILE)} />
-        <MenuItem active={isActive === SIDEBAR__COURSES} Icon={StyledCourses} title={SIDEBAR__COURSES} onClick={() => setIsActive(SIDEBAR__COURSES)} />
-        <MenuItem active={isActive === SIDEBAR__EXAMS} Icon={StyledExams} title={SIDEBAR__EXAMS} onClick={() => setIsActive(SIDEBAR__EXAMS)} />
-        <MenuItem active={isActive === SIDEBAR__TAXES} Icon={StyledTaxes} title={SIDEBAR__TAXES} onClick={() => setIsActive(SIDEBAR__TAXES)} />
-        <MenuItem active={isActive === SIDEBAR__SETTINGS} Icon={StyledSettings} title={SIDEBAR__SETTINGS} onClick={() => setIsActive(SIDEBAR__SETTINGS)} />
-      </SidebarMenuContainer>
+    <SidebarContainer $isExtended={extendNavbar}>
+      <SidebarInnerContainer>
+        <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
+        <SidebarBurgerButton $isExtended={extendNavbar} onClick={handleBurgerClick}>
+          {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
+        </SidebarBurgerButton>
+        <SidebarMenuContainer>
+          {MENU_OPTIONS.map((option: IMenuOption) => (
+            <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={false} onClick={() => handleNavOptions(option.route)} />
+          ))}
+        </SidebarMenuContainer>
+      </SidebarInnerContainer>
+      {extendNavbar && (
+        <SidebarExtendedContainer>
+          {MENU_OPTIONS.map((option: IMenuOption) => (
+            <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={true} onClick={() => handleNavOptions(option.route)} />
+          ))}
+        </SidebarExtendedContainer>
+      )}
     </SidebarContainer>
   );
 };

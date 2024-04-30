@@ -165,3 +165,11 @@ export const SambaPostResponseValueContainer = styled.div`
   border: 2px solid ${props => props.theme.colors.primaryPurple};
   align-items: center;
 `;
+
+export const SambaInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
+`;
