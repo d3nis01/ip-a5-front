@@ -8,3 +8,7 @@ export const mapSambaResponseToSamba = (data: Partial<ISamba>): ISamba => {
   };
   return samba;
 };
+
+export const mapSambaGetAllResponseToSambaArray = (data: Partial<ISamba>[]): ISamba[] => {
+  return data.map(item => mapSambaResponseToSamba(item));
+};
