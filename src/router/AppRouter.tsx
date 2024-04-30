@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import Home from '../modules/home/Home';
 import GetAccount from '../modules/GetAccount/GetAccount';
-import { ROUTE__ACCOUNT_GET } from './constants';
+import { ROUTE__ACCOUNTE_UPDATE, ROUTE__ACCOUNT_GET } from './constants';
 import GetVpn from '../modules/GetVpn/GetVpn';
 import { ROUTE__SAMBA_GET, ROUTE__SAMBA_GET_ALL, ROUTE__SAMBA_UPDATE, ROUTE__VPN_GET, ROUTE__VPN_GET_ALL, ROUTE__VPN_UPDATE } from './constants';
 import GetSamba from '../modules/GetSamba/GetSamba';
@@ -20,6 +20,7 @@ import SambaGetAll from '../modules/SambaGetAll/SambaGetAll';
 import VpnGetAll from '../modules/VpnGetAll/VpnGetAll';
 import UpdateSamba from '../modules/SambaUpdate/SambaUpdate';
 import UpdateVpn from '../modules/vpnUpdate/VpnUpdate';
+import UpdateAccount from '../modules/UpdateAccount/UpdateAccount';
 
 const AppRouter = (): JSX.Element => {
   return (
@@ -40,6 +41,7 @@ const AppRouter = (): JSX.Element => {
           <Route path={ROUTE__SAMBA_GET_ALL} element={<SambaGetAll />} />
           <Route path={ROUTE__SAMBA_UPDATE} element={<UpdateSamba />} />
           <Route path={ROUTE__VPN_UPDATE} element={<UpdateVpn />} />
+          <Route path={ROUTE__ACCOUNTE_UPDATE} element={<UpdateAccount />} />
         </Route>
       </Routes>
     </BrowserRouter>

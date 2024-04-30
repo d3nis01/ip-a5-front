@@ -15,3 +15,4 @@ export const ROUTE__VPN_UPDATE = '/vpn-update';
 export const ROUTE__ACCOUNT_POST = '/account-post';
 export const ROUTE__ACCOUNT_GET = '/account-get';
 export const ROUTE__ACCOUNT_DELETE = '/account-delete';
+export const ROUTE__ACCOUNTE_UPDATE = '/account-update';
