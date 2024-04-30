@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateVpn, ICreateVpnResponse, ISambaGetAllResponse, IVpnDeleteResponse, IVpnGetAllResponse, IVpnGetResponse, UpdateVpnParams } from '../types/IServiceTypesRequests';
+import { ICreateVpn, ICreateVpnResponse, ISambaGetAllResponse, IVpnDeleteResponse, IVpnGetAllResponse, IVpnGetResponse, IVpnUpdateResponse, UpdateVpnParams } from '../types/IServiceTypesRequests';
 import { mapVpnGetAllResponseToVpnArray, mapVpnResponseToVpn } from '../mappers/vpn-mappers';
 
 export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResponse> => {
@@ -43,7 +43,7 @@ export const deleteVpnAccount = async (id: string): Promise<IVpnDeleteResponse> 
   }
 };
 
-export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Promise<any> => {
+export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Promise<IVpnUpdateResponse> => {
   try {
     const queryParams = new URLSearchParams();
     queryParams.append('newIpAddress', params.newIpAddress);
@@ -51,7 +51,10 @@ export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Pro
       queryParams.append('newDescription', params.newDescription);
     }
     const response = await api.put(`/vpn/update/${id}?${queryParams}`);
-    return response.data;
+    return {
+      status: response.status,
+      statusText: response.statusText,
+    };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Vpn account', error.response?.status || 500, error.response?.data);

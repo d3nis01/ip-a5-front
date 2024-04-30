@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ISamba } from '../types/IServiceTypesObjects';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateSamba, ICreateSambaResponse, ISambaDeleteResponse, ISambaGetAllResponse, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
+import { ICreateSamba, ICreateSambaResponse, ISambaDeleteResponse, ISambaGetAllResponse, ISambaGetResponse, ISambaUpdateResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
 import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../mappers/samba-mappers';
 
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
@@ -49,10 +49,13 @@ export const deleteSambaAccount = async (id: string): Promise<ISambaDeleteRespon
   }
 };
 
-export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<any> => {
+export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<ISambaUpdateResponse> => {
   try {
     const response = await api.put(`/sambas/${id}`, params);
-    return response.data;
+    return {
+      status: response.status,
+      statusText: response.statusText,
+    };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);

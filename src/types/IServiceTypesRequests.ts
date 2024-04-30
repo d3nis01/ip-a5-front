@@ -61,6 +61,11 @@ export interface UpdateVpnParams {
   newDescription?: string;
 }
 
+export interface IVpnUpdateResponse {
+  status: number;
+  statusText: string;
+}
+
 export interface IVpnGetResponse {
   data: IVpn;
   status: number;
@@ -75,6 +80,11 @@ export interface IVpnGetAllResponse {
 
 export interface ISambaGetResponse {
   data: ISamba;
+  status: number;
+  statusText: string;
+}
+
+export interface ISambaUpdateResponse {
   status: number;
   statusText: string;
 }
