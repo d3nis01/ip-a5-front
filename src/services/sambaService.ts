@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { ISamba } from '../types/IServiceTypesObjects';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateSamba, ICreateSambaResponse, ISambaDeleteResponse, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
-import { mapSambaResponseToSamba } from '../mappers/samba-mappers';
+import { ICreateSamba, ICreateSambaResponse, ISambaDeleteResponse, ISambaGetAllResponse, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
+import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../mappers/samba-mappers';
 
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
   try {
@@ -11,7 +11,8 @@ export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSam
     return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
+      console.error('Error with API request:', error.response);
+      throw new CustomError('Error with API request', error.response?.status || 500);
     } else {
       console.error('An unexpected error occurred:', error);
       throw new CustomError('An unexpected error occurred', 500);
@@ -51,6 +52,19 @@ export const updateSambaAccount = async (id: string, params: UpdateSambaParams):
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);
+    }
+    throw error;
+  }
+};
+
+export const getAllSambaAccount = async (): Promise<ISambaGetAllResponse> => {
+  try {
+    const response = await api.get(`/sambas`);
+    const data = mapSambaGetAllResponseToSambaArray(response.data);
+    return { data, status: response.status, statusText: response.statusText };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
     }
     throw error;
   }

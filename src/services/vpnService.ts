@@ -1,8 +1,8 @@
 import axios from 'axios';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { ICreateVpn, ICreateVpnResponse, IVpnDeleteResponse, IVpnGetResponse, UpdateVpnParams } from '../types/IServiceTypesRequests';
-import { mapVpnResponseToVpn } from '../mappers/vpn-mappers';
+import { ICreateVpn, ICreateVpnResponse, ISambaGetAllResponse, IVpnDeleteResponse, IVpnGetAllResponse, IVpnGetResponse, UpdateVpnParams } from '../types/IServiceTypesRequests';
+import { mapVpnGetAllResponseToVpnArray, mapVpnResponseToVpn } from '../mappers/vpn-mappers';
 
 export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResponse> => {
   try {
@@ -55,6 +55,19 @@ export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Pro
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Vpn account', error.response?.status || 500, error.response?.data);
+    }
+    throw error;
+  }
+};
+
+export const getAllVpnAccount = async (): Promise<IVpnGetAllResponse> => {
+  try {
+    const response = await api.get(`/vpns`);
+    const data = mapVpnGetAllResponseToVpnArray(response.data);
+    return { data, status: response.status, statusText: response.statusText };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
     }
     throw error;
   }

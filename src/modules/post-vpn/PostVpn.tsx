@@ -17,10 +17,12 @@ import {
   VpnPostResponseWrapper,
   VpnPostResponseItemWrapper,
   VpnPostResponseValueContainer,
+  VpnInputError,
 } from './styles';
 
 import { createVpnAccount } from '../../services/vpnService';
 import { ICreateVpn, ICreateVpnResponse } from '../../types/IServiceTypesRequests';
+import { isIPv4 } from '../../utils/forms/inputValidators';
 
 const copyToClipboard = async (text: string) => {
   if (!navigator.clipboard) {
@@ -39,6 +41,7 @@ const PostVpn = (): JSX.Element => {
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [postResponse, setResponse] = useState<ICreateVpnResponse>();
+  const [adressError, setAdressError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,10 +51,18 @@ const PostVpn = (): JSX.Element => {
       description,
     };
 
+    if (isIPv4(iPv4Address) === false) {
+      setAdressError('Invalid Adress!');
+      console.error('Invalid IPv4 address');
+      return;
+    }
+    setAdressError('');
+
     const response = await createVpnAccount(requestBody);
     setResponse(response);
     setIsFormSubmitted(true);
   };
+
 
   return (
     <VPNPostContainer>
@@ -61,6 +72,7 @@ const PostVpn = (): JSX.Element => {
           <VpnPostInputWrapper>
             <VpnPostLabel htmlFor="ipv4Address">IPv4 Address</VpnPostLabel>
             <VpnPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
+            {adressError && <VpnInputError>Invalid Adress!</VpnInputError>}
           </VpnPostInputWrapper>
           <VpnPostInputWrapper>
             <VpnPostLabel htmlFor="description">Description *</VpnPostLabel>

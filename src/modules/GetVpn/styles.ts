@@ -157,3 +157,11 @@ export const ResponseValueWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const VpnInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
+`;

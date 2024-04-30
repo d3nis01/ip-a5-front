@@ -67,8 +67,20 @@ export interface IVpnGetResponse {
   statusText: string;
 }
 
+export interface IVpnGetAllResponse {
+  data: IVpn[];
+  status: number;
+  statusText: string;
+}
+
 export interface ISambaGetResponse {
   data: ISamba;
+  status: number;
+  statusText: string;
+}
+
+export interface ISambaGetAllResponse {
+  data: ISamba[];
   status: number;
   statusText: string;
 }

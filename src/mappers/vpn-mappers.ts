@@ -8,3 +8,7 @@ export const mapVpnResponseToVpn = (data: Partial<IVpn>): IVpn => {
   };
   return vpn;
 };
+
+export const mapVpnGetAllResponseToVpnArray = (data: Partial<IVpn>[]): IVpn[] => {
+  return data.map(item => mapVpnResponseToVpn(item));
+};
