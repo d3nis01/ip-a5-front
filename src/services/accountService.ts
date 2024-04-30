@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IAccount } from '../types/IServiceTypesObjects';
 import CustomError from '../utils/CustomError';
 import api from './api';
-import { IAccountDeleteResponse, IAccountGetResponse, ICreateAccount, ICreateAccountResponse } from '../types/IServiceTypesRequests';
+import { IAccountDeleteResponse, IAccountGetResponse, IAccountUpdateResponse, ICreateAccount, ICreateAccountResponse, UpdateAccountParams } from '../types/IServiceTypesRequests';
 import { mapAccountResponseToAccount } from '../mappers/account-mappers';
 
 export const createAccount = async (accountData: ICreateAccount): Promise<ICreateAccountResponse> => {
@@ -44,14 +44,14 @@ export const deleteAccount = async (id: string): Promise<IAccountDeleteResponse>
   }
 };
 
-// export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<boolean> => {
-//   try {
-//     const response = await api.put(`/accounts/${id}`, params);
-//     return response.status == 200;
-//   } catch (error) {
-//     if (axios.isAxiosError(error)) {
-//       throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);
-//     }
-//     throw error;
-//   }
-// };
+export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<IAccountUpdateResponse> => {
+  try {
+    const response = await api.put(`/accounts/${id}`, params);
+    return { status: response.status, statusText: response.statusText };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);
+    }
+    throw error;
+  }
+};

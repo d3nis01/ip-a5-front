@@ -29,6 +29,12 @@ export interface IAccountUpdateResponse {
   statusText: string;
 }
 
+export interface UpdateAccountParams {
+  newUsername: string;
+  newPassword: string;
+  newEmail: string;
+}
+
 export interface ICreateSamba {
   description: string;
   iPv4Address: string;
