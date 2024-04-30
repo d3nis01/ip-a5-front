@@ -13,6 +13,12 @@ export interface ICreateAccountResponse {
   statusText: string;
 }
 
+export interface IAccountGetResponse {
+  data: IAccount;
+  status: number;
+  statusText: string;
+}
+
 export interface IAccountDeleteResponse {
   status: number;
   statusText: string;

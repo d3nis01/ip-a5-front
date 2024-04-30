@@ -37,26 +37,25 @@ const copyToClipboard = async (text: string) => {
 
 const DeleteAccount = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
-  const [response, setResponse] = useState<IAccountDeleteResponse | null>(null);
+  const [response, setResponse] = useState<IAccountDeleteResponse>();
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [uuidError, setUuidError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-      
+
     if (isUUID(uuid) === false) {
       setUuidError('Invalid UUID!');
       console.error('Invalid UUID!');
       return;
     }
     setUuidError('');
-  
+
     const response = await deleteAccount(uuid);
     setResponse(response);
     setIsFormSubmitted(true);
   };
-  
-  
+
   return (
     <AccountDeleteContainer>
       <AccountDeleteInnerContainer>

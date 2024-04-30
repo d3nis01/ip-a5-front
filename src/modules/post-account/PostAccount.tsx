@@ -47,8 +47,6 @@ const PostAccount = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-  
-
     if (isMatricol(matricol) === false) {
       setMatricolError('Matricol is not valid');
       console.error('Matricol is not valid');
@@ -56,11 +54,11 @@ const PostAccount = (): JSX.Element => {
     }
     setMatricolError('');
 
-    const requestObject : ICreateAccount = {
-        username,
-        password,
-        email, 
-        matricol,
+    const requestObject: ICreateAccount = {
+      username,
+      password,
+      email,
+      matricol,
     };
 
     const response = await createAccount(requestObject);
@@ -75,22 +73,22 @@ const PostAccount = (): JSX.Element => {
         <AccountPostForm onSubmit={handleSubmit}>
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="username">Username</AccountPostLabel>
-            <AccountPostInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Ison Jutgi" required />
+            <AccountPostInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="password">Password</AccountPostLabel>
-            <AccountPostInput type="text" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="******" required />
+            <AccountPostInput type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="email">Email</AccountPostLabel>
-            <AccountPostInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="******" required />
+            <AccountPostInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="matricol">Matricol</AccountPostLabel>
-            <AccountPostInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="******" required />
+            <AccountPostInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="" required />
             {matricolError && <AccountInputError>Matricol is not valid!</AccountInputError>}
           </AccountPostInputWrapper>
-    
+
           <AccountPostSubmitButton type="submit">Submit</AccountPostSubmitButton>
         </AccountPostForm>
         {isFormSubmitted && (
