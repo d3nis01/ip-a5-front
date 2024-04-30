@@ -11,3 +11,7 @@ export const ROUTE__VPN_GET = '/vpn-get';
 export const ROUTE__VPN_DELETE = '/vpn-delete';
 export const ROUTE__VPN_GET_ALL = '/vpn-get-all';
 export const ROUTE__VPN_UPDATE = '/vpn-update';
+
+export const ROUTE__ACCOUNT_POST = '/account-post';
+export const ROUTE__ACCOUNT_GET = '/account-get';
+export const ROUTE__ACCOUNT_DELETE = '/account-delete';

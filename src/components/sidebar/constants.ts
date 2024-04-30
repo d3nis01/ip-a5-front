@@ -1,4 +1,7 @@
 import {
+  ROUTE__ACCOUNT_DELETE,
+  ROUTE__ACCOUNT_GET,
+  ROUTE__ACCOUNT_POST,
   ROUTE__SAMBA_DELETE,
   ROUTE__SAMBA_GET,
   ROUTE__SAMBA_GET_ALL,
@@ -17,6 +20,18 @@ export interface IMenuOption {
 }
 
 export const MENU_OPTIONS: IMenuOption[] = [
+  {
+    title: 'Accoount GET',
+    route: ROUTE__ACCOUNT_GET,
+  },
+  {
+    title: 'Accoount POST',
+    route: ROUTE__ACCOUNT_POST,
+  },
+  {
+    title: 'Accoount DELETE',
+    route: ROUTE__ACCOUNT_DELETE,
+  },
   {
     title: 'Samba GET',
     route: ROUTE__SAMBA_GET,
