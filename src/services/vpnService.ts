@@ -50,7 +50,7 @@ export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Pro
     if (params.newDescription) {
       queryParams.append('newDescription', params.newDescription);
     }
-    const response = await api.put(`/vpn/update/${id}?${queryParams}`);
+    const response = await api.put(`/vpns/update/${id}?${queryParams}`);
     return {
       status: response.status,
       statusText: response.statusText,

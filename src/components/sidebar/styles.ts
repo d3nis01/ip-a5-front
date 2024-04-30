@@ -1,9 +1,10 @@
 import { styled } from 'styled-components';
+import fiiLogo from './assets/fii-logo.png';
 
 export const SidebarContainer = styled.div<{ $isExtended: boolean }>`
   position: sticky;
   top: 0;
-  height: 100vh;
+  min-height: 100vh;
   width: 250px;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
@@ -24,7 +25,9 @@ export const SidebarInnerContainer = styled.div`
   height: 100%;
 `;
 
-export const SidebarHeaderContainer = styled.div`
+export const SidebarHeaderContainer = styled.img.attrs({
+  src: fiiLogo,
+})`
   width: 100%;
 
   font-size: ${props => props.theme.fontSize.xxl};
@@ -71,7 +74,7 @@ export const SidebarBurgerButton = styled.button<{ $isExtended: boolean }>`
 export const SidebarMenuContainer = styled.div`
   width: 100%;
   padding: 30px 0px 0px 20px;
-  gap: 20px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -95,6 +98,8 @@ export const SidebarExtendedContainer = styled.div`
 
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
+  padding: 20px 0;
 
   @media (min-width: 992px) {
     display: none;

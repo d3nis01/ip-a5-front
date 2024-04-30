@@ -25,7 +25,7 @@ const Sidebar = (): JSX.Element => {
   return (
     <SidebarContainer $isExtended={extendNavbar}>
       <SidebarInnerContainer>
-        <SidebarHeaderContainer>IP Brand</SidebarHeaderContainer>
+        <SidebarHeaderContainer />
         <SidebarBurgerButton $isExtended={extendNavbar} onClick={handleBurgerClick}>
           {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
         </SidebarBurgerButton>

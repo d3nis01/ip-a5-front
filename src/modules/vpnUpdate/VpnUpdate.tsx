@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  VpnContainer,
   VpnTitle,
   VpnForm,
   VpnLabel,
@@ -17,6 +16,7 @@ import {
   ResponseValueWrapper,
   VpnResponseBox,
   VpnInputError,
+  VpnContainer,
 } from './styles';
 
 import { IVpnGetResponse, IVpnUpdateResponse } from '../../types/IServiceTypesRequests';

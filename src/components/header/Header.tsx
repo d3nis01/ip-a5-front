@@ -1,7 +1,7 @@
 import { HeaderContainer } from './styles';
 
 const Header = (): JSX.Element => {
-  return <HeaderContainer>Header</HeaderContainer>;
+  return <HeaderContainer></HeaderContainer>;
 };
 
 export default Header;

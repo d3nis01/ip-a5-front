@@ -15,7 +15,6 @@ export const VpnContainer = styled.div`
     padding: 15px;
   }
 `;
-
 export const VpnInnerContainer = styled.div`
   background-color: ${props => props.theme.colors.white};
   width: 100%;
