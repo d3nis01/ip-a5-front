@@ -1,10 +1,32 @@
-import { ISamba, IVpn } from './IServiceTypesObjects';
+import { ISamba, IVpn, IAccount } from './IServiceTypesObjects';
 
 export interface ICreateAccount {
   username: string;
   password: string;
   email: string;
   matricol: string;
+}
+
+export interface UpdateAccountParams {
+  Username: string;
+  Password: string;
+  Email: string;
+}
+
+export interface ICreateAccountResponse {
+  uuid: string;
+  status: number;
+  statusText: string;
+}
+export interface IAccountGetResponse {
+  data: IAccount;
+  status: number;
+  statusText: string;
+}
+
+export interface IAccountDeleteResponse {
+  status: number;
+  statusText: string;
 }
 
 export interface ICreateSamba {
@@ -23,11 +45,6 @@ export interface UpdateSambaParams {
   newDescription?: string;
 }
 
-export interface UpdateAccountParams {
-  Username: string;
-  Password: string;
-  Email: string;
-}
 
 export interface ICreateVpn {
   description: string;
