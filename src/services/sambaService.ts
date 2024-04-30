@@ -7,8 +7,11 @@ import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../
 
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
   try {
-    const response = await api.post('/samba', data);
-    return { uuid: response.data, status: response.status, statusText: response.statusText };
+    const response = await api.post('/sambas', data);
+    const locationHeader = response.headers['location'];
+    const segments = locationHeader.split('/');
+    const uuid = segments[segments.length - 1];
+    return { uuid: uuid, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error with API request:', error.response);

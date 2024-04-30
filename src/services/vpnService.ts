@@ -33,7 +33,7 @@ export const getVpnAccount = async (id: string): Promise<IVpnGetResponse> => {
 
 export const deleteVpnAccount = async (id: string): Promise<IVpnDeleteResponse> => {
   try {
-    const response = await api.delete(`/vpn/delete/${id}`);
+    const response = await api.delete(`/vpns/${id}`);
     return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
