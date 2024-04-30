@@ -7,12 +7,8 @@ import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../
 
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
   try {
-    const response = await api.post<ICreateSambaResponse>('/sambas', data);
-    const locationHeader = response.headers['location'];
-    const id = locationHeader?.split('/').pop(); // If `location` is undefined, `id` will be undefined too.
-    console.log('Response:', response);
-    console.log('UUID:', id);
-    return { uuid: id, status: response.status, statusText: response.statusText };
+    const response = await api.post('/samba', data);
+    return { uuid: response.data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error with API request:', error.response);
@@ -28,7 +24,7 @@ export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> =>
   try {
     const response = await api.get(`/sambas/${id}`);
     const data = mapSambaResponseToSamba(response.data);
-    return { data, status: response.status, statusText: response.statusText };
+    return { data: data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
