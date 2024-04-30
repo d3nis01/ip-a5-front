@@ -8,10 +8,7 @@ import { mapSambaResponseToSamba } from '../mappers/samba-mappers';
 export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
   try {
     const response = await api.post('/samba', data);
-    const urlPath = response.data;
-    const id = urlPath.split('/').pop();
-    console.log(response);
-    return { uuid: id, status: response.status, statusText: response.statusText };
+    return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
