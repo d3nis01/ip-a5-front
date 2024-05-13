@@ -4,14 +4,25 @@ import fiiLogo from './assets/fii-logo.png';
 export const SidebarContainer = styled.div<{ $isExtended: boolean }>`
   position: sticky;
   top: 0;
-  min-height: 100vh;
   width: 250px;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
 
+  @media (min-width: 992px) {
+    max-height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   @media (max-width: 992px) {
     position: ${props => (props.$isExtended ? 'fixed' : 'sticky')};
     width: ${props => (props.$isExtended ? '100vw' : '80px')};
+    min-height: 100vh;
   }
 `;
 
@@ -90,8 +101,8 @@ export const SidebarExtendedContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
+  margin-top: 70px;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -100,6 +111,12 @@ export const SidebarExtendedContainer = styled.div`
   height: 100%;
   overflow-y: scroll;
   padding: 20px 0;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (min-width: 992px) {
     display: none;
