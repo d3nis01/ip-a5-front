@@ -34,6 +34,14 @@ export const SGAInnerContainer = styled.div`
   }
 `;
 
+export const SGAHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+`;
+
 export const SGATitle = styled.h1`
   font-size: ${props => props.theme.fontSize.gig};
   color: ${props => props.theme.colors.textPrimary};

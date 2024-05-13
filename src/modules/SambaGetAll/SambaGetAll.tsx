@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SGAContainer, SGAInnerContainer, SGAList, SGAListItem, SGAListItemText, SGATitle } from './styles';
+import { SGAContainer, SGAHeader, SGAInnerContainer, SGAList, SGAListItem, SGAListItemText, SGATitle } from './styles';
 import { getAllSambaAccount } from '../../services/sambaService';
 import { ISamba } from '../../types/IServiceTypesObjects';
 
@@ -17,7 +17,13 @@ const SambaGetAll = (): JSX.Element => {
   return (
     <SGAContainer>
       <SGAInnerContainer>
-        <SGATitle>GET All Samba</SGATitle>
+        <SGAHeader>
+          <h3 style={{border: '1px solid red', width: "100%"}}>UUID</h3>
+          <h3>IPv4 Address</h3>
+          <h3>Description</h3>
+          <h3>Options</h3>
+        </SGAHeader>
+        {/* <SGATitle>GET All Samba</SGATitle> */}
         <SGAList>
           {sambaArray &&
             sambaArray.map(item => (
