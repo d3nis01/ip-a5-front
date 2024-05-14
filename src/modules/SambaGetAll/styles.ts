@@ -21,10 +21,9 @@ export const SGAInnerContainer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  position: relative;
 
   @media (max-width: 550px) {
     padding: 20px;
@@ -38,41 +37,98 @@ export const SGAHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
   width: 100%;
+  height: 80px;
+  border-bottom: 1px solid ${props => props.theme.colors.primaryGray};
 `;
 
-export const SGATitle = styled.h1`
-  font-size: ${props => props.theme.fontSize.gig};
+export const SGAHeaderColumnTitle = styled.div`
+  width: 100%;
+  font-size: ${props => props.theme.fontSize.md};
   color: ${props => props.theme.colors.textPrimary};
-  text-align: left;
+  text-align: center;
   font-weight: ${props => props.theme.fontWeights.bold};
 
   @media (max-width: 550px) {
-    font-size: 32px;
+    font-size: ${props => props.theme.fontSize.sm};
   }
 `;
 
-export const SGAList = styled.ul`
-  list-style-type: none;
-  padding: 0;
+export const SGAList = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  justify-content: flex-start;
+  width: 100%;
+  bottom: 50px;
+  top: 80px;
+
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const SGAListItem = styled.li`
+  width: 100%;
+  height: 100%;
+  max-height: 100px;
+  min-height: 50px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: max-content;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  border: 1px solid ${props => props.theme.colors.secondaryGray};
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid ${props => props.theme.colors.primaryGray};
 `;
 
-export const SGAListItemText = styled.p`
+const SGAListItemText = styled.p`
+  width: 100%;
+  text-align: center;
+  padding: 0px 10px;
   font-size: ${props => props.theme.fontSize.md};
+`;
+
+export const SGAListItemUUID = styled(SGAListItemText)`
+  font-weight: ${props => props.theme.fontWeights.bold};
   color: ${props => props.theme.colors.textPrimary};
+`;
+
+export const SGAListItemIP = styled(SGAListItemText)`
+  font-weight: ${props => props.theme.fontWeights.bold};
+  color: ${props => props.theme.colors.primaryPurple};
+`;
+
+export const SGAListItemDescription = styled(SGAListItemText)`
+  font-weight: ${props => props.theme.fontWeights.light};
+  color: ${props => props.theme.colors.secondaryGray};
+`;
+
+export const SGAListItemOptions = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0px 10px;
+  text-align: center;
+`;
+
+const SGAListItemOptionsButton = styled.button`
+  width: 45%;
+  height: 30px;
+
+  border-radius: 50px;
+  border-color: transparent;
+
+  font-size: ${props => props.theme.fontSize.md};
+  font-weight: ${props => props.theme.fontWeights.regular};
+  color: ${props => props.theme.colors.white};
+`;
+
+export const SGAListItemOptionsEdit = styled(SGAListItemOptionsButton)`
+  background-color: ${props => props.theme.colors.primaryPurple};
+`;
+
+export const SGAListItemOptionsDelete = styled(SGAListItemOptionsButton)`
+  background-color: ${props => props.theme.colors.red};
 `;
