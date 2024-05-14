@@ -15,7 +15,7 @@ import {
   VGAListItemUUID,
 } from './styles';
 import { IVpn } from '../../types/IServiceTypesObjects';
-import { getAllVpnAccount } from '../../services/vpnService';
+import { deleteVpnAccount, getAllVpnAccount, updateVpnAccount } from '../../services/vpnService';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 
@@ -32,7 +32,7 @@ const VpnGetAll = (): JSX.Element => {
     fetchList();
   }, []);
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (id: string) => {
     Popup.fire({
       title: '<strong>Are you sure you want to delete this?</strong>',
       showCancelButton: true,
@@ -49,32 +49,23 @@ const VpnGetAll = (): JSX.Element => {
       },
     }).then(result => {
       if (result.isConfirmed) {
-        console.log('Item deleted');
+        deleteVpnAccount(id);
+        setVpnArray(prevArray => prevArray?.filter(item => item.id !== id));
       }
     });
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (object: IVpn) => {
     Popup.fire({
       title: '<strong>Edit</strong>',
-      html: (
-        <div style={{ textAlign: 'left' }}>
-          <label htmlFor="swal-input1" style={{ display: 'block', fontWeight: 'bold' }}>
-            UUID
-          </label>
-          <input id="swal-input1" className="swal2-input" placeholder="00000000-0000-0000-0000-000000000000" />
-
-          <label htmlFor="swal-input2" style={{ display: 'block', fontWeight: 'bold' }}>
-            New IP Address
-          </label>
-          <input id="swal-input2" className="swal2-input" placeholder="192.168.1.1" />
-
-          <label htmlFor="swal-input3" style={{ display: 'block', fontWeight: 'bold' }}>
-            New Description
-          </label>
-          <input id="swal-input3" className="swal2-input" placeholder="Brief description here" />
-        </div>
-      ),
+      html: `
+      <div style="text-align: left;">
+        <label for="swal-input2" style="display: block; font-weight: bold;">New IP Address</label>
+        <input id="swal-input2" class="swal2-input" value="${object.iPv4Address}" placeholder="192.168.1.1" />
+        <label for="swal-input3" style="display: block; font-weight: bold;">New Description</label>
+        <input id="swal-input3" class="swal2-input" value="${object.description}" placeholder="Brief description here" />
+      </div>
+    `,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -82,10 +73,9 @@ const VpnGetAll = (): JSX.Element => {
       cancelButtonText: 'Cancel',
       focusConfirm: false,
       preConfirm: () => {
-        const uuid = (document.getElementById('swal-input1') as HTMLInputElement).value;
         const newIp = (document.getElementById('swal-input2') as HTMLInputElement).value;
         const newDesc = (document.getElementById('swal-input3') as HTMLInputElement).value;
-        return { uuid, newIp, newDesc };
+        return { newIp, newDesc };
       },
       customClass: {
         popup: 'swal-popup-custom',
@@ -95,7 +85,10 @@ const VpnGetAll = (): JSX.Element => {
       },
     }).then(result => {
       if (result.isConfirmed && result.value) {
-        console.log(result.value);
+        updateVpnAccount(object.id, { newIpAddress: result.value.newIp, newDescription: result.value.newDesc }).then(() => {
+          // Update the state to reflect the changes
+          setVpnArray(prevArray => prevArray?.map(item => (item.id === object.id ? { ...item, iPv4Address: result.value.newIp, description: result.value.newDesc } : item)));
+        });
       }
     });
   };
@@ -127,8 +120,8 @@ const VpnGetAll = (): JSX.Element => {
                   <VGAListItemIP>{item.iPv4Address}</VGAListItemIP>
                   <VGAListItemDescription>{item.description}</VGAListItemDescription>
                   <VGAListItemOptions>
-                    <VGAListItemOptionsEdit onClick={handleEditClick}>Edit</VGAListItemOptionsEdit>
-                    <VGAListItemOptionsDelete onClick={handleDeleteClick}>Delete</VGAListItemOptionsDelete>
+                    <VGAListItemOptionsEdit onClick={() => handleEditClick(item)}>Edit</VGAListItemOptionsEdit>
+                    <VGAListItemOptionsDelete onClick={() => handleDeleteClick(item.id)}>Delete</VGAListItemOptionsDelete>
                   </VGAListItemOptions>
                 </VGAListItem>
               ))}
