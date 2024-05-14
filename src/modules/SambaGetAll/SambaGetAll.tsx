@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  GlobalStyles,
   SGAContainer,
   SGAHeader,
   SGAHeaderColumnTitle,
@@ -126,8 +127,8 @@ const SambaGetAll = (): JSX.Element => {
                   <SGAListItemIP>{item.iPv4Address}</SGAListItemIP>
                   <SGAListItemDescription>{item.description}</SGAListItemDescription>
                   <SGAListItemOptions>
-                    <SGAListItemOptionsEdit>Edit</SGAListItemOptionsEdit>
-                    <SGAListItemOptionsDelete>Delete</SGAListItemOptionsDelete>
+                    <SGAListItemOptionsEdit onClick={handleEditClick}>Edit</SGAListItemOptionsEdit>
+                    <SGAListItemOptionsDelete onClick={handleDeleteClick}>Delete</SGAListItemOptionsDelete>
                   </SGAListItemOptions>
                 </SGAListItem>
               ))}

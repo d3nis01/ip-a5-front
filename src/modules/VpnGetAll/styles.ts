@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { createGlobalStyle, styled } from 'styled-components';
 
 export const VGAContainer = styled.div`
   width: 100%;
@@ -132,4 +132,75 @@ export const VGAListItemOptionsEdit = styled(VGAListItemOptionsButton)`
 
 export const VGAListItemOptionsDelete = styled(VGAListItemOptionsButton)`
   background-color: ${props => props.theme.colors.red};
+`;
+
+export const GlobalStyles = createGlobalStyle`
+  .swal2-popup {
+    width: 400px;
+    min-height: 150px; 
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    background: white; 
+  }
+
+  .swal2-title {
+    font-size: 24px;
+    color: #333;
+    text-align: left; 
+    margin-bottom: 5px;
+  }
+
+  .swal2-input {
+    width: 340px; 
+    height: 20px;
+    border: 2px solid #3085d6; 
+    border-radius: 5px; 
+    margin-top: 8px; 
+    padding: 10px; 
+    margin-left: 1px;
+    margin-right: auto;
+    font-size: 16px;
+  }
+
+  #swal-input3 { 
+    height: 80px; 
+  }
+
+  .swal2-styled.swal2-confirm,
+  .swal2-styled.swal2-cancel {
+    width: 120px; 
+    height: 40px; 
+    background-color: #3085d6; 
+    border: none;
+    border-radius: 20px; 
+    font-size: 16px; 
+  }
+
+  .swal2-backdrop {
+    background-color: rgba(0, 0, 0, 0.8); 
+  }
+
+  .swal2-popup-delete {
+    width: 400px; 
+    height: 50px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    background: white; 
+    padding: 10px 10px; 
+}
+
+  .swal-title-delete {
+    font-size: 20px;
+    font-weight: bold; 
+    color: #333;
+    text-align: center; 
+  }
+
+  .swal2-styled.swal-confirm-button-delete,
+  .swal2-styled.swal-cancel-button-delete {
+    width: 100px; 
+    height: 35px;
+    font-size: 14px;
+    margin: 5px 10px;
+  }
 `;
