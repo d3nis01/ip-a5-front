@@ -7,7 +7,10 @@ import { mapVpnGetAllResponseToVpnArray, mapVpnResponseToVpn } from '../mappers/
 export const createVpnAccount = async (data: ICreateVpn): Promise<ICreateVpnResponse> => {
   try {
     const response = await api.post('/vpns', data);
-    return { uuid: response.data, status: response.status, statusText: response.statusText };
+    const locationHeader = response.headers['location'];
+    const segments = locationHeader.split('/');
+    const uuid = segments[segments.length - 1];
+    return { uuid: uuid, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
@@ -45,16 +48,8 @@ export const deleteVpnAccount = async (id: string): Promise<IVpnDeleteResponse> 
 
 export const updateVpnAccount = async (id: string, params: UpdateVpnParams): Promise<IVpnUpdateResponse> => {
   try {
-    const queryParams = new URLSearchParams();
-    queryParams.append('newIpAddress', params.newIpAddress);
-    if (params.newDescription) {
-      queryParams.append('newDescription', params.newDescription);
-    }
-    const response = await api.put(`/vpns/update/${id}?${queryParams}`);
-    return {
-      status: response.status,
-      statusText: response.statusText,
-    };
+    const response = await api.put(`/vpns/${id}`, params);
+    return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Failed to update Vpn account', error.response?.status || 500, error.response?.data);

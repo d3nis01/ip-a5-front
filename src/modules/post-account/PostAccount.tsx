@@ -38,6 +38,8 @@ const copyToClipboard = async (text: string) => {
 const PostAccount = (): JSX.Element => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [matricol, setMatricol] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
@@ -53,6 +55,13 @@ const PostAccount = (): JSX.Element => {
       return;
     }
     setMatricolError('');
+
+    if (confirmPassword !== password) {
+      setPasswordError('Passwords do not match');
+      return;
+    }
+
+    setPasswordError('');
 
     const requestObject: ICreateAccount = {
       username,
@@ -78,6 +87,11 @@ const PostAccount = (): JSX.Element => {
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="password">Password</AccountPostLabel>
             <AccountPostInput type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="" required />
+          </AccountPostInputWrapper>
+          <AccountPostInputWrapper>
+            <AccountPostLabel htmlFor="password">Confirm Password</AccountPostLabel>
+            <AccountPostInput type="password" id="password" name="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="" required />
+            {passwordError && <AccountInputError>Passwords do not match !</AccountInputError>}
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
             <AccountPostLabel htmlFor="email">Email</AccountPostLabel>

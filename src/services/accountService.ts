@@ -8,7 +8,10 @@ import { mapAccountResponseToAccount } from '../mappers/account-mappers';
 export const createAccount = async (accountData: ICreateAccount): Promise<ICreateAccountResponse> => {
   try {
     const response = await api.post('/accounts', accountData);
-    return { uuid: response.data, status: response.status, statusText: response.statusText };
+    const locationHeader = response.headers['location'];
+    const segments = locationHeader.split('/');
+    const uuid = segments[segments.length - 1];
+    return { uuid: uuid, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
