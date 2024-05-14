@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SGAContainer, SGAInnerContainer, SGAList, SGAListItem, SGAListItemText, SGATitle } from './styles';
+import { VGAContainer, VGAHeader, VGAHeaderColumnTitle, VGAInnerContainer, VGAList, VGAListItem, VGAListItemDescription, VGAListItemIP, VGAListItemOptions, VGAListItemOptionsDelete, VGAListItemOptionsEdit, VGAListItemUUID } from './styles';
 import { IVpn } from '../../types/IServiceTypesObjects';
 import { getAllVpnAccount } from '../../services/vpnService';
 
@@ -15,30 +15,38 @@ const VpnGetAll = (): JSX.Element => {
   }, []);
 
   return (
-    <SGAContainer>
-      <SGAInnerContainer>
-        <SGATitle>GET All Vpn</SGATitle>
-        <SGAList>
+    <VGAContainer>
+      <VGAInnerContainer>
+      <VGAHeader>
+          <VGAHeaderColumnTitle>
+            <h4>UUID</h4>
+          </VGAHeaderColumnTitle>
+          <VGAHeaderColumnTitle>
+            <h4>IPv4 Address</h4>
+          </VGAHeaderColumnTitle>
+          <VGAHeaderColumnTitle>
+            <h4>Description</h4>
+          </VGAHeaderColumnTitle>
+          <VGAHeaderColumnTitle>
+            <h4>Options</h4>
+          </VGAHeaderColumnTitle>
+        </VGAHeader>
+        <VGAList>
           {VpnArray &&
             VpnArray.map(item => (
-              <SGAListItem>
-                <SGAListItemText>
-                  <b>UUID: </b>
-                  {item.id}
-                </SGAListItemText>
-                <SGAListItemText>
-                  <b>Description: </b>
-                  {item.description}
-                </SGAListItemText>
-                <SGAListItemText>
-                  <b>iPv4Adress: </b>
-                  {item.iPv4Address}
-                </SGAListItemText>
-              </SGAListItem>
+              <VGAListItem key={item.id}>
+                <VGAListItemUUID>{item.id}</VGAListItemUUID>
+                <VGAListItemIP>{item.iPv4Address}</VGAListItemIP>
+                <VGAListItemDescription>{item.description}</VGAListItemDescription>
+                <VGAListItemOptions>
+                  <VGAListItemOptionsEdit>Edit</VGAListItemOptionsEdit>
+                  <VGAListItemOptionsDelete>Delete</VGAListItemOptionsDelete>
+                </VGAListItemOptions>
+              </VGAListItem>
             ))}
-        </SGAList>
-      </SGAInnerContainer>
-    </SGAContainer>
+        </VGAList>
+      </VGAInnerContainer>
+    </VGAContainer>
   );
 };
 
