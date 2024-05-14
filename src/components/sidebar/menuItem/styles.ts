@@ -2,8 +2,8 @@ import { styled } from 'styled-components';
 
 export const MenuItemContainer = styled.div<{ $active: boolean; $extended: boolean }>`
   width: 100%;
-  padding-top: ${props => (props.$extended ? '30px' : '10px')};
-  padding-bottom: ${props => (props.$extended ? '30px' : '10px')};
+  padding-top: ${props => (props.$extended ? '20px' : '6px')};
+  padding-bottom: ${props => (props.$extended ? '20px' : '6px')};
   padding-left: 15px;
   display: flex;
   flex-direction: row;

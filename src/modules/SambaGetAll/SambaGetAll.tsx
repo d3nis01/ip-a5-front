@@ -18,6 +18,7 @@ import { getAllSambaAccount, updateSambaAccount, deleteSambaAccount } from '../.
 import { ISamba } from '../../types/IServiceTypesObjects';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { isIPv4, isMatricol } from '../../utils/forms/inputValidators';
 
 const SambaGetAll = (): JSX.Element => {
   const [sambaArray, setSambaArray] = useState<ISamba[]>();
@@ -75,6 +76,17 @@ const SambaGetAll = (): JSX.Element => {
       preConfirm: () => {
         const newIp = (document.getElementById('swal-input2') as HTMLInputElement).value;
         const newDesc = (document.getElementById('swal-input3') as HTMLInputElement).value;
+
+        if (!isIPv4(newIp)) {
+          Swal.showValidationMessage('Invalid IP address');
+          return false;
+        }
+
+        if (newDesc.length <= 0) {
+          Swal.showValidationMessage('Invalid description format');
+          return false;
+        }
+
         return { newIp, newDesc };
       },
       customClass: {

@@ -18,6 +18,7 @@ import { IVpn } from '../../types/IServiceTypesObjects';
 import { deleteVpnAccount, getAllVpnAccount, updateVpnAccount } from '../../services/vpnService';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { isIPv4, isMatricol } from '../../utils/forms/inputValidators';
 
 const VpnGetAll = (): JSX.Element => {
   const [VpnArray, setVpnArray] = useState<IVpn[]>();
@@ -75,6 +76,17 @@ const VpnGetAll = (): JSX.Element => {
       preConfirm: () => {
         const newIp = (document.getElementById('swal-input2') as HTMLInputElement).value;
         const newDesc = (document.getElementById('swal-input3') as HTMLInputElement).value;
+
+        if (!isIPv4(newIp)) {
+          Swal.showValidationMessage('Invalid IP address');
+          return false;
+        }
+
+        if (newDesc.length <= 0) {
+          Swal.showValidationMessage('Invalid description format');
+          return false;
+        }
+
         return { newIp, newDesc };
       },
       customClass: {
@@ -86,7 +98,6 @@ const VpnGetAll = (): JSX.Element => {
     }).then(result => {
       if (result.isConfirmed && result.value) {
         updateVpnAccount(object.id, { newIpAddress: result.value.newIp, newDescription: result.value.newDesc }).then(() => {
-          // Update the state to reflect the changes
           setVpnArray(prevArray => prevArray?.map(item => (item.id === object.id ? { ...item, iPv4Address: result.value.newIp, description: result.value.newDesc } : item)));
         });
       }

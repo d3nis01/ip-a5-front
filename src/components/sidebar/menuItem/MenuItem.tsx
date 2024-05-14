@@ -10,7 +10,7 @@ type MenuItemProps = {
 const MenuItem = ({ title, extended, onClick, active }: MenuItemProps): JSX.Element => {
   return (
     <MenuItemContainer $active={active} $extended={extended} onClick={onClick}>
-      <div>{title}</div>
+      <div style={{ fontWeight: '550' }}>{title}</div>
     </MenuItemContainer>
   );
 };
