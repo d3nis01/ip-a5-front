@@ -4,6 +4,8 @@ import { SidebarBurgerButton, SidebarContainer, SidebarExtendedContainer, Sideba
 import { IMenuOption, MENU_OPTIONS } from './constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks/store-hooks';
+import { appWidthSelector } from '../../store/selectors/app-selectors';
 
 const Sidebar = (): JSX.Element => {
   const [extendNavbar, setExtendNavbar] = useState(false);
@@ -18,30 +20,22 @@ const Sidebar = (): JSX.Element => {
     }
   };
 
-  const handleBurgerClick = () => {
-    setExtendNavbar(prev => !prev);
-  };
+  const width = useAppSelector(appWidthSelector);
+
+  if (width <= 992) {
+    return <></>;
+  }
 
   return (
     <SidebarContainer $isExtended={extendNavbar}>
       <SidebarInnerContainer>
         <SidebarHeaderContainer />
-        <SidebarBurgerButton $isExtended={extendNavbar} onClick={handleBurgerClick}>
-          {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
-        </SidebarBurgerButton>
         <SidebarMenuContainer>
           {MENU_OPTIONS.map((option: IMenuOption) => (
             <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={false} onClick={() => handleNavOptions(option.route)} />
           ))}
         </SidebarMenuContainer>
       </SidebarInnerContainer>
-      {extendNavbar && (
-        <SidebarExtendedContainer>
-          {MENU_OPTIONS.map((option: IMenuOption) => (
-            <MenuItem key={option.title} active={location.pathname === option.route} title={option.title} extended={true} onClick={() => handleNavOptions(option.route)} />
-          ))}
-        </SidebarExtendedContainer>
-      )}
     </SidebarContainer>
   );
 };

@@ -21,8 +21,11 @@ import VpnGetAll from '../modules/VpnGetAll/VpnGetAll';
 import UpdateSamba from '../modules/SambaUpdate/SambaUpdate';
 import UpdateVpn from '../modules/vpnUpdate/VpnUpdate';
 import UpdateAccount from '../modules/UpdateAccount/UpdateAccount';
+import useEventListeners from '../hooks/useEventListeners';
 
 const AppRouter = (): JSX.Element => {
+  useEventListeners();
+
   return (
     <BrowserRouter>
       <Routes>
