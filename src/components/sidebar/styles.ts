@@ -84,7 +84,7 @@ export const SidebarBurgerButton = styled.button<{ $isExtended: boolean }>`
 
 export const SidebarMenuContainer = styled.div`
   width: 100%;
-  padding: 30px 0px 0px 20px;
+  padding: 30px 0px 20px 20px;
   gap: 10px;
   display: flex;
   flex-direction: column;
