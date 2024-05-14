@@ -123,6 +123,10 @@ const SGAListItemOptionsButton = styled.button`
   font-size: ${props => props.theme.fontSize.md};
   font-weight: ${props => props.theme.fontWeights.regular};
   color: ${props => props.theme.colors.white};
+
+  @media (max-width: 550px) {
+    font-size: ${props => props.theme.fontSize.sm};
+  }
 `;
 
 export const SGAListItemOptionsEdit = styled(SGAListItemOptionsButton)`
