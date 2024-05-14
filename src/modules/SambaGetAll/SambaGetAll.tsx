@@ -1,5 +1,18 @@
 import { useEffect, useState } from 'react';
-import { SGAContainer, SGAInnerContainer, SGAList, SGAListItem, SGAListItemText, SGATitle } from './styles';
+import {
+  SGAContainer,
+  SGAHeader,
+  SGAHeaderColumnTitle,
+  SGAInnerContainer,
+  SGAList,
+  SGAListItem,
+  SGAListItemDescription,
+  SGAListItemIP,
+  SGAListItemOptions,
+  SGAListItemOptionsDelete,
+  SGAListItemOptionsEdit,
+  SGAListItemUUID,
+} from './styles';
 import { getAllSambaAccount } from '../../services/sambaService';
 import { ISamba } from '../../types/IServiceTypesObjects';
 
@@ -17,23 +30,31 @@ const SambaGetAll = (): JSX.Element => {
   return (
     <SGAContainer>
       <SGAInnerContainer>
-        <SGATitle>GET All Samba</SGATitle>
+        <SGAHeader>
+          <SGAHeaderColumnTitle>
+            <h4>UUID</h4>
+          </SGAHeaderColumnTitle>
+          <SGAHeaderColumnTitle>
+            <h4>IPv4 Address</h4>
+          </SGAHeaderColumnTitle>
+          <SGAHeaderColumnTitle>
+            <h4>Description</h4>
+          </SGAHeaderColumnTitle>
+          <SGAHeaderColumnTitle>
+            <h4>Options</h4>
+          </SGAHeaderColumnTitle>
+        </SGAHeader>
         <SGAList>
           {sambaArray &&
             sambaArray.map(item => (
-              <SGAListItem>
-                <SGAListItemText>
-                  <b>UUID: </b>
-                  {item.id}
-                </SGAListItemText>
-                <SGAListItemText>
-                  <b>Description: </b>
-                  {item.description}
-                </SGAListItemText>
-                <SGAListItemText>
-                  <b>iPv4Adress: </b>
-                  {item.iPv4Address}
-                </SGAListItemText>
+              <SGAListItem key={item.id}>
+                <SGAListItemUUID>{item.id}</SGAListItemUUID>
+                <SGAListItemIP>{item.iPv4Address}</SGAListItemIP>
+                <SGAListItemDescription>{item.description}</SGAListItemDescription>
+                <SGAListItemOptions>
+                  <SGAListItemOptionsEdit>Edit</SGAListItemOptionsEdit>
+                  <SGAListItemOptionsDelete>Delete</SGAListItemOptionsDelete>
+                </SGAListItemOptions>
               </SGAListItem>
             ))}
         </SGAList>
