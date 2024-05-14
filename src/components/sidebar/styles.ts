@@ -23,6 +23,7 @@ export const SidebarContainer = styled.div<{ $isExtended: boolean }>`
     position: ${props => (props.$isExtended ? 'fixed' : 'sticky')};
     width: ${props => (props.$isExtended ? '100vw' : '80px')};
     min-height: 100vh;
+    z-index: 10;
   }
 `;
 
