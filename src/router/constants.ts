@@ -1,5 +1,7 @@
 export const ROUTE__HOME = '/';
 
+export const ROUTE_REGISTER = '/register';
+
 export const ROUTE__SAMBA_POST = '/samba-post';
 export const ROUTE__SAMBA_GET = '/samba-get';
 export const ROUTE__SAMBA_DELETE = '/samba-delete';
