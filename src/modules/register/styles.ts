@@ -1,39 +1,55 @@
 import Icon from 'react-icons-kit';
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const RegisterImage = styled.img`
-width: 50%;
-height: 100%;
-border-radius: 10px;
+  width: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  height: 100%;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 export const RegisterContainer = styled.div`
   width: 100%;
+  height: 100%;
+  min-height: 100vh;
   background-color: ${props => props.theme.colors.backgroundGray};
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 230px 30px;
+`;
 
-  @media (max-width: 550px) {
-    padding: 20px;
-  }
-  @media (max-width: 380px) {
-    padding: 15px;
-  }
+export const RegisterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  height: 700px;
 `;
 
 export const RegisterInnerContainer = styled.div`
   background-color: ${props => props.theme.colors.white};
-  width: 100%;
+  transform: translateX(-50px);
+  width: 600px;
   height: 100%;
   border-radius: 20px;
-  padding: 50px 20px 100px 40px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 
+  @media (max-width: 1000px) {
+    transform: translateX(0);
+  }
+
+  @media (max-width: 630px) {
+    margin: 10px 0;
+    width: 100%;
+  }
   @media (max-width: 550px) {
     padding: 20px;
   }
@@ -77,7 +93,8 @@ export const RegisterInput = styled.input`
 `;
 
 export const RegisterSubmitButton = styled.button`
-  padding: 11px 217px 10px 200px;
+  width: 100%;
+  height: 40px;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
   border: none;
@@ -167,10 +184,10 @@ export const EyeButton = styled.button`
   cursor: pointer;
   padding: 0;
   margin: 0;
-  position: absolute; 
-  top: 50%; 
-  right: 10px; 
-  transform: translateY(3%); 
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(3%);
 `;
 
 export const EyeIcon = styled(Icon)`
@@ -179,8 +196,8 @@ export const EyeIcon = styled(Icon)`
 `;
 
 export const LoginPageLink = styled.div`
-  color: ${props => props.theme.colors.primaryPurple}; 
-  cursor: pointer; 
+  color: ${props => props.theme.colors.primaryPurple};
+  cursor: pointer;
   font-size: 16px;
   padding: 5px 0 20px 10px;
 `;

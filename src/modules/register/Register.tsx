@@ -1,34 +1,28 @@
 import React, { useState } from 'react';
-import {eyeOff} from 'react-icons-kit/feather/eyeOff';
-import {eye} from 'react-icons-kit/feather/eye';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import { eye } from 'react-icons-kit/feather/eye';
 import { Link } from 'react-router-dom';
 
-import { RegisterTitle,
+import {
+  RegisterTitle,
   RegisterForm,
   RegisterLabel,
   RegisterInput,
   RegisterSubmitButton,
-  RegisterResponseSection,
-  ResponseLabel,
-  ResponseValue,
-  RequestResponseLabel,
   RegisterContainer,
   RegisterInnerContainer,
   RegisterInputWrapper,
-  RegisterResponseWrapper,
-  RegisterResponseItemWrapper,
-  RegisterResponseValueContainer,
   RegisterInputError,
   RegisterImage,
   EyeButton,
   EyeIcon,
   LoginPageLink,
+  RegisterWrapper,
 } from '../register/styles';
-
+import myImg from './assets/wallpaper.jpg';
 import { createAccount } from '../../services/accountService';
 import { ICreateAccount, ICreateAccountResponse } from '../../types/IServiceTypesRequests';
 import { isMatricol } from '../../utils/forms/inputValidators';
-
 
 const Register = (): JSX.Element => {
   const [username, setUsername] = useState<string>('');
@@ -75,57 +69,75 @@ const Register = (): JSX.Element => {
   };
 
   const handleToggle = () => {
-    if (type==='password'){
-       setIcon(eye);
-       setType('text')
+    if (type === 'password') {
+      setIcon(eye);
+      setType('text');
     } else {
-       setIcon(eyeOff)
-       setType('password')
+      setIcon(eyeOff);
+      setType('password');
     }
- }
+  };
 
- const handleToggleConfirm = () => {
-  if (type==='password'){
-     setIcon(eye);
-     setType2('text')
-  } else {
-     setIcon(eyeOff)
-     setType2('password')
-  }
-}
-  
+  const handleToggleConfirm = () => {
+    if (type === 'password') {
+      setIcon(eye);
+      setType2('text');
+    } else {
+      setIcon(eyeOff);
+      setType2('password');
+    }
+  };
+
   return (
     <RegisterContainer>
-       <RegisterImage src="/src/modules/register/assets/wallpaper.jpg" alt="Register Image" />
-      <RegisterInnerContainer>
-        <RegisterTitle>Register</RegisterTitle>
-        <RegisterForm onSubmit={handleSubmit}>
-          <RegisterInputWrapper>
-            <RegisterLabel htmlFor="email">Email</RegisterLabel>
-            <RegisterInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@example.com" required />
-          </RegisterInputWrapper>
-          <RegisterInputWrapper>
-            <RegisterLabel htmlFor="matricol">Registration number</RegisterLabel>
-            <RegisterInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="310RSL123123123123" required />
-            {matricolError && <RegisterInputError>Matricol is not valid!</RegisterInputError>}
-          </RegisterInputWrapper>
-          <RegisterInputWrapper>
-            <RegisterLabel htmlFor="password">Password</RegisterLabel>
-            <RegisterInput type={type} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
-            <EyeButton onClick={handleToggle}><EyeIcon icon={icon} size={24} /></EyeButton>
-          </RegisterInputWrapper>
-          <RegisterInputWrapper>
-            <RegisterLabel htmlFor="confirmpassword">Confirm Password</RegisterLabel>
-            <RegisterInput type={type} id="confirmpassword" name="confirmpassword" value={confirmpassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="************" required />
-            <EyeButton onClick={handleToggleConfirm}><EyeIcon icon={icon} size={24} /></EyeButton>
-          </RegisterInputWrapper>
-          <LoginPageLink><Link to="/login-page">Already have an account?</Link></LoginPageLink>
-          <RegisterSubmitButton type="submit">Register</RegisterSubmitButton>
+      <RegisterWrapper>
+        <RegisterImage src={myImg} alt="Register Image" />
+        <RegisterInnerContainer>
+          <RegisterTitle>Register</RegisterTitle>
+          <RegisterForm onSubmit={handleSubmit}>
+            <RegisterInputWrapper>
+              <RegisterLabel htmlFor="email">Email</RegisterLabel>
+              <RegisterInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@example.com" required />
+            </RegisterInputWrapper>
+            <RegisterInputWrapper>
+              <RegisterLabel htmlFor="matricol">Registration number</RegisterLabel>
+              <RegisterInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="310RSL123123123123" required />
+              {matricolError && <RegisterInputError>Matricol is not valid!</RegisterInputError>}
+            </RegisterInputWrapper>
+            <RegisterInputWrapper>
+              <RegisterLabel htmlFor="password">Password</RegisterLabel>
+              <RegisterInput type={type} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
+              <EyeButton onClick={handleToggle}>
+                <EyeIcon icon={icon} size={24} />
+              </EyeButton>
+            </RegisterInputWrapper>
+            <RegisterInputWrapper>
+              <RegisterLabel htmlFor="confirmpassword">Confirm Password</RegisterLabel>
+              <RegisterInput
+                type={type}
+                id="confirmpassword"
+                name="confirmpassword"
+                value={confirmpassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                placeholder="************"
+                required
+              />
+              <EyeButton onClick={handleToggleConfirm}>
+                <EyeIcon icon={icon} size={24} />
+              </EyeButton>
+            </RegisterInputWrapper>
+            <LoginPageLink>
+              <Link to="/login-page">Already have an account?</Link>
+            </LoginPageLink>
+            <RegisterSubmitButton type="submit">Register</RegisterSubmitButton>
           </RegisterForm>
           {isFormSubmitted && (
-           <LoginPageLink>You have successfully registered. You can now <Link to="/login-page">login</Link></LoginPageLink>
-        )}
-      </RegisterInnerContainer>
+            <LoginPageLink>
+              You have successfully registered. You can now <Link to="/login-page">login</Link>
+            </LoginPageLink>
+          )}
+        </RegisterInnerContainer>
+      </RegisterWrapper>
     </RegisterContainer>
   );
 };

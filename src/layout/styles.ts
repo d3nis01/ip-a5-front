@@ -7,6 +7,15 @@ export const LayoutContainer = styled.div`
   min-height: 100vh;
 `;
 
+export const LayoutLoginContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const LayoutCenterContainer = styled.div`
   display: flex;
   flex-direction: column;

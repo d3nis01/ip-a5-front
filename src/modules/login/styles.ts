@@ -2,37 +2,54 @@ import Icon from 'react-icons-kit';
 import { styled } from 'styled-components';
 
 export const LoginImage = styled.img`
-width: 50%;
-height: 100%;
-border-radius: 10px;
+  width: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  height: 100%;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 export const LoginContainer = styled.div`
   width: 100%;
+  height: 100%;
+  min-height: 100vh;
   background-color: ${props => props.theme.colors.backgroundGray};
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 230px;
+`;
 
-  @media (max-width: 550px) {
-    padding: 20px;
-  }
-  @media (max-width: 380px) {
-    padding: 15px;
-  }
+export const LoginWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  width: 100%;
+  height: 550px;
 `;
 
 export const LoginInnerContainer = styled.div`
   background-color: ${props => props.theme.colors.white};
-  width: 100%;
+  transform: translateX(-50px);
+  width: 500px;
   height: 100%;
   border-radius: 20px;
-  padding: 50px 20px 100px 40px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 
+  @media (max-width: 1000px) {
+    transform: translateX(0);
+  }
+
+  @media (max-width: 630px) {
+    margin: 10px 0;
+    width: 100%;
+  }
   @media (max-width: 550px) {
     padding: 20px;
   }
@@ -87,14 +104,12 @@ export const LoginSubmitButton = styled.button`
   align-self: center;
 `;
 
-
 export const LoginInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
 `;
-
 
 export const LoginResponseItemWrapper = styled.div`
   display: flex;
@@ -125,10 +140,10 @@ export const EyeButton = styled.button`
   cursor: pointer;
   padding: 0;
   margin: 0;
-  position: absolute; 
-  top: 50%; 
-  right: 10px; 
-  transform: translateY(3%); 
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(3%);
 `;
 
 export const EyeIcon = styled(Icon)`
@@ -145,8 +160,8 @@ export const LoginRememberWrrapper = styled.div`
   color: ${props => props.theme.colors.textPrimary};
 `;
 export const ForgotPasswordLink = styled.a`
-  color: ${props => props.theme.colors.primaryPurple}; 
-  cursor: pointer; 
+  color: ${props => props.theme.colors.primaryPurple};
+  cursor: pointer;
   font-size: 16px;
   padding-left: 320px;
   text-decoration: none;
