@@ -14,3 +14,11 @@ export const isMatricol = (matricol: string): boolean => {
   const matricolRegex = new RegExp('^[0-9]{9}[A-Z]{3}[0-9]{6}$');
   return matricolRegex.test(matricol);
 };
+
+
+export const isEmail = (email : string): boolean => {
+  const emailRegex = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i');
+  return emailRegex.test(email);
+};
+
+

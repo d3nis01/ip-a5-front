@@ -1,6 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import Home from '../modules/home/Home';
+import Register from '../modules/register/Register';
+import { ROUTE_REGISTER } from './constants';
+import Login from '../modules/login/Login';
+import { ROUTE_LOGIN } from './constants';
 import GetAccount from '../modules/GetAccount/GetAccount';
 import { ROUTE__ACCOUNTE_UPDATE, ROUTE__ACCOUNT_GET } from './constants';
 import GetVpn from '../modules/GetVpn/GetVpn';
@@ -22,12 +26,16 @@ import UpdateSamba from '../modules/SambaUpdate/SambaUpdate';
 import UpdateVpn from '../modules/vpnUpdate/VpnUpdate';
 import UpdateAccount from '../modules/UpdateAccount/UpdateAccount';
 
+
+
 const AppRouter = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path={ROUTE_REGISTER} element={<Register/>}/>
+          <Route path={ROUTE_LOGIN} element={<Login/>}/>
           <Route path={ROUTE__ACCOUNT_GET} element={<GetAccount />} />
           <Route path={ROUTE__VPN_GET} element={<GetVpn />} />
           <Route path={ROUTE__SAMBA_GET} element={<GetSamba />} />

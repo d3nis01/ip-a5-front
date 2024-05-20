@@ -1,25 +1,11 @@
+import Icon from 'react-icons-kit';
 import { styled } from 'styled-components';
-import wallpaper from './assets/wallpaper.jpg';
+import { Link } from 'react-router-dom';
 
-
-export const RegisterImageContainer = styled.img.attrs({
-  src: wallpaper,
-})`
-  width: 50%;
-
-  font-size: ${props => props.theme.fontSize.xxl};
-  font-weight: ${props => props.theme.fontWeights.bold};
-
-  padding: 30px 0px 0px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-
-  @media (max-width: 992px) {
-    display: none;
-    visibility: hidden;
-  }
+export const RegisterImage = styled.img`
+width: 50%;
+height: 100%;
+border-radius: 10px;
 `;
 
 export const RegisterContainer = styled.div`
@@ -28,7 +14,7 @@ export const RegisterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 80px 230px 30px;
 
   @media (max-width: 550px) {
     padding: 20px;
@@ -43,7 +29,7 @@ export const RegisterInnerContainer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  padding: 40px;
+  padding: 50px 20px 100px 40px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -57,7 +43,7 @@ export const RegisterInnerContainer = styled.div`
 `;
 
 export const RegisterTitle = styled.h1`
-  font-size: ${props => props.theme.fontSize.gig};
+  font-size: 30px;
   color: ${props => props.theme.colors.textPrimary};
   text-align: left;
   font-weight: ${props => props.theme.fontWeights.bold};
@@ -91,15 +77,15 @@ export const RegisterInput = styled.input`
 `;
 
 export const RegisterSubmitButton = styled.button`
-  padding: 10px 20px;
+  padding: 11px 217px 10px 200px;
   background-color: ${props => props.theme.colors.primaryPurple};
   color: ${props => props.theme.colors.white};
   border: none;
   font-weight: ${props => props.theme.fontWeights.bold};
-  border-radius: 25px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  align-self: flex-end;
+  align-self: center;
 `;
 
 export const RegisterResponseSection = styled.section`
@@ -138,32 +124,11 @@ export const RequestResponseLabel = styled.h2`
   }
 `;
 
-export const CopyButton = styled.button`
-  background-color: ${props => props.theme.colors.primaryPurple};
-  color: white;
-  border: none;
-  border-radius: 15px;
-  font-weight: ${props => props.theme.fontWeights.bold};
-  padding: 6px 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 14px;
-`;
-
 export const RegisterInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-`;
-
-export const RegisterTextarea = styled.textarea`
-  padding: 10px;
-  border: 2px solid ${props => props.theme.colors.primaryPurple};
-  border-radius: 5px;
-  font-size: 16px;
-  width: 100%;
-  resize: none;
-  min-height: 100px;
+  position: relative;
 `;
 
 export const RegisterResponseWrapper = styled.div`
@@ -194,4 +159,28 @@ export const RegisterInputError = styled.div`
   font-weight: ${props => props.theme.fontWeights.bold};
   margin-top: 5px;
   text-align: left;
+`;
+
+export const EyeButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  position: absolute; 
+  top: 50%; 
+  right: 10px; 
+  transform: translateY(3%); 
+`;
+
+export const EyeIcon = styled(Icon)`
+  color: ${props => props.theme.colors.primaryPurple};
+  cursor: pointer;
+`;
+
+export const LoginPageLink = styled.div`
+  color: ${props => props.theme.colors.primaryPurple}; 
+  cursor: pointer; 
+  font-size: 16px;
+  padding: 5px 0 20px 10px;
 `;
