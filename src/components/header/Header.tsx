@@ -8,3 +8,5 @@ export const Header = (): JSX.Element => {
 
   return <HeaderContainer>{width <= 992 && <ModalMobile />}</HeaderContainer>;
 };
+
+export default Header;

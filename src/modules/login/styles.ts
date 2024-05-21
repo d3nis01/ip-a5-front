@@ -163,6 +163,6 @@ export const ForgotPasswordLink = styled.a`
   color: ${props => props.theme.colors.primaryPurple};
   cursor: pointer;
   font-size: 16px;
-  padding-left: 320px;
+  align-self: flex-end;
   text-decoration: none;
 `;
