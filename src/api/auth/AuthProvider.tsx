@@ -55,12 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const handleRegister = async (registerCredentials: IRegisterCredentials) => {
     try {
       const data = await register(registerCredentials);
-      if (data.token) {
-        setToken(data.token);
-        Cookies.set('token', data.token, { expires: 7 });
-        const parsedToken = JSON.parse(atob(data.token.split('.')[1]));
-        console.log('Parsed Token after register:', parsedToken);
-        setUser({ username: parsedToken.unique_name, email: '' });
+      if (data) {
       } else {
         throw new Error('Registration did not return a token');
       }
