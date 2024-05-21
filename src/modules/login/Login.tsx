@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
-
 import {
   LoginTitle,
   LoginForm,
@@ -14,57 +13,51 @@ import {
   LoginImage,
   EyeButton,
   EyeIcon,
-  LoginRememberWrrapper,
   ForgotPasswordLink,
   LoginWrapper,
+  LoginInputError,
 } from '../login/styles';
-
-import { createAccount } from '../../services/accountService';
-import { ICreateAccount, ICreateAccountResponse } from '../../types/IServiceTypesRequests';
-import { isMatricol } from '../../utils/forms/inputValidators';
+import { useAuth } from '../../api/auth/AuthProvider';
 import myImg from './assets/wallpaper.jpg';
+import { ILoginCredentials } from '../../types/auth/AuthTypes';
+import { LoginPageLink } from '../register/styles';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE_REGISTER, ROUTE__HOME } from '../../router/constants';
 
 const Login = (): JSX.Element => {
+  const { handleLogin } = useAuth();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [type, setType] = useState('password');
-  const [icon, setIcon] = useState(eyeOff);
-  const [email, setEmail] = useState<string>('');
-  const [matricol, setMatricol] = useState<string>('');
+  const [passwordType, setPasswordType] = useState<string>('password');
+  const [loginError, setLoginError] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [LoginResponse, setResponse] = useState<ICreateAccountResponse>();
-  const [matricolError, setMatricolError] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isMatricol(matricol) === false) {
-      setMatricolError('Matricol is not valid');
-      console.error('Matricol is not valid');
-      return;
-    }
-    setMatricolError('');
-
-    const requestObject: ICreateAccount = {
+    const loginCredentials: ILoginCredentials = {
       username,
       password,
-      email,
-      matricol,
     };
 
-    const response = await createAccount(requestObject);
-    setResponse(response);
-    setIsFormSubmitted(true);
+    try {
+      await handleLogin(loginCredentials);
+      setIsFormSubmitted(true);
+      navigate(ROUTE__HOME);
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        const { message } = error.response.data;
+        setLoginError(message);
+      } else {
+        setLoginError('Login failed');
+      }
+      console.error('Login failed', error);
+    }
   };
 
-  const handleToggle = () => {
-    if (type === 'password') {
-      setIcon(eye);
-      setType('text');
-    } else {
-      setIcon(eyeOff);
-      setType('password');
-    }
+  const handleTogglePassword = () => {
+    setPasswordType(passwordType === 'password' ? 'text' : 'password');
   };
 
   return (
@@ -75,25 +68,27 @@ const Login = (): JSX.Element => {
           <LoginTitle>Nice to see you again</LoginTitle>
           <LoginForm onSubmit={handleSubmit}>
             <LoginInputWrapper>
-              <LoginLabel htmlFor="email">Email</LoginLabel>
-              <LoginInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@example.com" required />
+              <LoginLabel htmlFor="username">Username</LoginLabel>
+              <LoginInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
             </LoginInputWrapper>
             <LoginInputWrapper>
               <LoginLabel htmlFor="password">Password</LoginLabel>
-              <LoginInput type={type} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
-              <EyeButton onClick={handleToggle}>
-                <EyeIcon icon={icon} size={24} />
+              <LoginInput type={passwordType} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
+              <EyeButton type="button" onClick={handleTogglePassword}>
+                <EyeIcon icon={passwordType === 'password' ? eyeOff : eye} size={24} />
               </EyeButton>
             </LoginInputWrapper>
 
-            <LoginRememberWrrapper>
+            {/* <LoginRememberWrapper>
               <input type="checkbox" id="rememberMe" name="rememberMe" />
               <label htmlFor="rememberMe">Remember me</label>
-            </LoginRememberWrrapper>
-            <ForgotPasswordLink>Forgot password?</ForgotPasswordLink>
+            </LoginRememberWrapper> */}
+            <ForgotPasswordLink onClick={() => navigate(ROUTE_REGISTER)}>Don't have an account?</ForgotPasswordLink>
 
+            {loginError && <LoginInputError>{loginError}</LoginInputError>}
             <LoginSubmitButton type="submit">SignIn</LoginSubmitButton>
           </LoginForm>
+          {isFormSubmitted && <LoginPageLink>You have successfully logged in.</LoginPageLink>}
         </LoginInnerContainer>
       </LoginWrapper>
     </LoginContainer>

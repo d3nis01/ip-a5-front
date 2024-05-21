@@ -126,14 +126,6 @@ export const LoginResponseValueContainer = styled.div`
   align-items: center;
 `;
 
-export const LoginInputError = styled.div`
-  color: ${props => props.theme.colors.red};
-  font-size: 14px;
-  font-weight: ${props => props.theme.fontWeights.bold};
-  margin-top: 5px;
-  text-align: left;
-`;
-
 export const EyeButton = styled.button`
   background: none;
   border: none;
@@ -165,4 +157,12 @@ export const ForgotPasswordLink = styled.a`
   font-size: 16px;
   align-self: flex-end;
   text-decoration: none;
+`;
+
+export const LoginInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
 `;
