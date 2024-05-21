@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IAccount } from '../types/IServiceTypesObjects';
+
 import CustomError from '../utils/CustomError';
 import api from './api';
 import { IAccountDeleteResponse, IAccountGetResponse, IAccountUpdateResponse, ICreateAccount, ICreateAccountResponse, UpdateAccountParams } from '../types/IServiceTypesRequests';

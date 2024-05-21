@@ -13,6 +13,8 @@ import {
   ROUTE__VPN_GET_ALL,
   ROUTE__VPN_POST,
   ROUTE__VPN_UPDATE,
+  ROUTE_REGISTER,
+  ROUTE_LOGIN,
 } from '../../router/constants';
 
 export interface IMenuOption {
@@ -21,6 +23,14 @@ export interface IMenuOption {
 }
 
 export const MENU_OPTIONS: IMenuOption[] = [
+  {
+    title: 'Register',
+    route: ROUTE_REGISTER,
+  },
+  {
+    title: 'Login',
+    route: ROUTE_LOGIN,
+  },
   {
     title: 'Account GET',
     route: ROUTE__ACCOUNT_GET,
