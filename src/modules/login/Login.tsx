@@ -18,7 +18,7 @@ import {
   LoginInputError,
 } from '../login/styles';
 import { useAuth } from '../../api/auth/AuthProvider';
-import myImg from './assets/wallpaper.jpg';
+import myImg from './assets/wallpaper2.jpg';
 import { ILoginCredentials } from '../../types/auth/AuthTypes';
 import { LoginPageLink } from '../register/styles';
 import { useNavigate } from 'react-router-dom';
@@ -68,11 +68,11 @@ const Login = (): JSX.Element => {
           <LoginTitle>Nice to see you again</LoginTitle>
           <LoginForm onSubmit={handleSubmit}>
             <LoginInputWrapper>
-              <LoginLabel htmlFor="username">Username</LoginLabel>
+              <LoginLabel htmlFor="username">Username*</LoginLabel>
               <LoginInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
             </LoginInputWrapper>
             <LoginInputWrapper>
-              <LoginLabel htmlFor="password">Password</LoginLabel>
+              <LoginLabel htmlFor="password">Password*</LoginLabel>
               <LoginInput type={passwordType} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
               <EyeButton type="button" onClick={handleTogglePassword}>
                 <EyeIcon icon={passwordType === 'password' ? eyeOff : eye} size={24} />
@@ -86,7 +86,7 @@ const Login = (): JSX.Element => {
             <ForgotPasswordLink onClick={() => navigate(ROUTE_REGISTER)}>Don't have an account?</ForgotPasswordLink>
 
             {loginError && <LoginInputError>{loginError}</LoginInputError>}
-            <LoginSubmitButton type="submit">SignIn</LoginSubmitButton>
+            <LoginSubmitButton type="submit">Sign In</LoginSubmitButton>
           </LoginForm>
           {isFormSubmitted && <LoginPageLink>You have successfully logged in.</LoginPageLink>}
         </LoginInnerContainer>
