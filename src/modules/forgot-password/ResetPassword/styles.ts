@@ -97,20 +97,42 @@ export const RPLabel = styled.label`
   }
 `;
 
+export const RPInputField = styled.div`
+  position: relative;
+`;
+
 export const RPInput = styled.input<{ $invalid: boolean }>`
   padding: 10px;
-  border: 2px solid ${props => !props.$invalid ? props.theme.colors.primaryPurple : props.theme.colors.red};
+  border: 2px solid ${props => (!props.$invalid ? props.theme.colors.primaryPurple : props.theme.colors.red)};
   border-radius: 5px;
   width: 100%;
   font-size: ${props => props.theme.fontSize.md};
 
   &:focus {
     outline: none;
-  };
+  }
 
   @media (max-width: 550px) {
     font-size: ${props => props.theme.fontSize.sm};
   }
+`;
+
+export const EyeButton = styled.button`
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  transform: translateY(3%);
+`;
+
+export const EyeIcon = styled(Icon)`
+  color: ${props => props.theme.colors.primaryPurple};
+  cursor: pointer;
 `;
 
 export const RPSubmitButton = styled.button`
@@ -140,23 +162,3 @@ export const RPInputError = styled.div`
     font-size: ${props => props.theme.fontSize.xs};
   }
 `;
-
-export const EyeButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(3%);
-`;
-
-export const EyeIcon = styled(Icon)`
-  color: ${props => props.theme.colors.primaryPurple};
-  cursor: pointer;
-`;
-
-
-
