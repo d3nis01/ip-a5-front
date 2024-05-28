@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  CRCTitle,
-  CRCForm,
-  CRCLabel,
-  CRCInput,
-  CRCSubmitButton,
-  CRCContainer,
-  CRCInnerContainer,
-  CRCInputWrapper,
-  CRCInputError,
-  CRCImage,
-  CRCWrapper,
-} from './styles';
-import myImg from '../../assets/wallpaper.jpg';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, CRCInnerContainer, CRCInputWrapper, CRCInputError, CRCImage, CRCWrapper } from './styles';
+import myImg from '../assets/wallpaper.jpg';
 // import { checkRecoveryCode } from '../../services/accountService';
-import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../../types/IServiceTypesRequests';
-import { isRecoveryCode } from '../../../../utils/forms/inputValidators';
-import {ROUTE__RESET_PASSWORD } from '../../../router/constants';
+import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
+import { isRecoveryCode } from '../../../utils/forms/inputValidators';
+import { ROUTE__RESET_PASSWORD } from '../../../router/constants';
 
 const CheckRecoveryCode = (): JSX.Element => {
   const [code, setCode] = useState<string>('');
@@ -28,6 +16,7 @@ const CheckRecoveryCode = (): JSX.Element => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,8 +43,10 @@ const CheckRecoveryCode = (): JSX.Element => {
 
     if (response.status === 200) {
       setResponseError(false);
-      console.log("Go to reset password page!");
-      // navigate(ROUTE__RESET_PASSWORD);
+      console.log('Go to reset password page!');
+      const userEmail: string = location.state.email;
+      console.log('User email:', userEmail);
+      navigate(ROUTE__RESET_PASSWORD, { state: { email: userEmail } });
     } else {
       setResponseError(true);
       setResponseErrorMessage(response.statusText);
@@ -68,13 +59,13 @@ const CheckRecoveryCode = (): JSX.Element => {
   return (
     <CRCContainer>
       <CRCWrapper>
-        <CRCImage src={myImg} alt="Register Image" />
+        <CRCImage src={myImg} alt="Check Recovery Code Image" />
         <CRCInnerContainer>
           <CRCTitle>Check Recovery Code</CRCTitle>
           <CRCForm onSubmit={handleSubmit}>
             <CRCInputWrapper>
-              <CRCLabel htmlFor="email">Enter Recovery Code</CRCLabel>
-              <CRCInput type="text" id="email" name="email" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="123456" />
+              <CRCLabel htmlFor="code">Enter Recovery Code</CRCLabel>
+              <CRCInput type="text" id="code" name="code" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="123456" />
               {!isCodeValid && <CRCInputError>{codeError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>

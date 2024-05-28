@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  SRCTitle,
-  SRCForm,
-  SRCLabel,
-  SRCInput,
-  SRCSubmitButton,
-  SRCContainer,
-  SRCInnerContainer,
-  SRCInputWrapper,
-  SRCInputError,
-  SRCImage,
-  SRCWrapper,
-} from './styles';
+import { SRCTitle, SRCForm, SRCLabel, SRCInput, SRCSubmitButton, SRCContainer, SRCInnerContainer, SRCInputWrapper, SRCInputError, SRCImage, SRCWrapper } from './styles';
 import myImg from '../assets/wallpaper.jpg';
 // import { sendRecoveryCode } from '../../services/accountService';
 import { AccountSendRecoveryCodeParams, IAccountSendRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
@@ -54,8 +42,8 @@ const SendRecoveryCode = (): JSX.Element => {
 
     if (response.status === 200) {
       setResponseError(false);
-      console.log("Recovery code sent successfully!");
-      navigate(ROUTE__CHECK_RECOVERY_CODE);
+      console.log('Recovery code sent successfully!');
+      navigate(ROUTE__CHECK_RECOVERY_CODE, { state: { email: email } });
     } else {
       setResponseError(true);
       setResponseErrorMessage(response.statusText);
@@ -68,7 +56,7 @@ const SendRecoveryCode = (): JSX.Element => {
   return (
     <SRCContainer>
       <SRCWrapper>
-        <SRCImage src={myImg} alt="Register Image" />
+        <SRCImage src={myImg} alt="Send Recovery Code Image" />
         <SRCInnerContainer>
           <SRCTitle>Send Recovery Code</SRCTitle>
           <SRCForm onSubmit={handleSubmit}>
