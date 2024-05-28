@@ -27,7 +27,7 @@ const ResetPassword = (): JSX.Element => {
     event.preventDefault();
     setIsUploading(true);
     if (password !== confirmPassword) {
-      console.error('Passwords do not match');
+      console.log('Passwords do not match');
       setPasswordError('Passwords do not match!');
       setIsUploading(false);
       return;
@@ -74,13 +74,13 @@ const ResetPassword = (): JSX.Element => {
           <CRCForm onSubmit={handleSubmit}>
             <CRCInputWrapper>
               <CRCLabel htmlFor="new-password">Enter New Password</CRCLabel>
-              <CRCInput type={type} id="new-password" name="new-password" $invalid={false} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter new password" />
+              <CRCInput type={type} id="new-password" name="new-password" $invalid={passwordError.length > 0} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter new password" />
               {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCInputWrapper>
               <CRCLabel htmlFor="confirm-password">Confirm New Password</CRCLabel>
-              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={false} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm new password" />
-              {password && <CRCInputError>{passwordError}</CRCInputError>}
+              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={passwordError.length > 0} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm new password" />
+              {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>
               Reset
