@@ -109,7 +109,7 @@ const UpdateAccount = (): JSX.Element => {
             {confirmPasswordError && <AccountInputError>{confirmPasswordError}</AccountInputError>}
           </AccountUpdateInputWrapper>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="email">New Email</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="email">New Email*</AccountUpdateLabel>
             <AccountUpdateInput type="email" id="email" name="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="" required />
           </AccountUpdateInputWrapper>
 

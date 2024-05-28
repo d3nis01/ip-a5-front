@@ -76,17 +76,17 @@ const UpdateSamba = (): JSX.Element => {
         </SambaTitle>
         <SambaForm onSubmit={handleSubmit}>
           <InputWrapper>
-            <SambaLabel htmlFor="uuid">UUID</SambaLabel>
+            <SambaLabel htmlFor="uuid">UUID*</SambaLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
           </InputWrapper>
           <InputWrapper>
-            <SambaLabel htmlFor="newIpAddress">New IP Address</SambaLabel>
+            <SambaLabel htmlFor="newIpAddress">New IP Address*</SambaLabel>
             <UUIDInput id="newIpAddress" type="text" value={newIpAddress} onChange={e => setNewIpAddress(e.target.value)} placeholder="192.168.1.1" />
             {ipError && <SambaInputError>Invalid IP adress!</SambaInputError>}
           </InputWrapper>
           <InputWrapper>
-            <SambaLabel htmlFor="newDescription">New Description</SambaLabel>
+            <SambaLabel htmlFor="newDescription">New Description*</SambaLabel>
             <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" />
           </InputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
