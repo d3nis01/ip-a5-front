@@ -23,6 +23,7 @@ import { createAccount } from '../../services/accountService';
 import { ICreateAccount, ICreateAccountResponse } from '../../types/IServiceTypesRequests';
 import { isMatricol } from '../../utils/forms/inputValidators';
 import myImg from './assets/wallpaper.jpg';
+import { ROUTE__SEND_RECOVERY_CODE } from '../../router/constants';
 
 const Login = (): JSX.Element => {
   const [username, setUsername] = useState<string>('');
@@ -90,7 +91,7 @@ const Login = (): JSX.Element => {
               <input type="checkbox" id="rememberMe" name="rememberMe" />
               <label htmlFor="rememberMe">Remember me</label>
             </LoginRememberWrrapper>
-            <ForgotPasswordLink>Forgot password?</ForgotPasswordLink>
+            <ForgotPasswordLink to={ROUTE__SEND_RECOVERY_CODE}>Forgot password?</ForgotPasswordLink>
 
             <LoginSubmitButton type="submit">SignIn</LoginSubmitButton>
           </LoginForm>

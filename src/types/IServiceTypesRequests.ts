@@ -34,8 +34,17 @@ export interface IAccountSendRecoveryCodeResponse {
   statusText: string;
 }
 
+export interface IAccountCheckRecoveryCodeResponse {
+  status: number;
+  statusText: string;
+}
+
 export interface AccountSendRecoveryCodeParams {
   email: string;
+}
+
+export interface AccountCheckRecoveryCodeParams {
+  code: string;
 }
 
 export interface UpdateAccountParams {
