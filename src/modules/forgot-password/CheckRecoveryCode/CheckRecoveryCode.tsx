@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, CRCInnerContainer, CRCInputWrapper, CRCInputError, CRCImage, CRCWrapper } from './styles';
 import myImg from '../assets/wallpaper.jpg';
-// import { checkRecoveryCode } from '../../services/accountService';
 import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
 import { ROUTE__RESET_PASSWORD } from '../../../router/constants';
 import { isRecoveryCode } from '../../../utils/inputValidators';
