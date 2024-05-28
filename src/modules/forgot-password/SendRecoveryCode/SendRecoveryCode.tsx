@@ -4,8 +4,8 @@ import { SRCTitle, SRCForm, SRCLabel, SRCInput, SRCSubmitButton, SRCContainer, S
 import myImg from '../assets/wallpaper.jpg';
 // import { sendRecoveryCode } from '../../services/accountService';
 import { AccountSendRecoveryCodeParams, IAccountSendRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
-import { isEmail } from '../../../utils/forms/inputValidators';
 import { ROUTE__CHECK_RECOVERY_CODE } from '../../../router/constants';
+import { isEmail } from '../../../utils/inputValidators';
 
 const SendRecoveryCode = (): JSX.Element => {
   const [email, setEmail] = useState<string>('');

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getItem } from './storage-service';
+import { getItem } from '../services/storage-service';
 
 const API_BASE_URL = 'http://localhost:5263/api/v1';
 

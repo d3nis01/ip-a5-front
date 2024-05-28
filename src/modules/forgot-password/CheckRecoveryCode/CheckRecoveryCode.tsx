@@ -4,8 +4,8 @@ import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, C
 import myImg from '../assets/wallpaper.jpg';
 // import { checkRecoveryCode } from '../../services/accountService';
 import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
-import { isRecoveryCode } from '../../../utils/forms/inputValidators';
 import { ROUTE__RESET_PASSWORD } from '../../../router/constants';
+import { isRecoveryCode } from '../../../utils/inputValidators';
 
 const CheckRecoveryCode = (): JSX.Element => {
   const [code, setCode] = useState<string>('');

@@ -4,7 +4,7 @@ import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, C
 import myImg from '../assets/wallpaper.jpg';
 // import { checkRecoveryCode } from '../../services/accountService';
 import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
-import { isRecoveryCode } from '../../../utils/forms/inputValidators';
+import { isRecoveryCode } from '../../../utils/inputValidators';
 import { ROUTE_LOGIN } from '../../../router/constants';
 
 const ResetPassword = (): JSX.Element => {
@@ -64,12 +64,28 @@ const ResetPassword = (): JSX.Element => {
           <CRCForm onSubmit={handleSubmit}>
             <CRCInputWrapper>
               <CRCLabel htmlFor="new-password">Enter New Password</CRCLabel>
-              <CRCInput type={type} id="new-password" name="new-password" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="Enter new password" />
+              <CRCInput
+                type={type}
+                id="new-password"
+                name="new-password"
+                $invalid={!isCodeValid}
+                value={code}
+                onChange={e => setCode(e.target.value)}
+                placeholder="Enter new password"
+              />
               {!isCodeValid && <CRCInputError>{codeError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCInputWrapper>
               <CRCLabel htmlFor="confirm-password">Confirm New Password</CRCLabel>
-              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="Confirm new password" />
+              <CRCInput
+                type={type}
+                id="confirm-password"
+                name="confirm-password"
+                $invalid={!isCodeValid}
+                value={code}
+                onChange={e => setCode(e.target.value)}
+                placeholder="Confirm new password"
+              />
               {!isCodeValid && <CRCInputError>{codeError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>

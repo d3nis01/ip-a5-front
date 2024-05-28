@@ -27,10 +27,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { isLoggedInAuthSelector } from '../../store/selectors/auth-selectors';
 import { AppDispatch } from '../../store';
 import { loginAuthActionAsync } from '../../store/actions/auth-actions';
-
-import { createAccount } from '../../services/accountService';
-import { ICreateAccount, ICreateAccountResponse } from '../../types/IServiceTypesRequests';
-import { isMatricol } from '../../utils/forms/inputValidators';
 import { ROUTE__SEND_RECOVERY_CODE } from '../../router/constants';
 
 const Login = (): JSX.Element => {
