@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import { eye } from 'react-icons-kit/feather/eye';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, CRCInnerContainer, CRCInputWrapper, CRCInputError, CRCImage, CRCWrapper } from './styles';
 import myImg from '../assets/wallpaper.jpg';
-// import { checkRecoveryCode } from '../../services/accountService';
-import { AccountCheckRecoveryCodeParams, IAccountCheckRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
-import { isRecoveryCode } from '../../../utils/forms/inputValidators';
+import { IAccountCheckRecoveryCodeResponse, IAccountUpdateResponse, UpdateAccountParams } from '../../../types/IServiceTypesRequests';
 import { ROUTE_LOGIN } from '../../../router/constants';
+import { updateAccount } from '../../../services/accountService';
+// import { checkRecoveryCode } from '../../services/accountService';
 
 const ResetPassword = (): JSX.Element => {
-  const [code, setCode] = useState<string>('');
-  const [isCodeValid, setIsCodeValid] = useState<boolean>(true);
-  const [codeError, setCodeError] = useState<string>('');
-  const [responseError, setResponseError] = useState<boolean>(false);
-  const [responseErrorMessage, setResponseErrorMessage] = useState<string>('');
-  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [resetResponseError, setResetResponseError] = useState<string>('');
+
+  const [icon, setIcon] = useState(eyeOff);
   const [type, setType] = useState('password');
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,33 +26,39 @@ const ResetPassword = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsUploading(true);
-    setIsCodeValid(isRecoveryCode(code.trim()));
-
-    if (isRecoveryCode(code.trim()) === false) {
-      console.log('Code is not valid!');
-      setCodeError('Enter a valid recovery code!');
+    if (password !== confirmPassword) {
+      console.error('Passwords do not match');
+      setPasswordError('Passwords do not match!');
       setIsUploading(false);
       return;
     }
 
-    const requestObject: AccountCheckRecoveryCodeParams = {
-      code: code,
+    const userEmail: string = location.state.email;
+    const requestObject: UpdateAccountParams = {
+      newUsername: userEmail,
+      newPassword: password,
+      newEmail: userEmail,
     };
-    // const response: IAccountSendRecoveryCodeResponse = await checkRecoveryCode(requestObject);
+    const userId = '1';
+    // try {
+    //   const response: IAccountUpdateResponse = await updateAccount(userId, requestObject);
+    // } catch (error) {
+    //   console.error('Failed to reset password:', error);
+    //   setResetResponseError('Failed to reset password');
+    //   return;
+    // }
 
     // Mock a possible response
-    const response: IAccountCheckRecoveryCodeResponse = {
+    const response: IAccountUpdateResponse = {
       status: 200,
       statusText: 'OK',
     };
 
     if (response.status === 200) {
-      setResponseError(false);
-      console.log('Go to reset password page!');
+      console.log('Password reset successfully!');
       navigate(ROUTE_LOGIN);
     } else {
-      setResponseError(true);
-      setResponseErrorMessage(response.statusText);
+      setResetResponseError(response.statusText);
     }
     setIsUploading(false);
   };
@@ -64,18 +74,18 @@ const ResetPassword = (): JSX.Element => {
           <CRCForm onSubmit={handleSubmit}>
             <CRCInputWrapper>
               <CRCLabel htmlFor="new-password">Enter New Password</CRCLabel>
-              <CRCInput type={type} id="new-password" name="new-password" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="Enter new password" />
-              {!isCodeValid && <CRCInputError>{codeError}</CRCInputError>}
+              <CRCInput type={type} id="new-password" name="new-password" $invalid={false} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter new password" />
+              {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCInputWrapper>
               <CRCLabel htmlFor="confirm-password">Confirm New Password</CRCLabel>
-              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={!isCodeValid} value={code} onChange={e => setCode(e.target.value)} placeholder="Confirm new password" />
-              {!isCodeValid && <CRCInputError>{codeError}</CRCInputError>}
+              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={false} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm new password" />
+              {password && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>
               Reset
             </CRCSubmitButton>
-            {responseError && <CRCInputError>{responseErrorMessage}</CRCInputError>}
+            {resetResponseError && <CRCInputError>{resetResponseError}</CRCInputError>}
           </CRCForm>
         </CRCInnerContainer>
       </CRCWrapper>

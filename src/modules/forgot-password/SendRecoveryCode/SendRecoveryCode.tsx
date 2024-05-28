@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SRCTitle, SRCForm, SRCLabel, SRCInput, SRCSubmitButton, SRCContainer, SRCInnerContainer, SRCInputWrapper, SRCInputError, SRCImage, SRCWrapper } from './styles';
 import myImg from '../assets/wallpaper.jpg';
-// import { sendRecoveryCode } from '../../services/accountService';
 import { AccountSendRecoveryCodeParams, IAccountSendRecoveryCodeResponse } from '../../../types/IServiceTypesRequests';
 import { isEmail } from '../../../utils/forms/inputValidators';
 import { ROUTE__CHECK_RECOVERY_CODE } from '../../../router/constants';
+// import { sendRecoveryCode } from '../../services/accountService';
 
 const SendRecoveryCode = (): JSX.Element => {
   const [email, setEmail] = useState<string>('');
