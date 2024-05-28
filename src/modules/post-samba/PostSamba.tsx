@@ -69,12 +69,12 @@ const PostSamba = (): JSX.Element => {
         <PostSambaTitle>Post Samba</PostSambaTitle>
         <SambaPostForm onSubmit={handleSubmit}>
           <SambaPostInputWrapper>
-            <SambaPostLabel htmlFor="ipv4Address">IPv4Address</SambaPostLabel>
+            <SambaPostLabel htmlFor="ipv4Address">IPv4Address*</SambaPostLabel>
             <SambaPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
             {adressError && <SambaInputError>Invalid Adress!</SambaInputError>}
           </SambaPostInputWrapper>
           <SambaPostInputWrapper>
-            <SambaPostLabel htmlFor="description">Description *</SambaPostLabel>
+            <SambaPostLabel htmlFor="description">Description*</SambaPostLabel>
             <SambaPostTextarea
               id="description"
               name="description"

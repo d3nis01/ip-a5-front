@@ -70,12 +70,12 @@ const PostVpn = (): JSX.Element => {
         <PostVpnTitle>Post VPN</PostVpnTitle>
         <VpnPostForm onSubmit={handleSubmit}>
           <VpnPostInputWrapper>
-            <VpnPostLabel htmlFor="ipv4Address">IPv4 Address</VpnPostLabel>
+            <VpnPostLabel htmlFor="ipv4Address">IPv4 Address*</VpnPostLabel>
             <VpnPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
             {adressError && <VpnInputError>Invalid Adress!</VpnInputError>}
           </VpnPostInputWrapper>
           <VpnPostInputWrapper>
-            <VpnPostLabel htmlFor="description">Description *</VpnPostLabel>
+            <VpnPostLabel htmlFor="description">Description*</VpnPostLabel>
             <VpnPostTextarea
               id="description"
               name="description"

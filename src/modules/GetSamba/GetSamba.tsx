@@ -61,7 +61,7 @@ const GetSamba = (): JSX.Element => {
         </SambaTitle>
         <SambaForm onSubmit={handleSubmit}>
           <InputWrapper>
-            <SambaLabel htmlFor="uuid">UUID</SambaLabel>
+            <SambaLabel htmlFor="uuid">UUID*</SambaLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
           </InputWrapper>

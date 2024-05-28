@@ -63,7 +63,7 @@ const DeleteSamba = (): JSX.Element => {
         <DeleteSambaTitle>Delete Samba</DeleteSambaTitle>
         <UUIDForm onSubmit={handleSubmit}>
           <UuidInputWrapper>
-            <UUIDLabel htmlFor="uuid">UUID</UUIDLabel>
+            <UUIDLabel htmlFor="uuid">UUID*</UUIDLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
           </UuidInputWrapper>
