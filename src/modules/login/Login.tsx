@@ -68,11 +68,11 @@ const Login = (): JSX.Element => {
           <LoginTitle>Nice to see you again</LoginTitle>
           <LoginForm onSubmit={handleSubmit}>
             <LoginInputWrapper>
-              <LoginLabel htmlFor="username">Username*</LoginLabel>
+              <LoginLabel htmlFor="username">Username *</LoginLabel>
               <LoginInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
             </LoginInputWrapper>
             <LoginInputWrapper>
-              <LoginLabel htmlFor="password">Password*</LoginLabel>
+              <LoginLabel htmlFor="password">Password *</LoginLabel>
               <LoginInput type={passwordType} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
               <EyeButton type="button" onClick={handleTogglePassword}>
                 <EyeIcon icon={passwordType === 'password' ? eyeOff : eye} size={24} />

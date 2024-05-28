@@ -80,29 +80,29 @@ const Register = (): JSX.Element => {
           <RegisterTitle>Register</RegisterTitle>
           <RegisterForm onSubmit={handleSubmit}>
             <RegisterInputWrapper>
-              <RegisterLabel htmlFor="email">Email*</RegisterLabel>
+              <RegisterLabel htmlFor="email">Email *</RegisterLabel>
               <RegisterInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="example@example.com" required />
             </RegisterInputWrapper>
             <RegisterInputWrapper>
-              <RegisterLabel htmlFor="username">Username*</RegisterLabel>
+              <RegisterLabel htmlFor="username">Username *</RegisterLabel>
               <RegisterInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" required />
             </RegisterInputWrapper>
             <RegisterInputWrapper>
-              <RegisterLabel htmlFor="password">Password*</RegisterLabel>
+              <RegisterLabel htmlFor="password">Password *</RegisterLabel>
               <RegisterInput type={passwordType} id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="************" required />
               <EyeButton type="button" onClick={handleTogglePassword}>
                 <EyeIcon icon={passwordType === 'password' ? eyeOff : eye} size={24} />
               </EyeButton>
             </RegisterInputWrapper>
             <RegisterInputWrapper>
-              <RegisterLabel htmlFor="confirmpassword">Confirm Password*</RegisterLabel>
+              <RegisterLabel htmlFor="confirmpassword">Confirm Password *</RegisterLabel>
               <RegisterInput
                 type={confirmPasswordType}
                 id="confirmpassword"
                 name="confirmpassword"
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
-                placeholder="************"
+                placeholder=" ************"
                 required
               />
               <EyeButton type="button" onClick={handleToggleConfirmPassword}>

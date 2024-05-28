@@ -83,20 +83,20 @@ const UpdateAccount = (): JSX.Element => {
         <UpdateAccountTitle>Update Account</UpdateAccountTitle>
         <AccountUpdateForm onSubmit={handleSubmit}>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="uuid">UUID*</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="uuid">UUID *</AccountUpdateLabel>
             <AccountUpdateInput type="text" id="uuid" name="uuid" value={id} onChange={e => setId(e.target.value)} placeholder="" required />
             {isUuidError && <AccountInputError>{isUuidError}</AccountInputError>}
           </AccountUpdateInputWrapper>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="username">New Username*</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="username">New Username *</AccountUpdateLabel>
             <AccountUpdateInput type="text" id="username" name="username" value={newUsername} onChange={e => setNewUsername(e.target.value)} placeholder="" required />
           </AccountUpdateInputWrapper>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="password">New Password*</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="password">New Password *</AccountUpdateLabel>
             <AccountUpdateInput type="password" id="password" name="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="" required />
           </AccountUpdateInputWrapper>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="confirmPassword">Confirm New Password*</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="confirmPassword">Confirm New Password *</AccountUpdateLabel>
             <AccountUpdateInput
               type="password"
               id="confirmPassword"
@@ -109,7 +109,7 @@ const UpdateAccount = (): JSX.Element => {
             {confirmPasswordError && <AccountInputError>{confirmPasswordError}</AccountInputError>}
           </AccountUpdateInputWrapper>
           <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="email">New Email*</AccountUpdateLabel>
+            <AccountUpdateLabel htmlFor="email">New Email *</AccountUpdateLabel>
             <AccountUpdateInput type="email" id="email" name="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="" required />
           </AccountUpdateInputWrapper>
 

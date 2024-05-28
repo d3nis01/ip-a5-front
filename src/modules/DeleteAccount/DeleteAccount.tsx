@@ -62,7 +62,7 @@ const DeleteAccount = (): JSX.Element => {
         <DeleteAccountTitle>Delete Account</DeleteAccountTitle>
         <UUIDForm onSubmit={handleSubmit}>
           <UuidInputWrapper>
-            <UUIDLabel htmlFor="uuid">UUID*</UUIDLabel>
+            <UUIDLabel htmlFor="uuid">UUID *</UUIDLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <AccountInputError>Invalid UUID!</AccountInputError>}
           </UuidInputWrapper>

@@ -76,17 +76,17 @@ const UpdateVpn = (): JSX.Element => {
         </VpnTitle>
         <VpnForm onSubmit={handleSubmit}>
           <InputWrapper>
-            <VpnLabel htmlFor="uuid">UUID*</VpnLabel>
+            <VpnLabel htmlFor="uuid">UUID *</VpnLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
           </InputWrapper>
           <InputWrapper>
-            <VpnLabel htmlFor="newIpAddress">New IP Address*</VpnLabel>
+            <VpnLabel htmlFor="newIpAddress">New IP Address *</VpnLabel>
             <UUIDInput id="newIpAddress" type="text" value={newIpAddress} onChange={e => setNewIpAddress(e.target.value)} placeholder="192.168.1.1" />
             {ipError && <VpnInputError>Invalid IP adress!</VpnInputError>}
           </InputWrapper>
           <InputWrapper>
-            <VpnLabel htmlFor="newDescription">New Description*</VpnLabel>
+            <VpnLabel htmlFor="newDescription">New Description *</VpnLabel>
             <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" />
           </InputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>

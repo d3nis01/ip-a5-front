@@ -60,7 +60,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         </VPNTitle>
         <VPNForm onSubmit={handleSubmit}>
           <InputWrapper>
-            <VPNLabel htmlFor="uuid">UUID*</VPNLabel>
+            <VPNLabel htmlFor="uuid">UUID *</VPNLabel>
             <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
             {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
           </InputWrapper>

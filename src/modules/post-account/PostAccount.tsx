@@ -81,24 +81,24 @@ const PostAccount = (): JSX.Element => {
         <PostAccountTitle>Post Account</PostAccountTitle>
         <AccountPostForm onSubmit={handleSubmit}>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="username">Username*</AccountPostLabel>
+            <AccountPostLabel htmlFor="username">Username *</AccountPostLabel>
             <AccountPostInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="password">Password*</AccountPostLabel>
+            <AccountPostLabel htmlFor="password">Password *</AccountPostLabel>
             <AccountPostInput type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="password">Confirm Password*</AccountPostLabel>
+            <AccountPostLabel htmlFor="password">Confirm Password *</AccountPostLabel>
             <AccountPostInput type="password" id="password" name="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="" required />
             {passwordError && <AccountInputError>Passwords do not match !</AccountInputError>}
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="email">Email*</AccountPostLabel>
+            <AccountPostLabel htmlFor="email">Email *</AccountPostLabel>
             <AccountPostInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="matricol">Matricol*</AccountPostLabel>
+            <AccountPostLabel htmlFor="matricol">Matricol *</AccountPostLabel>
             <AccountPostInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="" required />
             {matricolError && <AccountInputError>Matricol is not valid!</AccountInputError>}
           </AccountPostInputWrapper>
