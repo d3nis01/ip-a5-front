@@ -1,6 +1,4 @@
 import { HomeContainer, HomeInnerContainer } from './styles';
-import GetVpn from '../../modules/GetVpn/GetVpn';
-import GetSamba from '../../modules/GetSamba/GetSamba';
 import { useEffect } from 'react';
 import { fetchUserDetails } from '../../api/auth/authService';
 import { useAppDispatch } from '../../hooks/store-hooks';

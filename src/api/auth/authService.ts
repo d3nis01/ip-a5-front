@@ -1,9 +1,9 @@
-import api from '../../services/api';
-import { clearItem, getItem, setItem } from '../../services/storage-service';
+import { clearItem, getItem } from '../../services/storage-service';
 import store from '../../store';
 import { setRefreshTokenAuthAction, setStateAuthAction, setTokenAuthAction, setUserDetailsAction } from '../../store/actions/auth-actions';
 import { ICurrentUserDetails } from '../../types/ICurrentUserDetails';
 import { ILoginCredentials, IRegisterCredentials } from '../../types/auth/AuthTypes';
+import api from '../api';
 
 export const TOKEN_AUTH = 'access-token';
 export const REFRESH_TOKEN_AUTH = 'refresh-token';
