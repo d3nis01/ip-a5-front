@@ -1,4 +1,4 @@
-import api from '../../services/api';
+import api from '../api';
 import { ILoginCredentials, IRegisterCredentials } from '../../types/auth/AuthTypes';
 
 export const login = async (userCredentials: ILoginCredentials) => {

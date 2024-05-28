@@ -1,6 +1,6 @@
 import { HomeContainer, HomeInnerContainer } from './styles';
-import GetVpn from '../../modules/GetVpn/GetVpn';
-import GetSamba from '../../modules/GetSamba/GetSamba';
+import GetVpn from '../vpn-get/GetVpn';
+import GetSamba from '../samba-get/GetSamba';
 const Home = (): JSX.Element => {
   return (
     <HomeContainer>
