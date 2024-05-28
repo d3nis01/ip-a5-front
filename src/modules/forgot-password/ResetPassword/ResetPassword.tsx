@@ -26,7 +26,7 @@ const ResetPassword = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsUploading(true);
-    if (password !== confirmPassword) {
+    if (password !== confirmPassword || password.length === 0 || confirmPassword.length === 0) {
       console.log('Passwords do not match');
       setPasswordError('Passwords do not match!');
       setIsUploading(false);
@@ -45,6 +45,7 @@ const ResetPassword = (): JSX.Element => {
     // } catch (error) {
     //   console.error('Failed to reset password:', error);
     //   setResetResponseError('Failed to reset password');
+    //   setIsUploading(false);
     //   return;
     // }
 
@@ -74,12 +75,12 @@ const ResetPassword = (): JSX.Element => {
           <CRCForm onSubmit={handleSubmit}>
             <CRCInputWrapper>
               <CRCLabel htmlFor="new-password">Enter New Password</CRCLabel>
-              <CRCInput type={type} id="new-password" name="new-password" $invalid={passwordError.length > 0} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter new password" />
+              <CRCInput type={type} id="new-password" name="new-password" $invalid={passwordError.length > 0} value={password} onChange={e => setPassword(e.target.value.trim())} placeholder="Enter new password" />
               {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCInputWrapper>
               <CRCLabel htmlFor="confirm-password">Confirm New Password</CRCLabel>
-              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={passwordError.length > 0} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm new password" />
+              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={passwordError.length > 0} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value.trim())} placeholder="Confirm new password" />
               {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
             </CRCInputWrapper>
             <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>
