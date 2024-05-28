@@ -94,11 +94,11 @@ const PostAccount = (): JSX.Element => {
             {passwordError && <AccountInputError>Passwords do not match !</AccountInputError>}
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="email">Email</AccountPostLabel>
+            <AccountPostLabel htmlFor="email">Email*</AccountPostLabel>
             <AccountPostInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="" required />
           </AccountPostInputWrapper>
           <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="matricol">Matricol</AccountPostLabel>
+            <AccountPostLabel htmlFor="matricol">Matricol*</AccountPostLabel>
             <AccountPostInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="" required />
             {matricolError && <AccountInputError>Matricol is not valid!</AccountInputError>}
           </AccountPostInputWrapper>
