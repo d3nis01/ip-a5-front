@@ -18,7 +18,7 @@ import {
   LoginInputError,
 } from '../login/styles';
 import { useAuth } from '../../api/auth/AuthProvider';
-import myImg from './assets/wallpaper2.jpg';
+import myImg from './assets/photo1.jpg';
 import { ILoginCredentials } from '../../types/auth/AuthTypes';
 import { LoginPageLink } from '../register/styles';
 import { useNavigate } from 'react-router-dom';

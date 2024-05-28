@@ -18,7 +18,7 @@ import {
   LoginPageLink,
   RegisterWrapper,
 } from '../register/styles';
-import myImg from './assets/wallpaper2.jpg';
+import myImg from './assets/photo1.jpg';
 import { IRegisterCredentials } from '../../types/auth/AuthTypes';
 import { useAuth } from '../../api/auth/AuthProvider';
 
