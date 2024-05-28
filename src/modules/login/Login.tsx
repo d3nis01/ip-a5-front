@@ -24,6 +24,11 @@ import { LoginPageLink } from '../register/styles';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_REGISTER, ROUTE__HOME } from '../../router/constants';
 
+import { createAccount } from '../../services/accountService';
+import { ICreateAccount, ICreateAccountResponse } from '../../types/IServiceTypesRequests';
+import { isMatricol } from '../../utils/forms/inputValidators';
+import { ROUTE__SEND_RECOVERY_CODE } from '../../router/constants';
+
 const Login = (): JSX.Element => {
   const { handleLogin } = useAuth();
   const [username, setUsername] = useState<string>('');
@@ -82,8 +87,8 @@ const Login = (): JSX.Element => {
             {/* <LoginRememberWrapper>
               <input type="checkbox" id="rememberMe" name="rememberMe" />
               <label htmlFor="rememberMe">Remember me</label>
-            </LoginRememberWrapper> */}
-            <ForgotPasswordLink onClick={() => navigate(ROUTE_REGISTER)}>Don't have an account?</ForgotPasswordLink>
+  </LoginRememberWrrapper>*/}
+            <ForgotPasswordLink to={ROUTE__SEND_RECOVERY_CODE}>Forgot password?</ForgotPasswordLink>
 
             {loginError && <LoginInputError>{loginError}</LoginInputError>}
             <LoginSubmitButton type="submit">Sign In</LoginSubmitButton>

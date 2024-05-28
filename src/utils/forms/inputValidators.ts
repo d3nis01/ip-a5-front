@@ -15,10 +15,20 @@ export const isMatricol = (matricol: string): boolean => {
   return matricolRegex.test(matricol);
 };
 
+// Functia regex nu este corecta
+// export const isEmail = (email : string): boolean => {
+//   const emailRegex = new RegExp('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i');
+//   return emailRegex.test(email);
+// };
 
-export const isEmail = (email : string): boolean => {
-  const emailRegex = new RegExp('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i');
+export const isEmail = (email: string): boolean => {
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   return emailRegex.test(email);
 };
+
+export const isRecoveryCode = (recoveryCode: string): boolean => {
+  const recoveryCodeRegex = new RegExp('^[0-9]{6}$');
+  return recoveryCodeRegex.test(recoveryCode);
+}
 
 

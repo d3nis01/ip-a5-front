@@ -3,6 +3,10 @@ export const ROUTE__HOME = '/';
 export const ROUTE_REGISTER = '/register';
 export const ROUTE_LOGIN = '/login';
 
+export const ROUTE__SEND_RECOVERY_CODE = '/send-recovery-code';
+export const ROUTE__CHECK_RECOVERY_CODE = '/check-recovery-code';
+export const ROUTE__RESET_PASSWORD = '/reset-password';
+
 export const ROUTE__SAMBA_POST = '/samba-post';
 export const ROUTE__SAMBA_GET = '/samba-get';
 export const ROUTE__SAMBA_DELETE = '/samba-delete';

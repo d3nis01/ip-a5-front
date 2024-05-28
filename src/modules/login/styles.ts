@@ -1,4 +1,5 @@
 import Icon from 'react-icons-kit';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 export const LoginImage = styled.img`
@@ -151,7 +152,7 @@ export const LoginRememberWrrapper = styled.div`
   font-size: 16px;
   color: ${props => props.theme.colors.textPrimary};
 `;
-export const ForgotPasswordLink = styled.a`
+export const ForgotPasswordLink = styled(Link)`
   color: ${props => props.theme.colors.primaryPurple};
   cursor: pointer;
   font-size: 16px;

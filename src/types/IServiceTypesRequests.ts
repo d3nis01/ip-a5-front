@@ -29,6 +29,24 @@ export interface IAccountUpdateResponse {
   statusText: string;
 }
 
+export interface IAccountSendRecoveryCodeResponse {
+  status: number;
+  statusText: string;
+}
+
+export interface IAccountCheckRecoveryCodeResponse {
+  status: number;
+  statusText: string;
+}
+
+export interface AccountSendRecoveryCodeParams {
+  email: string;
+}
+
+export interface AccountCheckRecoveryCodeParams {
+  code: string;
+}
+
 export interface UpdateAccountParams {
   newUsername: string;
   newPassword: string;
