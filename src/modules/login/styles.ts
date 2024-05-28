@@ -94,8 +94,9 @@ export const LoginInput = styled.input`
 `;
 
 export const LoginSubmitButton = styled.button`
-  padding: 11px 217px 10px 200px;
   background-color: ${props => props.theme.colors.primaryPurple};
+  width: 100%;
+  height: 40px;
   color: ${props => props.theme.colors.white};
   border: none;
   font-weight: ${props => props.theme.fontWeights.bold};

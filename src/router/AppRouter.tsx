@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import Home from '../modules/home/Home';
@@ -26,11 +25,11 @@ import UpdateSamba from '../modules/SambaUpdate/SambaUpdate';
 import UpdateVpn from '../modules/vpnUpdate/VpnUpdate';
 import UpdateAccount from '../modules/UpdateAccount/UpdateAccount';
 import useEventListeners from '../hooks/useEventListeners';
-import { AuthProvider } from '../api/auth/AuthProvider';
 import Register from '../modules/register/Register';
 import SendRecoveryCode from '../modules/forgot-password/SendRecoveryCode/SendRecoveryCode';
 import CheckRecoveryCode from '../modules/forgot-password/CheckRecoveryCode/CheckRecoveryCode';
 import ResetPassword from '../modules/forgot-password/ResetPassword/ResetPassword';
+import loadServices from '../services/load-services';
 
 const AppRouter = (): JSX.Element => {
   useEventListeners();

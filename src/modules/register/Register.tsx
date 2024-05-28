@@ -20,10 +20,12 @@ import {
 } from '../register/styles';
 import myImg from './assets/wallpaper2.jpg';
 import { IRegisterCredentials } from '../../types/auth/AuthTypes';
-import { useAuth } from '../../api/auth/AuthProvider';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { registerAuthActionAsync } from '../../store/actions/auth-actions';
 
 const Register = (): JSX.Element => {
-  const { handleRegister } = useAuth();
+  const dispatch = useDispatch<AppDispatch>();
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordType, setPasswordType] = useState<string>('password');
@@ -51,16 +53,11 @@ const Register = (): JSX.Element => {
     };
 
     try {
-      await handleRegister(registerCredentials);
+      await dispatch(registerAuthActionAsync(registerCredentials)).unwrap();
       setIsFormSubmitted(true);
-    } catch (error: any) {
-      if (error.response && error.response.data) {
-        const { message } = error.response.data;
-        setRegisterError(message);
-      } else {
-        setRegisterError('Registration failed');
-      }
+    } catch (error) {
       console.error('Registration failed', error);
+      setRegisterError('Registration failed');
     }
   };
 

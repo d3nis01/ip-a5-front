@@ -1,20 +1,26 @@
 import React from 'react';
-import { useAuth } from '../../api/auth/AuthProvider';
-import { useAppSelector } from '../../hooks/store-hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks';
 import { appWidthSelector } from '../../store/selectors/app-selectors';
 import ModalMobile from '../modal-mobile';
 import { HeaderContainer, UserInfo } from './styles';
+import { currentUserDetailsSelector } from '../../store/selectors/auth-selectors';
+import { logout } from '../../api/auth/authService';
 
 export const Header = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const width = useAppSelector(appWidthSelector);
-  const { user, handleLogout } = useAuth();
+  const userDetails = useAppSelector(currentUserDetailsSelector);
+  console.log(userDetails);
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <HeaderContainer>
       {width <= 992 && <ModalMobile />}
-      {user && (
+      {userDetails?.isAuthenticated && (
         <UserInfo>
-          <span>Welcome, {user.username}</span>
+          <span>Welcome, {userDetails.userName}</span>
           <button onClick={handleLogout}>Logout</button>
         </UserInfo>
       )}

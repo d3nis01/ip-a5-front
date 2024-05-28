@@ -1,14 +1,27 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { AUTH__LOGIN, AUTH__LOGOUT, AUTH__REGISTER, AUTH__SET_REFRESH_TOKEN, AUTH__SET_STATE, AUTH__SET_TOKEN } from '../constants';
+import {
+  AUTH__FETCH_USER_DETAILS,
+  AUTH__LOGIN,
+  AUTH__LOGOUT,
+  AUTH__REGISTER,
+  AUTH__SET_LOADING_USER_DETAILS,
+  AUTH__SET_REFRESH_TOKEN,
+  AUTH__SET_STATE,
+  AUTH__SET_TOKEN,
+  AUTH__SET_USER_DETAILS,
+  AUTH__SET_USER_DETAILS_ERROR,
+} from '../constants';
 import { ILoginCredentials, IRegisterCredentials } from '../../types/auth/AuthTypes';
 import { AppDispatch, RootState } from '..';
-import { TOKEN_AUTH, loginRequest, registerRequest } from '../../api/auth/authService';
+import { TOKEN_AUTH, fetchUserDetails, loginRequest, registerRequest } from '../../api/auth/authService';
 import { clearItem, setItem } from '../../services/storage-service';
 import Swal from 'sweetalert2';
+import { ICurrentUserDetails } from '../../types/ICurrentUserDetails';
 
 export const setTokenAuthAction = createAction<string>(AUTH__SET_TOKEN);
 export const setRefreshTokenAuthAction = createAction<string>(AUTH__SET_REFRESH_TOKEN);
 export const setStateAuthAction = createAction<boolean>(AUTH__SET_STATE);
+export const setUserDetailsAction = createAction<ICurrentUserDetails | null>(AUTH__SET_USER_DETAILS);
 
 export const loginAuthActionAsync = createAsyncThunk<void, ILoginCredentials, { state: RootState }>(AUTH__LOGIN, async (data, thunkApi) => {
   // thunkApi.dispatch(setLoginErrorAuthAction(false));
@@ -59,6 +72,17 @@ export const registerAuthActionAsync = createAsyncThunk<void, IRegisterCredentia
   } catch (err) {
     if (err) {
       alert('Registration Failed');
+    }
+  } finally {
+  }
+});
+
+export const fetchUserDetailsThunk = createAsyncThunk<void, void, { state: RootState; dispatch: AppDispatch }>(AUTH__FETCH_USER_DETAILS, async (_, thunkApi) => {
+  try {
+    const response = await fetchUserDetails();
+    thunkApi.dispatch(setUserDetailsAction(response));
+  } catch (err) {
+    if (err) {
     }
   } finally {
   }
