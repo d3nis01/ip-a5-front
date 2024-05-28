@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CRCTitle, CRCForm, CRCLabel, CRCInput, CRCSubmitButton, CRCContainer, CRCInnerContainer, CRCInputWrapper, CRCInputError, CRCImage, CRCWrapper } from './styles';
+import { RPTitle, RPForm, RPLabel, RPInput, RPSubmitButton, RPContainer, RPInnerContainer, RPInputWrapper, RPInputError, RPImage, RPWrapper, EyeButton, EyeIcon } from './styles';
 import myImg from '../assets/wallpaper.jpg';
 import { IAccountCheckRecoveryCodeResponse, IAccountUpdateResponse, UpdateAccountParams } from '../../../types/IServiceTypesRequests';
 import { ROUTE_LOGIN } from '../../../router/constants';
@@ -26,6 +26,7 @@ const ResetPassword = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsUploading(true);
+
     if (password !== confirmPassword || password.length === 0 || confirmPassword.length === 0) {
       console.log('Passwords do not match');
       setPasswordError('Passwords do not match!');
@@ -64,33 +65,51 @@ const ResetPassword = (): JSX.Element => {
     setIsUploading(false);
   };
 
-  const isSubmitDisabled = isUploading;
+  const isSubmitDisabled = (): boolean => {
+    return password.length === 0 || confirmPassword.length === 0 || isUploading;
+  }
+
+  const toogleEye = () => { 
+    if (type === 'password') {
+      setIcon(eye);
+      setType('text');
+    } else {
+      setIcon(eyeOff);
+      setType('password');
+    }
+  }
 
   return (
-    <CRCContainer>
-      <CRCWrapper>
-        <CRCImage src={myImg} alt="Reset Password Image" />
-        <CRCInnerContainer>
-          <CRCTitle>Reset Password</CRCTitle>
-          <CRCForm onSubmit={handleSubmit}>
-            <CRCInputWrapper>
-              <CRCLabel htmlFor="new-password">Enter New Password</CRCLabel>
-              <CRCInput type={type} id="new-password" name="new-password" $invalid={passwordError.length > 0} value={password} onChange={e => setPassword(e.target.value.trim())} placeholder="Enter new password" />
-              {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
-            </CRCInputWrapper>
-            <CRCInputWrapper>
-              <CRCLabel htmlFor="confirm-password">Confirm New Password</CRCLabel>
-              <CRCInput type={type} id="confirm-password" name="confirm-password" $invalid={passwordError.length > 0} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value.trim())} placeholder="Confirm new password" />
-              {passwordError && <CRCInputError>{passwordError}</CRCInputError>}
-            </CRCInputWrapper>
-            <CRCSubmitButton type="submit" disabled={isSubmitDisabled}>
+    <RPContainer>
+      <RPWrapper>
+        <RPImage src={myImg} alt="Reset Password Image" />
+        <RPInnerContainer>
+          <RPTitle>Reset Password</RPTitle>
+          <RPForm onSubmit={handleSubmit}>
+            <RPInputWrapper>
+              <RPLabel htmlFor="new-password">Enter New Password</RPLabel>
+              <RPInput type={type} id="new-password" name="new-password" $invalid={passwordError.length > 0} value={password} onChange={e => setPassword(e.target.value.trim())} placeholder="Enter new password" />
+              <EyeButton onClick={toogleEye} type='button'>
+                <EyeIcon icon={icon} size={24} />
+              </EyeButton>
+              {passwordError && <RPInputError>{passwordError}</RPInputError>}
+            </RPInputWrapper>
+            <RPInputWrapper>
+              <RPLabel htmlFor="confirm-password">Confirm New Password</RPLabel>
+              <RPInput type={type} id="confirm-password" name="confirm-password" $invalid={passwordError.length > 0} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value.trim())} placeholder="Confirm new password" />
+              <EyeButton onClick={toogleEye} type='button'>
+                <EyeIcon icon={icon} size={24} />
+              </EyeButton>
+              {passwordError && <RPInputError>{passwordError}</RPInputError>}
+            </RPInputWrapper>
+            <RPSubmitButton type="submit" disabled={isSubmitDisabled()}>
               Reset
-            </CRCSubmitButton>
-            {resetResponseError && <CRCInputError>{resetResponseError}</CRCInputError>}
-          </CRCForm>
-        </CRCInnerContainer>
-      </CRCWrapper>
-    </CRCContainer>
+            </RPSubmitButton>
+            {resetResponseError && <RPInputError>{resetResponseError}</RPInputError>}
+          </RPForm>
+        </RPInnerContainer>
+      </RPWrapper>
+    </RPContainer>
   );
 };
 
