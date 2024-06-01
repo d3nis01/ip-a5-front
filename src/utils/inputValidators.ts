@@ -5,9 +5,20 @@ export const isUUID = (uuid: string): boolean => {
   return uuidRegex.test(uuid);
 };
 
+export const isAccountUUID = (uuid: string): boolean => {
+  const numericValue = parseInt(uuid, 10);
+
+  return numericValue >= 1000 && numericValue <= 7999;
+};
+
 export const isIPv4 = (ip: string): boolean => {
-  const ipRegex = new RegExp('^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$');
+  const ipRegex = new RegExp('^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$');
   return ipRegex.test(ip);
+};
+
+export const isCNP = (cnp: string): boolean => {
+  const cnpRegex = new RegExp('^[1-9]{1}[0-9]{12}$');
+  return cnpRegex.test(cnp);
 };
 
 export const isMatricol = (matricol: string): boolean => {
@@ -24,6 +35,11 @@ export const isMatricol = (matricol: string): boolean => {
 export const isEmail = (email: string): boolean => {
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
   return emailRegex.test(email);
+};
+
+export const isEmailFaculty = (email: string): boolean => {
+  const emailFacultyRegex = /^[A-Z0-9._%+-]+@info\.uaic\.ro$/i;
+  return emailFacultyRegex.test(email);
 };
 
 export const isRecoveryCode = (recoveryCode: string): boolean => {
