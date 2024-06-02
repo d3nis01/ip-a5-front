@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import CustomError from '../utils/CustomError';
 import api from '../api/api';
-import { IAccountDeleteResponse, IAccountGetResponse, IAccountUpdateResponse, ICreateAccount, ICreateAccountResponse, UpdateAccountParams } from '../types/IServiceTypesRequests';
-import { mapAccountResponseToAccount } from '../mappers/account-mappers';
+import { IAccountDeleteResponse, IAccountEmailVariantsGetResponse, IAccountGetResponse, IAccountUpdateResponse, ICreateAccount, ICreateAccountResponse, UpdateAccountParams } from '../types/IServiceTypesRequests';
+import { mapAccountEmailVariantsResponseToAccountEmailVariants, mapAccountResponseToAccount } from '../mappers/account-mappers';
 
 export const createAccount = async (accountData: ICreateAccount): Promise<ICreateAccountResponse> => {
   try {
@@ -58,3 +58,17 @@ export const updateAccount = async (id: string, params: UpdateAccountParams): Pr
     throw error;
   }
 };
+
+export const getAccountEmailVariants = async (matricol: string): Promise<IAccountEmailVariantsGetResponse> => {
+  try {
+    const response = await api.get(`/accounts/mail/${matricol}`);
+    console.log(response);
+    const data = mapAccountEmailVariantsResponseToAccountEmailVariants(response.data);
+    return { data: data, status: response.status, statusText: response.statusText};
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new CustomError('Failed to fetch account email variants', error.response?.status || 500, error.response?.data);
+    }
+    throw error;
+  }
+}

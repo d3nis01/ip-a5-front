@@ -15,6 +15,7 @@ import {
   ROUTE__VPN_UPDATE,
   ROUTE_REGISTER,
   ROUTE_LOGIN,
+  ROUTE__ACCOUNT_EMAIL_VARIANTS_GET,
 } from '../../router/constants';
 
 export interface IMenuOption {
@@ -46,6 +47,10 @@ export const MENU_OPTIONS: IMenuOption[] = [
   {
     title: 'Account UPDATE',
     route: ROUTE__ACCOUNTE_UPDATE,
+  },
+  {
+    title: 'Account Email Variants GET',
+    route: ROUTE__ACCOUNT_EMAIL_VARIANTS_GET,
   },
   {
     title: 'Samba GET',
