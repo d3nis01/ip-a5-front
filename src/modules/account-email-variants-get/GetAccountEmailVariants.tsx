@@ -23,7 +23,7 @@ import { getAccountEmailVariants } from '../../services/account-service';
 import { IAccountEmailVariantsGetResponse } from '../../types/IServiceTypesRequests';
 import { isMatricol } from '../../utils/inputValidators';
 
-const GetAccount = (): JSX.Element => {
+const GetAccountEmailVariants = (): JSX.Element => {
   const [matricol, setMatricol] = useState<string>('');
   const [response, setResponse] = useState<IAccountEmailVariantsGetResponse>();
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
@@ -63,7 +63,7 @@ const GetAccount = (): JSX.Element => {
           <InputWrapper>
             <AccountLabel htmlFor="matricol">Matricol *</AccountLabel>
             <UUIDInput id="matricol" type="text" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="000000000AAA000000" required />
-            {matricolError && <AccountInputError>Invalid matricol number!</AccountInputError>}
+            {matricolError && <AccountInputError>{matricolError}</AccountInputError>}
           </InputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </AccountForm>
@@ -73,10 +73,10 @@ const GetAccount = (): JSX.Element => {
             <AccountRequestResponseLabel>Request Response</AccountRequestResponseLabel>
             <AccountResponsesWrapper>
               <AccountResponseBox>
-                <AccountResponseLabel>UUID</AccountResponseLabel>
+                <AccountResponseLabel>GID</AccountResponseLabel>
                 <ResponseValueWrapper>
-                  <AccountResponseValue>{response.data.uuid}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(response.data.uuid)}>Copy</CopyButton>
+                  <AccountResponseValue>{response.data.uidNumber}</AccountResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(response.data.uidNumber))}>Copy</CopyButton>
                 </ResponseValueWrapper>
               </AccountResponseBox>
               <AccountResponseBox>
@@ -129,4 +129,4 @@ const GetAccount = (): JSX.Element => {
   );
 };
 
-export default GetAccount;
+export default GetAccountEmailVariants;

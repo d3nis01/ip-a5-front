@@ -21,7 +21,7 @@ export interface IVpn {
 }
 
 export interface IAccountEmailVariants {
-  uuid: string;
+  uidNumber: number;
   firstName: string;
   lastName: string;
   mailVariant1: string;

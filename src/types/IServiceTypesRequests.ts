@@ -35,6 +35,18 @@ export interface IAccountEmailVariantsGetResponse {
   statusText: string;
 }
 
+export interface IAccountEmailVariantsUpdateResponse {
+  status: number;
+  statusText: string;
+}
+
+export interface UpdateAccountEmailVariantsParams {
+  mail: string;
+  mailAlternateAddress: string;
+  userPassword: string;
+  telephoneNumber: string;
+}
+
 export interface IAccountSendRecoveryCodeResponse {
   status: number;
   statusText: string;

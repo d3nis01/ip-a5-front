@@ -47,4 +47,7 @@ export const isRecoveryCode = (recoveryCode: string): boolean => {
   return recoveryCodeRegex.test(recoveryCode);
 }
 
-
+export const isPhoneNumber = (phoneNumber: string): boolean => {
+  const phoneNumberRegex = /[0-9]+/i;
+  return phoneNumberRegex.test(phoneNumber);
+}

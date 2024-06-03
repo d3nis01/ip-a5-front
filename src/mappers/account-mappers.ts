@@ -15,7 +15,7 @@ export const mapAccountResponseToAccount = (data: Partial<IAccount>): IAccount =
 
 export const mapAccountEmailVariantsResponseToAccountEmailVariants = (data: Partial<IAccountEmailVariants>): IAccountEmailVariants => {
   const accountEmailVariants: IAccountEmailVariants = {
-    uuid: typeof data?.uuid === 'string' ? data.uuid : '',
+    uidNumber: typeof data?.uidNumber === 'number' ? data.uidNumber : 0,
     firstName: typeof data?.firstName === 'string' ? data.firstName : '',
     lastName: typeof data?.lastName === 'string' ? data.lastName : '',
     mailVariant1: typeof data?.mailVariant1 === 'string' ? data.mailVariant1 : '',
