@@ -19,3 +19,12 @@ export interface IVpn {
   description: string;
   iPv4Address: string;
 }
+
+export interface IAccountEmailVariants {
+  uidNumber: number;
+  firstName: string;
+  lastName: string;
+  mailVariant1: string;
+  mailVariant2: string;
+  mailVariant3: string;
+}
