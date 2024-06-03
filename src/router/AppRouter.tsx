@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import Home from '../modules/home/Home';
-import { ROUTE_REGISTER, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from './constants';
+import { ROUTE_REGISTER, ROUTE__ACCOUNT_EMAIL_VARIANTS_GET, ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from './constants';
 import Login from '../modules/login/Login';
 import { ROUTE_LOGIN } from './constants';
 import GetAccount from '../modules/account-get/GetAccount';
@@ -30,6 +30,8 @@ import SendRecoveryCode from '../modules/forgot-password/SendRecoveryCode/SendRe
 import CheckRecoveryCode from '../modules/forgot-password/CheckRecoveryCode/CheckRecoveryCode';
 import ResetPassword from '../modules/forgot-password/ResetPassword/ResetPassword';
 import loadServices from '../services/load-services';
+import GetAccountEmailVariants from '../modules/account-email-variants-get/GetAccountEmailVariants';
+import UpdateAccountEmailVariants from '../modules/account-email-variants-put/UpdateAccountEmailVariants';
 
 const AppRouter = (): JSX.Element => {
   useEventListeners();
@@ -58,6 +60,8 @@ const AppRouter = (): JSX.Element => {
           <Route path={ROUTE__SAMBA_UPDATE} element={<UpdateSamba />} />
           <Route path={ROUTE__VPN_UPDATE} element={<UpdateVpn />} />
           <Route path={ROUTE__ACCOUNTE_UPDATE} element={<UpdateAccount />} />
+          <Route path={ROUTE__ACCOUNT_EMAIL_VARIANTS_GET} element={<GetAccountEmailVariants />} />
+          <Route path={ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE} element={<UpdateAccountEmailVariants />} />
         </Route>
       </Routes>
     </BrowserRouter>

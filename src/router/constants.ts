@@ -23,3 +23,5 @@ export const ROUTE__ACCOUNT_POST = '/account-post';
 export const ROUTE__ACCOUNT_GET = '/account-get';
 export const ROUTE__ACCOUNT_DELETE = '/account-delete';
 export const ROUTE__ACCOUNTE_UPDATE = '/account-update';
+export const ROUTE__ACCOUNT_EMAIL_VARIANTS_GET = '/account-email-variants-get';
+export const ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE = '/account-email-variants-update';

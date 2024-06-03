@@ -1,4 +1,4 @@
-import { ISamba, IVpn, IAccount } from './IServiceTypesObjects';
+import { ISamba, IVpn, IAccount, IAccountEmailVariants } from './IServiceTypesObjects';
 
 export interface ICreateAccount {
   username: string;
@@ -27,6 +27,24 @@ export interface IAccountDeleteResponse {
 export interface IAccountUpdateResponse {
   status: number;
   statusText: string;
+}
+
+export interface IAccountEmailVariantsGetResponse {
+  data: IAccountEmailVariants;
+  status: number;
+  statusText: string;
+}
+
+export interface IAccountEmailVariantsUpdateResponse {
+  status: number;
+  statusText: string;
+}
+
+export interface UpdateAccountEmailVariantsParams {
+  mail: string;
+  mailAlternateAddress: string;
+  userPassword: string;
+  telephoneNumber: string;
 }
 
 export interface IAccountSendRecoveryCodeResponse {
