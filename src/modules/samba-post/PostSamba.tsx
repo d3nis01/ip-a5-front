@@ -5,42 +5,20 @@ import {
   SambaPostLabel,
   SambaPostInput,
   SambaPostSubmitButton,
-  SambaPostResponseSection,
-  ResponseLabel,
-  ResponseValue,
-  RequestResponseLabel,
-  CopyButton,
   SambaPostContainer,
   SambaPostInnerContainer,
   SambaPostInputWrapper,
   SambaPostTextarea,
-  SambaPostResponseWrapper,
-  SambaPostResponseItemWrapper,
-  SambaPostResponseValueContainer,
   SambaInputError,
 } from './styles';
 
 import { createSambaAccount } from '../../services/samba-service';
-import { ICreateSamba, ICreateSambaResponse } from '../../types/IServiceTypesRequests';
+import { ICreateSamba } from '../../types/IServiceTypesRequests';
 import { isDescriptionTrimmedMinLength, isIPv4 } from '../../utils/inputValidators';
-
-const copyToClipboard = async (text: string) => {
-  if (!navigator.clipboard) {
-    console.error('Clipboard not available');
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (err) {
-    console.error('Failed to copy text: ', err);
-  }
-};
 
 const PostSamba = (): JSX.Element => {
   const [iPv4Address, setIPv4Address] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [postResponse, setResponse] = useState<ICreateSambaResponse>();
   const [addressError, setAddressError] = useState<string>('');
   const [descriptionError, setDescriptionError] = useState<string>('');
 
@@ -68,9 +46,7 @@ const PostSamba = (): JSX.Element => {
       return;
     }
 
-    const response = await createSambaAccount(requestBody);
-    setResponse(response);
-    setIsFormSubmitted(true);
+    await createSambaAccount(requestBody);
   };
 
   return (
