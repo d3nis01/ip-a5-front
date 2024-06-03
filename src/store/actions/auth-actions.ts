@@ -1,16 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  AUTH__FETCH_USER_DETAILS,
-  AUTH__LOGIN,
-  AUTH__LOGOUT,
-  AUTH__REGISTER,
-  AUTH__SET_LOADING,
-  AUTH__SET_LOGIN_ERROR,
-  AUTH__SET_REFRESH_TOKEN,
-  AUTH__SET_STATE,
-  AUTH__SET_TOKEN,
-  AUTH__SET_USER_DETAILS,
-} from '../constants';
+import { AUTH__FETCH_USER_DETAILS, AUTH__LOGIN, AUTH__LOGOUT, AUTH__REGISTER, AUTH__SET_LOADING, AUTH__SET_LOGIN_ERROR, AUTH__SET_STATE, AUTH__SET_TOKEN, AUTH__SET_USER_DETAILS } from '../constants';
 import { ILoginCredentials, IRegisterCredentials } from '../../types/auth/AuthTypes';
 import { AppDispatch, RootState } from '..';
 import { TOKEN_AUTH, fetchUserDetails, loginRequest, registerRequest } from '../../services/auth-service';

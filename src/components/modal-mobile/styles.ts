@@ -8,7 +8,7 @@ export const ModalHeaderContainer = styled.div`
   flex-direction: column;
   position: absolute;
   right: 20px;
-  top: 24px;
+  top: 18px;
   z-index: 100500000;
   justify-content: space-between;
 `;

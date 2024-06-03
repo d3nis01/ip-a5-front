@@ -37,4 +37,8 @@ export const UserInfo = styled.div`
       background-color: #0056b3;
     }
   }
+
+  @media (max-width: 992px) {
+    padding-right: 64px;
+  }
 `;

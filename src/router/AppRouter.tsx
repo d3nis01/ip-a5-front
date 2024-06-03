@@ -46,7 +46,7 @@ const AppRouter = (): JSX.Element => {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<SambaGetAll />} />
           <Route path={ROUTE_REGISTER} element={<Register />} />
           <Route path={ROUTE_LOGIN} element={<Login />} />
           <Route path={ROUTE__AUTH_FORGOT_PASSWORD_FORM} element={<ForgotPasswordForm />} />

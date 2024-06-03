@@ -86,6 +86,16 @@ export const InputWrapper = styled.div`
   width: 100%;
   flex-direction: column;
   gap: 6px;
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const CopyButton = styled.button`
@@ -158,6 +168,167 @@ export const ResponseValueWrapper = styled.div`
   align-items: center;
 `;
 export const AccountInputError = styled.div`
+  color: ${props => props.theme.colors.red};
+  font-size: 14px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  margin-top: 5px;
+  text-align: left;
+`;
+
+export const APContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+  width: 600px;
+  padding: 32px;
+  border-radius: 20px;
+  background-color: ${props => props.theme.colors.white};
+
+  @media (max-width: 620px) {
+    width: 96%;
+  }
+  @media (max-width: 440px) {
+    padding: 20px;
+  }
+`;
+
+export const APTitle = styled.h1`
+  font-size: 24px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  color: ${props => props.theme.colors.textPrimary};
+  text-align: left;
+  width: 100%;
+
+  @media (max-width: 620px) {
+    font-size: 20px;
+  }
+`;
+
+export const APDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+`;
+
+export const APSingleInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+export const APSingleInfoLabel = styled.div`
+  font-size: 16px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  color: ${props => props.theme.colors.textPrimary};
+`;
+
+export const APSingleInfoValue = styled.div`
+  font-size: 16px;
+  color: ${props => props.theme.colors.textPrimary};
+`;
+
+export const APForm = styled.form`
+  width: 100%;
+`;
+
+export const APInnerContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+export const APUpdateLabel = styled.label`
+  font-size: 18px;
+  color: ${props => props.theme.colors.textPrimary};
+  text-align: left;
+  font-weight: ${props => props.theme.fontWeights.bold};
+`;
+
+export const APUpdateInput = styled.input`
+  padding: 6px;
+  border: 2px solid #cacaca;
+
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border: 2px solid ${props => props.theme.colors.primaryPurple};
+  }
+`;
+
+export const APUpdateRadioInput = styled.input`
+  padding: 6px 10px;
+  border: 2px solid ${props => (props.checked ? props.theme.colors.primaryPurple : '#cacaca')};
+  border-radius: 5px;
+  font-size: 16px;
+  width: 300px;
+
+  cursor: pointer;
+  appearance: none;
+
+  &:checked {
+    border-color: ${props => props.theme.colors.primaryPurple};
+  }
+
+  &::before {
+    content: attr(value);
+    font-size: 16px;
+    color: ${props => (props.checked ? props.theme.colors.primaryPurple : '#000')};
+    font-weight: 500;
+  }
+`;
+
+export const APRadioLabel = styled.label`
+  font-size: 16px;
+  color: ${props => props.theme.colors.textPrimary};
+  text-align: left;
+  font-weight: ${props => props.theme.fontWeights.bold};
+`;
+
+export const RadioOption = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+
+  input[type='radio'] {
+  }
+`;
+
+export const PopupUnderlay = styled.div`
+  z-index: 10000000000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+`;
+
+export const APSubmitButton = styled.button`
+  padding: 10px 30px;
+  background-color: ${props => props.theme.colors.primaryPurple};
+  color: ${props => props.theme.colors.white};
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: ${props => props.theme.fontWeights.bold};
+  width: 100%;
+`;
+
+export const APUpdateError = styled.div`
   color: ${props => props.theme.colors.red};
   font-size: 14px;
   font-weight: ${props => props.theme.fontWeights.bold};
