@@ -2,7 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/header/Header';
 import Sidebar from '../components/sidebar/Sidebar';
 import { LayoutCenterContainer, LayoutContainer, LayoutContentWrapper, LayoutLoginContainer } from './styles';
-import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from '../router/constants';
+import { ROUTE_LOGIN, ROUTE_REGISTER, ROUTE__AUTH_FORGOT_PASSWORD_FORM, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from '../router/constants';
 
 const Layout = (): JSX.Element => {
   const location = useLocation();
@@ -12,7 +12,8 @@ const Layout = (): JSX.Element => {
     location.pathname === ROUTE_REGISTER ||
     location.pathname === ROUTE__SEND_RECOVERY_CODE ||
     location.pathname === ROUTE__CHECK_RECOVERY_CODE ||
-    location.pathname === ROUTE__RESET_PASSWORD
+    location.pathname === ROUTE__RESET_PASSWORD ||
+    location.pathname === ROUTE__AUTH_FORGOT_PASSWORD_FORM
   ) {
     return (
       <LayoutLoginContainer>

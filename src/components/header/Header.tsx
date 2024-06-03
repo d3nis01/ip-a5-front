@@ -4,7 +4,7 @@ import { appWidthSelector } from '../../store/selectors/app-selectors';
 import ModalMobile from '../modal-mobile';
 import { HeaderContainer, UserInfo } from './styles';
 import { currentUserDetailsSelector } from '../../store/selectors/auth-selectors';
-import { logout } from '../../api/auth/authService';
+import { logout } from '../../services/auth-service';
 
 export const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();

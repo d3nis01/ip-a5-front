@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   RegisterTitle,
   RegisterForm,
@@ -23,6 +23,7 @@ import { IRegisterCredentials } from '../../types/auth/AuthTypes';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { registerAuthActionAsync } from '../../store/actions/auth-actions';
+import { ROUTE_LOGIN } from '../../router/constants';
 
 const Register = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,6 +36,7 @@ const Register = (): JSX.Element => {
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<string>('');
   const [registerError, setRegisterError] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,8 +55,11 @@ const Register = (): JSX.Element => {
     };
 
     try {
-      await dispatch(registerAuthActionAsync(registerCredentials)).unwrap();
-      setIsFormSubmitted(true);
+      const reponse = await dispatch(registerAuthActionAsync(registerCredentials)).unwrap();
+      if (reponse) {
+        setIsFormSubmitted(true);
+        navigate(ROUTE_LOGIN);
+      }
     } catch (error) {
       console.error('Registration failed', error);
       setRegisterError('Registration failed');

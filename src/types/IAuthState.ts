@@ -3,7 +3,8 @@ import { ICurrentUserDetails } from './ICurrentUserDetails';
 interface IAuthState {
   token: string;
   state: boolean;
-  refreshToken: string;
+  isLoading: boolean;
+  loginError: boolean | string;
   currentUserDetails: ICurrentUserDetails | null;
 }
 

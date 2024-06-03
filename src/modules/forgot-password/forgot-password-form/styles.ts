@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const SRCContainer = styled.div`
+export const FPFContainer = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
@@ -10,7 +10,7 @@ export const SRCContainer = styled.div`
   justify-content: center;
 `;
 
-export const SRCWrapper = styled.div`
+export const FPFWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,9 +19,10 @@ export const SRCWrapper = styled.div`
   height: 500px;
 `;
 
-export const SRCImage = styled.img`
+export const FPFImage = styled.img`
   width: 400px;
   object-fit: cover;
+  object-position: 55% 50%;
   border-radius: 10px;
   height: 100%;
 
@@ -30,7 +31,7 @@ export const SRCImage = styled.img`
   }
 `;
 
-export const SRCInnerContainer = styled.div`
+export const FPFInnerContainer = styled.div`
   background-color: ${props => props.theme.colors.white};
   transform: translateX(-50px);
   width: 600px;
@@ -58,7 +59,7 @@ export const SRCInnerContainer = styled.div`
   }
 `;
 
-export const SRCTitle = styled.h1`
+export const FPFTitle = styled.h1`
   font-size: 30px;
   color: ${props => props.theme.colors.textPrimary};
   text-align: left;
@@ -69,7 +70,18 @@ export const SRCTitle = styled.h1`
   }
 `;
 
-export const SRCForm = styled.form`
+export const FPFEmailSentTitle = styled.h1`
+  font-size: 24px;
+  color: ${props => props.theme.colors.textPrimary};
+  text-align: center;
+  font-weight: ${props => props.theme.fontWeights.bold};
+
+  @media (max-width: 550px) {
+    font-size: ${props => props.theme.fontSize.xxl};
+  }
+`;
+
+export const FPFForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -78,14 +90,14 @@ export const SRCForm = styled.form`
   padding-left: 12px;
 `;
 
-export const SRCInputWrapper = styled.div`
+export const FPFInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
 `;
 
-export const SRCLabel = styled.label`
+export const FPFLabel = styled.label`
   font-size: ${props => props.theme.fontSize.lg};
   color: ${props => props.theme.colors.textPrimary};
   text-align: left;
@@ -96,23 +108,24 @@ export const SRCLabel = styled.label`
   }
 `;
 
-export const SRCInput = styled.input<{ $invalid: boolean }>`
+export const FPFInput = styled.input`
   padding: 10px;
-  border: 2px solid ${props => !props.$invalid ? props.theme.colors.primaryPurple : props.theme.colors.red};
+  border: 2px solid #cacaca;
   border-radius: 5px;
   width: 100%;
   font-size: ${props => props.theme.fontSize.md};
 
   &:focus {
     outline: none;
-  };
+    border: 2px solid ${props => props.theme.colors.primaryPurple};
+  }
 
   @media (max-width: 550px) {
     font-size: ${props => props.theme.fontSize.sm};
   }
 `;
 
-export const SRCSubmitButton = styled.button`
+export const FPFSubmitButton = styled.button`
   width: 100%;
   height: 40px;
   background-color: ${props => props.theme.colors.primaryPurple};
@@ -129,7 +142,7 @@ export const SRCSubmitButton = styled.button`
   }
 `;
 
-export const SRCInputError = styled.div`
+export const FPFInputError = styled.div`
   color: ${props => props.theme.colors.red};
   font-size: ${props => props.theme.fontSize.sm};
   font-weight: ${props => props.theme.fontWeights.bold};
@@ -139,6 +152,3 @@ export const SRCInputError = styled.div`
     font-size: ${props => props.theme.fontSize.xs};
   }
 `;
-
-
-

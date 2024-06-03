@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/Layout';
 import Home from '../modules/home/Home';
-import { ROUTE_REGISTER, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from './constants';
+import { ROUTE_REGISTER, ROUTE__AUTH_FORGOT_PASSWORD_FORM, ROUTE__CHECK_RECOVERY_CODE, ROUTE__RESET_PASSWORD, ROUTE__SEND_RECOVERY_CODE } from './constants';
 import Login from '../modules/login/Login';
 import { ROUTE_LOGIN } from './constants';
 import GetAccount from '../modules/account-get/GetAccount';
@@ -26,10 +26,8 @@ import UpdateVpn from '../modules/vpn-update/VpnUpdate';
 import UpdateAccount from '../modules/account-update/UpdateAccount';
 import useEventListeners from '../hooks/useEventListeners';
 import Register from '../modules/register/Register';
-import SendRecoveryCode from '../modules/forgot-password/SendRecoveryCode/SendRecoveryCode';
-import CheckRecoveryCode from '../modules/forgot-password/CheckRecoveryCode/CheckRecoveryCode';
-import ResetPassword from '../modules/forgot-password/ResetPassword/ResetPassword';
-import loadServices from '../services/load-services';
+import CheckRecoveryCode from '../modules/forgot-password/forgot-password-form/ForgotPasswordForm';
+import ResetPassword from '../modules/forgot-password/reset-password-form/ResetPasswordForm';
 
 const AppRouter = (): JSX.Element => {
   useEventListeners();
@@ -41,8 +39,7 @@ const AppRouter = (): JSX.Element => {
           <Route index element={<Home />} />
           <Route path={ROUTE_REGISTER} element={<Register />} />
           <Route path={ROUTE_LOGIN} element={<Login />} />
-          <Route path={ROUTE__SEND_RECOVERY_CODE} element={<SendRecoveryCode />} />
-          <Route path={ROUTE__CHECK_RECOVERY_CODE} element={<CheckRecoveryCode />} />
+          <Route path={ROUTE__AUTH_FORGOT_PASSWORD_FORM} element={<CheckRecoveryCode />} />
           <Route path={ROUTE__RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={ROUTE__ACCOUNT_GET} element={<GetAccount />} />
           <Route path={ROUTE__VPN_GET} element={<GetVpn />} />

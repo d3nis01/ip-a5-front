@@ -6,6 +6,7 @@ export const ROUTE_LOGIN = '/login';
 export const ROUTE__SEND_RECOVERY_CODE = '/send-recovery-code';
 export const ROUTE__CHECK_RECOVERY_CODE = '/check-recovery-code';
 export const ROUTE__RESET_PASSWORD = '/reset-password';
+export const ROUTE__AUTH_FORGOT_PASSWORD_FORM = '/forgot-password-form';
 
 export const ROUTE__SAMBA_POST = '/samba-post';
 export const ROUTE__SAMBA_GET = '/samba-get';

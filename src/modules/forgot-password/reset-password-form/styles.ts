@@ -23,7 +23,7 @@ export const RPWrapper = styled.div`
 export const RPImage = styled.img`
   width: 400px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 100%;
 
   @media (max-width: 1000px) {
@@ -101,9 +101,9 @@ export const RPInputField = styled.div`
   position: relative;
 `;
 
-export const RPInput = styled.input<{ $invalid: boolean }>`
+export const RPInput = styled.input`
   padding: 10px;
-  border: 2px solid ${props => (!props.$invalid ? props.theme.colors.primaryPurple : props.theme.colors.red)};
+  border: 2px solid #cacaca;
   border-radius: 5px;
   width: 100%;
   font-size: ${props => props.theme.fontSize.md};

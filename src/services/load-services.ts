@@ -1,4 +1,4 @@
-import { autoLogin } from '../api/auth/authService';
+import { autoLogin } from './auth-service';
 
 const loadServices = async (): Promise<void> => {
   autoLogin();

@@ -1,6 +1,6 @@
 import { HomeContainer, HomeInnerContainer } from './styles';
 import { useEffect } from 'react';
-import { fetchUserDetails } from '../../api/auth/authService';
+import { fetchUserDetails } from '../../services/auth-service';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { setUserDetailsAction } from '../../store/actions/auth-actions';
 const Home = (): JSX.Element => {
