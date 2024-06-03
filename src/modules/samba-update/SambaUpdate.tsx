@@ -7,65 +7,40 @@ import {
   UUIDInput,
   SubmitButton,
   InputWrapper,
-  CopyButton,
-  SambaResponseSection,
-  SambaResponseLabel,
-  SambaResponseValue,
-  SambaRequestResponseLabel,
   SambaInnerContainer,
-  SambaResponsesWrapper,
-  ResponseValueWrapper,
-  SambaResponseBox,
   SambaInputError,
 } from './styles';
 
-import { getSambaAccount, updateSambaAccount } from '../../services/samba-service';
-import { ISambaGetResponse, ISambaUpdateResponse } from '../../types/IServiceTypesRequests';
-import { isIPv4, isUUID } from '../../utils/inputValidators';
+import { updateSambaAccount } from '../../services/samba-service';
+import { isDescriptionTrimmedMinLength, isIPv4, isUUID } from '../../utils/inputValidators';
 import { VpnPostTextarea } from '../vpn-post/styles';
 
 const UpdateSamba = (): JSX.Element => {
   const [uuid, setUuid] = useState<string>('');
   const [newIpAddress, setNewIpAddress] = useState<string>('');
   const [newDescription, setNewDescription] = useState<string>('');
-  const [sambaData, setSambaData] = useState<ISambaUpdateResponse>();
-  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [uuidError, setUuidError] = useState<string>('');
   const [ipError, setIpError] = useState<string>('');
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {})
-      .catch(err => {
-        console.error('Error copying to clipboard: ', err);
-      });
-  };
+  const [descriptionError, setDescriptionError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isUUID(uuid)) {
-      setUuidError('Invalid UUID!');
-      if (!isIPv4(newIpAddress)) {
-        setIpError('Invalid IP address!');
-      }
+
+    setUuidError(!isUUID(uuid) ? 'Invalid UUID!' : '');
+    setIpError(!isIPv4(newIpAddress) ? 'Invalid IP address' : '');
+    setDescriptionError(!isDescriptionTrimmedMinLength(newDescription, 10) ? 
+      'Invalid description' : '');
+
+    if (uuidError || ipError || descriptionError) {
       return;
     }
-    if (!isIPv4(newIpAddress)) {
-      setIpError('Invalid IP address!');
-      return;
-    }
-    setUuidError('');
-    setIpError('');
 
     const updateData = {
       newIpAddress,
       newDescription,
     };
 
-    const response = await updateSambaAccount(uuid, updateData);
-    setSambaData(response);
-    setIsFormSubmitted(true);
+    await updateSambaAccount(uuid, updateData);
   };
 
   return (
@@ -87,25 +62,12 @@ const UpdateSamba = (): JSX.Element => {
           </InputWrapper>
           <InputWrapper>
             <SambaLabel htmlFor="newDescription">New Description *</SambaLabel>
-            <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" />
+            <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" required />
+            {descriptionError && <SambaInputError>Description length should be at least 10 characters!</SambaInputError>}
+
           </InputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </SambaForm>
-
-        {isFormSubmitted && (
-          <SambaResponseSection>
-            <SambaRequestResponseLabel>Request Response</SambaRequestResponseLabel>
-            <SambaResponsesWrapper>
-              <SambaResponseBox>
-                <SambaResponseLabel>Status</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{sambaData?.status + ' ' + sambaData?.statusText}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(sambaData?.status))}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseBox>
-            </SambaResponsesWrapper>
-          </SambaResponseSection>
-        )}
       </SambaInnerContainer>
     </SambaContainer>
   );

@@ -36,7 +36,7 @@ export const logout = () => {
 };
 
 export const fetchUserDetails = async (): Promise<ICurrentUserDetails> => {
-  const response = await api.get('/auth/currentUserDetails');
+  const response = await api.get('/auth/current-user-details');
   return response.data;
 };
 

@@ -133,13 +133,10 @@ export interface ISambaUpdateResponse {
 
 export interface ISambaGetAllResponse {
   data: ISamba[];
-  status: number;
-  statusText: string;
 }
 
 export interface ISambaDeleteResponse {
   status: number;
-  statusText: string;
 }
 
 export interface IVpnDeleteResponse {

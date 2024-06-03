@@ -18,7 +18,7 @@ import { getAllSambaAccount, updateSambaAccount, deleteSambaAccount } from '../.
 import { ISamba } from '../../types/IServiceTypesObjects';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { isIPv4, isMatricol } from '../../utils/inputValidators';
+import { isDescriptionTrimmedMinLength, isIPv4 } from '../../utils/inputValidators';
 
 const SambaGetAll = (): JSX.Element => {
   const [sambaArray, setSambaArray] = useState<ISamba[]>();
@@ -27,7 +27,7 @@ const SambaGetAll = (): JSX.Element => {
 
   useEffect(() => {
     const fetchList = async () => {
-      const getAllArray = (await getAllSambaAccount()).data;
+      const getAllArray = await getAllSambaAccount();
       setSambaArray(getAllArray);
     };
     fetchList();
@@ -42,17 +42,14 @@ const SambaGetAll = (): JSX.Element => {
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
       focusConfirm: false,
-      customClass: {
-        popup: 'swal2-popup-delete',
-        title: 'swal-title-delete',
-        confirmButton: 'swal-confirm-button-delete',
-        cancelButton: 'swal-cancel-button-delete',
-      },
-    }).then(result => {
-      if (result.isConfirmed) {
-        deleteSambaAccount(id);
-        setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
-      }
+    }).then(async result => {
+        if (!result.isConfirmed) {
+          return;
+        } 
+        const isOk = await deleteSambaAccount(id);
+        if (isOk) {
+          setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
+        }
     });
   };
 
@@ -67,11 +64,6 @@ const SambaGetAll = (): JSX.Element => {
         <input id="swal-input3" class="swal2-input" value="${object.description}" placeholder="Brief description here" />
       </div>
     `,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Save',
-      cancelButtonText: 'Cancel',
       focusConfirm: false,
       preConfirm: () => {
         const newIp = (document.getElementById('swal-input2') as HTMLInputElement).value;
@@ -82,7 +74,7 @@ const SambaGetAll = (): JSX.Element => {
           return false;
         }
 
-        if (newDesc.length <= 0) {
+        if (isDescriptionTrimmedMinLength(newDesc, 10)) {
           Swal.showValidationMessage('Invalid description format');
           return false;
         }
