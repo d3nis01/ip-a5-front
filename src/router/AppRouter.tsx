@@ -34,10 +34,10 @@ import UpdateVpn from '../modules/vpn-update/VpnUpdate';
 import UpdateAccount from '../modules/account-update/UpdateAccount';
 import useEventListeners from '../hooks/useEventListeners';
 import Register from '../modules/register/Register';
-import SendRecoveryCode from '../modules/forgot-password/SendRecoveryCode/SendRecoveryCode';
-import loadServices from '../services/load-services';
 import GetAccountEmailVariants from '../modules/account-email-variants-get/GetAccountEmailVariants';
 import UpdateAccountEmailVariants from '../modules/account-email-variants-put/UpdateAccountEmailVariants';
+import ResetPassword from '../modules/forgot-password/reset-password-form/ResetPasswordForm';
+import ForgotPasswordForm from '../modules/forgot-password/forgot-password-form/ForgotPasswordForm';
 
 const AppRouter = (): JSX.Element => {
   useEventListeners();
@@ -49,7 +49,7 @@ const AppRouter = (): JSX.Element => {
           <Route index element={<Home />} />
           <Route path={ROUTE_REGISTER} element={<Register />} />
           <Route path={ROUTE_LOGIN} element={<Login />} />
-          <Route path={ROUTE__AUTH_FORGOT_PASSWORD_FORM} element={<CheckRecoveryCode />} />
+          <Route path={ROUTE__AUTH_FORGOT_PASSWORD_FORM} element={<ForgotPasswordForm />} />
           <Route path={ROUTE__RESET_PASSWORD} element={<ResetPassword />} />
           <Route path={ROUTE__ACCOUNT_GET} element={<GetAccount />} />
           <Route path={ROUTE__VPN_GET} element={<GetVpn />} />
