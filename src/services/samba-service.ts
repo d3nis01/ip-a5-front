@@ -1,16 +1,17 @@
 import axios from 'axios';
 import CustomError from '../utils/CustomError';
 import api from '../api/api';
-import { ICreateSamba, ICreateSambaResponse, ISambaDeleteResponse, ISambaGetAllResponse, ISambaGetResponse, ISambaUpdateResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
+import { ICreateSamba, ICreateSambaResponse, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
 import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../mappers/samba-mappers';
+import alertService from './alert-service';
+import { AUTHORIZATION_ERROR_TITLE, DEFAULT_ERROR_MESSAGE, DEFAULT_ERROR_TITLE } from './alert-service/alert-service';
+import { ISamba } from '../types/IServiceTypesObjects';
 
-export const createSambaAccount = async (data: ICreateSamba): Promise<ICreateSambaResponse> => {
+export const createSambaAccount = async (data: ICreateSamba): Promise<void> => {
   try {
-    const response = await api.post('/sambas', data);
-    const locationHeader = response.headers['location'];
-    const segments = locationHeader.split('/');
-    const uuid = segments[segments.length - 1];
-    return { uuid: uuid, status: response.status, statusText: response.statusText };
+    await api.post('/sambas', data);
+
+    alertService.successAlert({ title: 'Success', message: 'New samba account created'});
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error with API request:', error.response);
@@ -35,42 +36,56 @@ export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> =>
   }
 };
 
-export const deleteSambaAccount = async (id: string): Promise<ISambaDeleteResponse> => {
+export const deleteSambaAccount = async (id: string): Promise<boolean> => {
   try {
-    const response = await api.delete(`/sambas/${id}`);
-    return { status: response.status, statusText: response.statusText };
+    await api.delete(`/sambas/${id}`);
+    return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new CustomError('Failed to delete Samba account', error.response?.status || 500, error.response?.data);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+      } else {
+        alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
+      }
+    } else {
+      alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: DEFAULT_ERROR_MESSAGE });
     }
-    throw error;
+
+    return false;
   }
 };
 
-export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<ISambaUpdateResponse> => {
+export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<void> => {
   try {
-    const response = await api.put(`/sambas/${id}`, params);
-    return {
-      status: response.status,
-      statusText: response.statusText,
-    };
+    await api.put(`/sambas/${id}`, params);
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+      } else {
+        alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
+      }
+    } else {
+      alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: DEFAULT_ERROR_MESSAGE });
     }
-    throw error;
   }
 };
 
-export const getAllSambaAccount = async (): Promise<ISambaGetAllResponse> => {
+export const getAllSambaAccount = async (): Promise<ISamba[]> => {
   try {
     const response = await api.get(`/sambas`);
     const data = mapSambaGetAllResponseToSambaArray(response.data);
-    return { data, status: response.status, statusText: response.statusText };
+    return data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
+      if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+      } else {
+        alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
+      }
+    } else {
+      alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: DEFAULT_ERROR_MESSAGE });
     }
-    throw error;
+    return [];
   }
 };

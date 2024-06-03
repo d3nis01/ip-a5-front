@@ -16,6 +16,10 @@ export const isIPv4 = (ip: string): boolean => {
   return ipRegex.test(ip);
 };
 
+export const isDescriptionTrimmedMinLength = (description: string, minLength: number) => {
+  return description?.trim().length >= minLength;
+}
+
 export const isCNP = (cnp: string): boolean => {
   const cnpRegex = new RegExp('^[1-9]{1}[0-9]{12}$');
   return cnpRegex.test(cnp);
