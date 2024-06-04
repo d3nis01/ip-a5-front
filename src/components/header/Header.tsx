@@ -1,5 +1,4 @@
-import React from 'react';
-import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks';
+import { useAppSelector } from '../../hooks/store-hooks';
 import { appWidthSelector } from '../../store/selectors/app-selectors';
 import ModalMobile from '../modal-mobile';
 import { HeaderContainer, UserInfo } from './styles';
@@ -7,10 +6,8 @@ import { currentUserDetailsSelector } from '../../store/selectors/auth-selectors
 import { logout } from '../../services/auth-service';
 
 export const Header = (): JSX.Element => {
-  const dispatch = useAppDispatch();
   const width = useAppSelector(appWidthSelector);
   const userDetails = useAppSelector(currentUserDetailsSelector);
-  console.log(userDetails);
   const handleLogout = () => {
     logout();
   };

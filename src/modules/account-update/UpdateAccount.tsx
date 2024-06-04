@@ -5,34 +5,13 @@ import {
   AccountUpdateLabel,
   AccountUpdateInput,
   AccountUpdateSubmitButton,
-  AccountUpdateResponseSection,
-  ResponseLabel,
-  ResponseValue,
-  RequestResponseLabel,
-  CopyButton,
   AccountUpdateContainer,
   AccountUpdateInnerContainer,
   AccountUpdateInputWrapper,
-  AccountUpdateResponseWrapper,
-  AccountUpdateResponseItemWrapper,
-  AccountUpdateResponseValueContainer,
   AccountInputError,
 } from './styles';
-
 import { updateAccount } from '../../services/account-service';
 import { isUUID } from '../../utils/inputValidators';
-
-const copyToClipboard = async (text: string) => {
-  if (!navigator.clipboard) {
-    console.error('Clipboard not available');
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (err) {
-    console.error('Failed to copy text: ', err);
-  }
-};
 
 const UpdateAccount = (): JSX.Element => {
   const [id, setId] = useState<string>('');
@@ -115,20 +94,6 @@ const UpdateAccount = (): JSX.Element => {
 
           <AccountUpdateSubmitButton type="submit">Submit</AccountUpdateSubmitButton>
         </AccountUpdateForm>
-        {isFormSubmitted && (
-          <AccountUpdateResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
-            <AccountUpdateResponseWrapper>
-              <AccountUpdateResponseItemWrapper>
-                <ResponseLabel>Status code</ResponseLabel>
-                <AccountUpdateResponseValueContainer>
-                  <ResponseValue>{String(response?.status) + ' ' + response?.statusText}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(response?.status) || '')}>Copy</CopyButton>
-                </AccountUpdateResponseValueContainer>
-              </AccountUpdateResponseItemWrapper>
-            </AccountUpdateResponseWrapper>
-          </AccountUpdateResponseSection>
-        )}
       </AccountUpdateInnerContainer>
     </AccountUpdateContainer>
   );

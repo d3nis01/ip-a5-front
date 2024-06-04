@@ -7,6 +7,7 @@ import { clearItem, setItem } from '../../services/storage-service';
 import { ICurrentUserDetails } from '../../types/ICurrentUserDetails';
 import Swal from 'sweetalert2';
 import { IRegisterReturnType } from '../../types/auth/IRegisterReturnType';
+import alertService from '../../services/alert-service';
 
 export const setTokenAuthAction = createAction<string>(AUTH__SET_TOKEN);
 export const setStateAuthAction = createAction<boolean>(AUTH__SET_STATE);
@@ -60,11 +61,7 @@ export const logoutActionAsync = createAsyncThunk<void, never, { state: RootStat
   clearItem(TOKEN_AUTH);
   thunkApi.dispatch(setStateAuthAction(false));
 
-  Swal.fire({
-    title: 'Logout successfully',
-    icon: 'success',
-    timer: 2000,
-  });
+  alertService.successAlert({ title: 'Logout', message: 'You have been logged out' });
 });
 
 export const registerAuthActionAsync = createAsyncThunk<IRegisterReturnType, IRegisterCredentials, { state: RootState; dispatch: AppDispatch }>(AUTH__REGISTER, async (data, thunkApi) => {
@@ -103,6 +100,6 @@ export const fetchUserDetailsThunk = createAsyncThunk<void, void, { state: RootS
     const response = await fetchUserDetails();
     thunkApi.dispatch(setUserDetailsAction(response));
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 });

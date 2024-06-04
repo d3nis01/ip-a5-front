@@ -74,25 +74,10 @@ const SelectEmailForm = (props: ISelectEmailFormProps): JSX.Element => {
       userPassword: newPassword,
     };
 
-    console.log(requestBody);
-
     const updateResponse = await updateAccountEmailVariants(getResponse.data.uidNumber.toString(), requestBody);
 
     if (updateResponse.status === 200) {
       setIsPopupOpen(false);
-      Swal.fire({
-        title: 'Success!',
-        text: 'Account updated successfully!',
-        icon: 'success',
-        timer: 2000,
-      });
-    } else {
-      Swal.fire({
-        title: 'Error!',
-        text: updateResponse.statusText || 'An error occurred!',
-        icon: 'error',
-        timer: 2000,
-      });
     }
   };
 

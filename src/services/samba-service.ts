@@ -31,6 +31,7 @@ export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> =>
     return { data: data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
       throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
     }
     throw error;
@@ -40,6 +41,7 @@ export const getSambaAccount = async (id: string): Promise<ISambaGetResponse> =>
 export const deleteSambaAccount = async (id: string): Promise<boolean> => {
   try {
     await api.delete(`/sambas/${id}`);
+    alertService.successAlert({ title: 'Success', message: 'Samba account deleted' });
     return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -59,6 +61,7 @@ export const deleteSambaAccount = async (id: string): Promise<boolean> => {
 export const updateSambaAccount = async (id: string, params: UpdateSambaParams): Promise<void> => {
   try {
     await api.put(`/sambas/${id}`, params);
+    alertService.successAlert({ title: 'Success', message: 'Samba account updated' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401 || error.response?.status === 403) {

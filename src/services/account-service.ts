@@ -14,6 +14,7 @@ import {
   UpdateAccountEmailVariantsParams,
 } from '../types/IServiceTypesRequests';
 import { mapAccountEmailVariantsResponseToAccountEmailVariants, mapAccountResponseToAccount } from '../mappers/account-mappers';
+import alertService from './alert-service';
 
 export const createAccount = async (accountData: ICreateAccount): Promise<ICreateAccountResponse> => {
   try {
@@ -21,12 +22,14 @@ export const createAccount = async (accountData: ICreateAccount): Promise<ICreat
     const locationHeader = response.headers['location'];
     const segments = locationHeader.split('/');
     const uuid = segments[segments.length - 1];
+    alertService.successAlert({ title: 'Success', message: 'New account created' });
     return { uuid: uuid, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: 'Error', message: error.message || 'An unexpected error occurred' });
       throw new CustomError('Error with API request', error.response?.status || 500, error.response?.data);
     } else {
-      console.error('An unexpected error occurred:', error);
+      alertService.errorAlert({ title: 'Error', message: 'An unexpected error occurred' });
       throw new CustomError('An unexpected error occurred', 500);
     }
   }
@@ -39,30 +42,33 @@ export const getAccount = async (id: string): Promise<IAccountGetResponse> => {
     return { data: data, status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: 'Error', message: error.response?.data.message });
       throw new CustomError('Failed to fetch account', error.response?.status || 500, error.response?.data);
     }
     throw error;
   }
 };
 
-export const deleteAccount = async (id: string): Promise<IAccountDeleteResponse> => {
+export const deleteAccount = async (id: string): Promise<void> => {
   try {
-    const response = await api.delete(`/accounts/${id}`);
-    return { status: response.status, statusText: response.statusText };
+    await api.delete(`/accounts/${id}`);
+    alertService.successAlert({ title: 'Success', message: 'Account deleted' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: 'Error', message: error.response?.data.message });
       throw new CustomError('Failed to delete account', error.response?.status || 500, error.response?.data);
     }
     throw error;
   }
 };
 
-export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<IAccountUpdateResponse> => {
+export const updateAccount = async (id: string, params: UpdateAccountParams): Promise<void> => {
   try {
-    const response = await api.put(`/accounts/${id}`, params);
-    return { status: response.status, statusText: response.statusText };
+    await api.put(`/accounts/${id}`, params);
+    alertService.successAlert({ title: 'Success', message: 'Account updated' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: 'Error', message: error.response?.data.message });
       throw new CustomError('Failed to update Samba account', error.response?.status || 500, error.response?.data);
     }
     throw error;
@@ -85,9 +91,11 @@ export const getAccountEmailVariants = async (matricol: string): Promise<IAccoun
 export const updateAccountEmailVariants = async (uuid: string, params: UpdateAccountEmailVariantsParams): Promise<IAccountEmailVariantsUpdateResponse> => {
   try {
     const response = await api.put(`/accounts/mail/${uuid}`, params);
+    alertService.successAlert({ title: 'Success', message: 'Account email variants updated' });
     return { status: response.status, statusText: response.statusText };
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      alertService.errorAlert({ title: 'Error', message: error.response?.data });
       throw new CustomError('Failed to update account email variants', error.response?.status || 500, error.response?.data);
     }
     throw error;

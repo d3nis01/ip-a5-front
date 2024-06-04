@@ -47,8 +47,6 @@ const ResetPassword = (): JSX.Element => {
     const token = new URLSearchParams(window.location.search).get('token');
     const decodedToken = decodeURI(token || '');
 
-    console.log(decodedToken);
-
     const requestBody: IResetPassword = {
       email,
       newPassword: password,
