@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AccountContainer,
   AccountTitle,
@@ -8,7 +8,6 @@ import {
   SubmitButton,
   InputWrapper,
   AccountResponsesWrapper,
-  APContainer,
   APTitle,
   APDetails,
   APSingleInfoContainer,
@@ -25,20 +24,29 @@ import {
   AccountInputError,
   APSubmitButton,
   APUpdateError,
+  AccountRequestResponseLabel,
+  AccountResponseBox,
+  AccountResponseLabel,
+  AccountResponseSection,
+  AccountResponseValue,
+  CopyButton,
+  ResponseValueWrapper,
+  APContainer,
 } from './styles';
 
 import { getAccountEmailVariants, updateAccountEmailVariants } from '../../services/account-service';
-import { IAccountEmailVariantsGetResponse } from '../../types/IServiceTypesRequests';
+import { IAccountEmailVariantsGetResponse, UpdateAccountEmailVariantsParams } from '../../types/IServiceTypesRequests';
 import { isMatricol } from '../../utils/inputValidators';
 import Swal from 'sweetalert2';
 
 interface ISelectEmailFormProps {
   matricol: string;
   getResponse: IAccountEmailVariantsGetResponse;
+  setIsPopupOpen: (value: boolean) => void;
 }
 
 const SelectEmailForm = (props: ISelectEmailFormProps): JSX.Element => {
-  const { matricol, getResponse } = props;
+  const { matricol, getResponse, setIsPopupOpen } = props;
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [alternativeEmail, setAlternativeEmail] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -59,16 +67,19 @@ const SelectEmailForm = (props: ISelectEmailFormProps): JSX.Element => {
     }
     setPasswordError('');
 
-    const requestBody = {
+    const requestBody: UpdateAccountEmailVariantsParams = {
       mail: selectedOption,
       mailAlternateAddress: alternativeEmail,
       telephoneNumber: phoneNumber,
       userPassword: newPassword,
     };
 
+    console.log(requestBody);
+
     const updateResponse = await updateAccountEmailVariants(getResponse.data.uidNumber.toString(), requestBody);
 
     if (updateResponse.status === 200) {
+      setIsPopupOpen(false);
       Swal.fire({
         title: 'Success!',
         text: 'Account updated successfully!',
@@ -141,7 +152,7 @@ const SelectEmailForm = (props: ISelectEmailFormProps): JSX.Element => {
               </InputWrapper>
               <InputWrapper>
                 <APUpdateLabel>Phone number</APUpdateLabel>
-                <APUpdateInput type="number" required value={phoneNumber} onChange={e => setPhoneNumber(e.target.value.toString())} />
+                <APUpdateInput type="number" required value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
               </InputWrapper>
               <InputWrapper>
                 <APUpdateLabel>New password</APUpdateLabel>
@@ -166,6 +177,7 @@ const GetAccountEmailVariants = (): JSX.Element => {
   const [response, setResponse] = useState<IAccountEmailVariantsGetResponse>();
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [matricolError, setMatricolError] = useState<string>('');
+  const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard
@@ -189,6 +201,7 @@ const GetAccountEmailVariants = (): JSX.Element => {
     const response = await getAccountEmailVariants(matricol);
     setResponse(response);
     setIsFormSubmitted(true);
+    setIsPopupOpen(true); // Open the popup
   };
 
   return (
@@ -206,63 +219,37 @@ const GetAccountEmailVariants = (): JSX.Element => {
           <SubmitButton type="submit">Submit</SubmitButton>
         </AccountForm>
 
-        {
-          isFormSubmitted && response && <SelectEmailForm matricol={matricol} getResponse={response} />
-          // <AccountResponseSection>
-          //   <AccountRequestResponseLabel>Request Response</AccountRequestResponseLabel>
-          //   <AccountResponsesWrapper>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>GID</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.uidNumber}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(String(response.data.uidNumber))}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>First Name</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.firstName}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(response.data.firstName)}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>Last Name</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.lastName}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(response.data.lastName)}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>Email Variant 1</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.mailVariant1}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(response.data.mailVariant1)}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>Email Variant 2</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.mailVariant2}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(response.data.mailVariant2)}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>Email Variant 3</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{response.data.mailVariant3}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(response.data.mailVariant3)}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //     <AccountResponseBox>
-          //       <AccountResponseLabel>Status code</AccountResponseLabel>
-          //       <ResponseValueWrapper>
-          //         <AccountResponseValue>{String(response.status) + ' ' + String(response.statusText)}</AccountResponseValue>
-          //         <CopyButton onClick={() => copyToClipboard(String(response.status))}>Copy</CopyButton>
-          //       </ResponseValueWrapper>
-          //     </AccountResponseBox>
-          //   </AccountResponsesWrapper>
-          // </AccountResponseSection>
-        }
+        {response &&
+          (isPopupOpen && response.data.mailVariant1 ? (
+            <SelectEmailForm matricol={matricol} getResponse={response} setIsPopupOpen={setIsPopupOpen} />
+          ) : (
+            <AccountResponseSection>
+              <AccountRequestResponseLabel>Request Response</AccountRequestResponseLabel>
+              <AccountResponsesWrapper>
+                <AccountResponseBox>
+                  <AccountResponseLabel>GID</AccountResponseLabel>
+                  <ResponseValueWrapper>
+                    <AccountResponseValue>{response.data.uidNumber}</AccountResponseValue>
+                    <CopyButton onClick={() => copyToClipboard(String(response.data.uidNumber))}>Copy</CopyButton>
+                  </ResponseValueWrapper>
+                </AccountResponseBox>
+                <AccountResponseBox>
+                  <AccountResponseLabel>First Name</AccountResponseLabel>
+                  <ResponseValueWrapper>
+                    <AccountResponseValue>{response.data.firstName}</AccountResponseValue>
+                    <CopyButton onClick={() => copyToClipboard(response.data.firstName)}>Copy</CopyButton>
+                  </ResponseValueWrapper>
+                </AccountResponseBox>
+                <AccountResponseBox>
+                  <AccountResponseLabel>Last Name</AccountResponseLabel>
+                  <ResponseValueWrapper>
+                    <AccountResponseValue>{response.data.lastName}</AccountResponseValue>
+                    <CopyButton onClick={() => copyToClipboard(response.data.lastName)}>Copy</CopyButton>
+                  </ResponseValueWrapper>
+                </AccountResponseBox>
+              </AccountResponsesWrapper>
+            </AccountResponseSection>
+          ))}
       </AccountInnerContainer>
     </AccountContainer>
   );

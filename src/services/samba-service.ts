@@ -11,10 +11,11 @@ export const createSambaAccount = async (data: ICreateSamba): Promise<void> => {
   try {
     await api.post('/sambas', data);
 
-    alertService.successAlert({ title: 'Success', message: 'New samba account created'});
+    alertService.successAlert({ title: 'Success', message: 'New samba account created' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error with API request:', error.response);
+      alertService.errorAlert({ title: 'Error', message: error.message || 'An unexpected error occurred' });
       throw new CustomError('Error with API request', error.response?.status || 500);
     } else {
       console.error('An unexpected error occurred:', error);
@@ -43,7 +44,7 @@ export const deleteSambaAccount = async (id: string): Promise<boolean> => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401 || error.response?.status === 403) {
-        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: '' });
       } else {
         alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
       }
@@ -61,7 +62,7 @@ export const updateSambaAccount = async (id: string, params: UpdateSambaParams):
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401 || error.response?.status === 403) {
-        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: '' });
       } else {
         alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
       }
@@ -77,9 +78,9 @@ export const getAllSambaAccount = async (): Promise<ISamba[]> => {
     const data = mapSambaGetAllResponseToSambaArray(response.data);
     return data;
   } catch (error) {
-      if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error)) {
       if (error.response?.status === 401 || error.response?.status === 403) {
-        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: "" });
+        alertService.errorAlert({ title: AUTHORIZATION_ERROR_TITLE, message: '' });
       } else {
         alertService.errorAlert({ title: DEFAULT_ERROR_TITLE, message: error.response?.data.message });
       }

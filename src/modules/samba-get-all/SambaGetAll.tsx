@@ -43,13 +43,13 @@ const SambaGetAll = (): JSX.Element => {
       cancelButtonText: 'Cancel',
       focusConfirm: false,
     }).then(async result => {
-        if (!result.isConfirmed) {
-          return;
-        } 
-        const isOk = await deleteSambaAccount(id);
-        if (isOk) {
-          setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
-        }
+      if (!result.isConfirmed) {
+        return;
+      }
+      const isOk = await deleteSambaAccount(id);
+      if (isOk) {
+        setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
+      }
     });
   };
 
@@ -74,7 +74,7 @@ const SambaGetAll = (): JSX.Element => {
           return false;
         }
 
-        if (isDescriptionTrimmedMinLength(newDesc, 10)) {
+        if (!isDescriptionTrimmedMinLength(newDesc, 10)) {
           Swal.showValidationMessage('Invalid description format');
           return false;
         }

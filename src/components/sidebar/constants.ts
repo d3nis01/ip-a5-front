@@ -53,10 +53,10 @@ export const MENU_OPTIONS: IMenuOption[] = [
     title: 'Account Email Variants GET',
     route: ROUTE__ACCOUNT_EMAIL_VARIANTS_GET,
   },
-  {
-    title: 'Account Email Variants UPDATE',
-    route: ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE,
-  },
+  // {
+  //   title: 'Account Email Variants UPDATE',
+  //   route: ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE,
+  // },
   {
     title: 'Samba GET',
     route: ROUTE__SAMBA_GET,

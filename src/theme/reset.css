@@ -9,3 +9,8 @@
   font-family: 'Roboto';
   src: url('./fonts/Roboto-Regular.ttf') format('truetype');
 }
+
+.swal2-modal .swal2-text,
+.swal2-modal .swal2-title {
+  text-align: center;
+}

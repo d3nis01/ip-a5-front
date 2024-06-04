@@ -63,13 +63,12 @@ const PostSamba = (): JSX.Element => {
     } else {
       setDescriptionError('');
     }
-    
+
     if (addressError || descriptionError) {
       return;
     }
 
     const response = await createSambaAccount(requestBody);
-    setResponse(response);
     setIsFormSubmitted(true);
   };
 

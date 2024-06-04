@@ -175,27 +175,6 @@ export const AccountInputError = styled.div`
   text-align: left;
 `;
 
-export const APContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-  width: 100%;
-  justify-content: center;
-  gap: 20px;
-  width: 600px;
-  padding: 32px;
-  border-radius: 20px;
-  background-color: ${props => props.theme.colors.white};
-
-  @media (max-width: 620px) {
-    width: 96%;
-  }
-  @media (max-width: 440px) {
-    padding: 20px;
-  }
-`;
-
 export const APTitle = styled.h1`
   font-size: 24px;
   font-weight: ${props => props.theme.fontWeights.bold};
@@ -302,7 +281,7 @@ export const RadioOption = styled.div`
 `;
 
 export const PopupUnderlay = styled.div`
-  z-index: 10000000000;
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
@@ -334,4 +313,25 @@ export const APUpdateError = styled.div`
   font-weight: ${props => props.theme.fontWeights.bold};
   margin-top: 5px;
   text-align: left;
+`;
+
+export const APContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+  width: 600px;
+  padding: 32px;
+  border-radius: 20px;
+  background-color: ${props => props.theme.colors.white};
+
+  @media (max-width: 620px) {
+    width: 96%;
+  }
+  @media (max-width: 440px) {
+    padding: 20px;
+  }
 `;

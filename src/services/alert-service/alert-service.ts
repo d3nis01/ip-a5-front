@@ -11,6 +11,7 @@ const errorAlert = (props: ErrorAlertProps): void => {
     icon: 'error',
     title,
     text: message,
+    confirmButtonColor: '#3085d6',
   });
 };
 
@@ -20,6 +21,7 @@ const successAlert = (props: ErrorAlertProps): void => {
     icon: 'success',
     title,
     text: message,
+    confirmButtonColor: '#3085d6',
   });
 };
 
