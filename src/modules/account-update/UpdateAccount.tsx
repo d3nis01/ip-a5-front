@@ -35,34 +35,47 @@ const copyToClipboard = async (text: string) => {
 };
 
 const UpdateAccount = (): JSX.Element => {
-  const [id, setId] = useState<string>('');
-  const [newUsername, setNewUsername] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('');
-  const [newEmail, setNewEmail] = useState<string>('');
+  const [formData, setFormData] = useState({
+    id: '',
+    newUsername: '',
+    newPassword: '',
+    confirmNewPassword: '',
+    newEmail: '',
+  });
   const [response, setResponse] = useState<any>(null);
-  const [isUuidError, setIsUuidError] = useState<string>('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
+  const [errors, setErrors] = useState({
+    isUuidError: '',
+    confirmPasswordError: '',
+  });
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    const { id, newPassword, confirmNewPassword } = formData;
+
     if (!isUUID(id)) {
-      setIsUuidError('Invalid UUID!');
+      setErrors(prevErrors => ({ ...prevErrors, isUuidError: 'Invalid UUID!' }));
       return;
     } else {
-      setIsUuidError('');
+      setErrors(prevErrors => ({ ...prevErrors, isUuidError: '' }));
     }
 
     if (newPassword !== confirmNewPassword) {
-      setConfirmPasswordError('Passwords do not match!');
+      setErrors(prevErrors => ({ ...prevErrors, confirmPasswordError: 'Passwords do not match!' }));
       return;
     } else {
-      setConfirmPasswordError('');
+      setErrors(prevErrors => ({ ...prevErrors, confirmPasswordError: '' }));
     }
 
     try {
+      const { newUsername, newPassword, newEmail } = formData;
+
       const updateData = {
         newUsername,
         newPassword,
@@ -77,55 +90,54 @@ const UpdateAccount = (): JSX.Element => {
     }
   };
 
+  const inputFields = [
+    { label: 'UUID', name: 'id', type: 'text', placeholder: '', required: true, error: errors.isUuidError },
+    { label: 'New Username', name: 'newUsername', type: 'text', placeholder: '', required: true },
+    { label: 'New Password', name: 'newPassword', type: 'password', placeholder: '', required: true },
+    { label: 'Confirm New Password', name: 'confirmNewPassword', type: 'password', placeholder: '', required: true, error: errors.confirmPasswordError },
+    { label: 'New Email', name: 'newEmail', type: 'email', placeholder: '', required: true },
+  ];
+
+  const responseFields = [{ label: 'Status code', value: `${response?.status} ${response?.statusText}` }];
+
   return (
     <AccountUpdateContainer>
       <AccountUpdateInnerContainer>
         <UpdateAccountTitle>Update Account</UpdateAccountTitle>
         <AccountUpdateForm onSubmit={handleSubmit}>
-          <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="uuid">UUID *</AccountUpdateLabel>
-            <AccountUpdateInput type="text" id="uuid" name="uuid" value={id} onChange={e => setId(e.target.value)} placeholder="" required />
-            {isUuidError && <AccountInputError>{isUuidError}</AccountInputError>}
-          </AccountUpdateInputWrapper>
-          <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="username">New Username *</AccountUpdateLabel>
-            <AccountUpdateInput type="text" id="username" name="username" value={newUsername} onChange={e => setNewUsername(e.target.value)} placeholder="" required />
-          </AccountUpdateInputWrapper>
-          <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="password">New Password *</AccountUpdateLabel>
-            <AccountUpdateInput type="password" id="password" name="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="" required />
-          </AccountUpdateInputWrapper>
-          <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="confirmPassword">Confirm New Password *</AccountUpdateLabel>
-            <AccountUpdateInput
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={confirmNewPassword}
-              onChange={e => setConfirmNewPassword(e.target.value)}
-              placeholder=""
-              required
-            />
-            {confirmPasswordError && <AccountInputError>{confirmPasswordError}</AccountInputError>}
-          </AccountUpdateInputWrapper>
-          <AccountUpdateInputWrapper>
-            <AccountUpdateLabel htmlFor="email">New Email *</AccountUpdateLabel>
-            <AccountUpdateInput type="email" id="email" name="email" value={newEmail} onChange={e => setNewEmail(e.target.value)} placeholder="" required />
-          </AccountUpdateInputWrapper>
-
+          {inputFields.map((field, index) => (
+            <AccountUpdateInputWrapper key={index}>
+              <AccountUpdateLabel htmlFor={field.name}>{field.label} *</AccountUpdateLabel>
+              <AccountUpdateInput
+                type={field.type}
+                id={field.name}
+                name={field.name}
+                value={formData[field.name as keyof typeof formData]}
+                onChange={handleInputChange}
+                placeholder={field.placeholder}
+                required={field.required}
+              />
+              {field.error && <AccountInputError>{field.error}</AccountInputError>}
+            </AccountUpdateInputWrapper>
+          ))}
           <AccountUpdateSubmitButton type="submit">Submit</AccountUpdateSubmitButton>
         </AccountUpdateForm>
         {isFormSubmitted && (
           <AccountUpdateResponseSection>
             <RequestResponseLabel>Request response</RequestResponseLabel>
             <AccountUpdateResponseWrapper>
-              <AccountUpdateResponseItemWrapper>
-                <ResponseLabel>Status code</ResponseLabel>
-                <AccountUpdateResponseValueContainer>
-                  <ResponseValue>{String(response?.status) + ' ' + response?.statusText}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(response?.status) || '')}>Copy</CopyButton>
-                </AccountUpdateResponseValueContainer>
-              </AccountUpdateResponseItemWrapper>
+              {responseFields.map(
+                (field, index) =>
+                  field.value && (
+                    <AccountUpdateResponseItemWrapper key={index}>
+                      <ResponseLabel>{field.label}</ResponseLabel>
+                      <AccountUpdateResponseValueContainer>
+                        <ResponseValue>{field.value}</ResponseValue>
+                        <CopyButton onClick={() => copyToClipboard(field.value ?? '')}>Copy</CopyButton>
+                      </AccountUpdateResponseValueContainer>
+                    </AccountUpdateResponseItemWrapper>
+                  ),
+              )}
             </AccountUpdateResponseWrapper>
           </AccountUpdateResponseSection>
         )}

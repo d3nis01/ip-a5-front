@@ -5,18 +5,10 @@ import {
   SambaPostLabel,
   SambaPostInput,
   SambaPostSubmitButton,
-  SambaPostResponseSection,
-  ResponseLabel,
-  ResponseValue,
-  RequestResponseLabel,
-  CopyButton,
+  SambaPostTextarea,
   SambaPostContainer,
   SambaPostInnerContainer,
   SambaPostInputWrapper,
-  SambaPostTextarea,
-  SambaPostResponseWrapper,
-  SambaPostResponseItemWrapper,
-  SambaPostResponseValueContainer,
   SambaInputError,
 } from './styles';
 
@@ -37,64 +29,90 @@ const copyToClipboard = async (text: string) => {
 };
 
 const PostSamba = (): JSX.Element => {
-  const [iPv4Address, setIPv4Address] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [formData, setFormData] = useState({
+    iPv4Address: '',
+    description: '',
+  });
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [postResponse, setResponse] = useState<ICreateSambaResponse>();
-  const [addressError, setAddressError] = useState<string>('');
-  const [descriptionError, setDescriptionError] = useState<string>('');
+  const [errors, setErrors] = useState({
+    addressError: '',
+    descriptionError: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const { iPv4Address, description } = formData;
+    const newErrors = { addressError: '', descriptionError: '' };
+
+    if (!isIPv4(iPv4Address)) {
+      newErrors.addressError = 'Invalid Address!';
+    }
+
+    if (!isDescriptionTrimmedMinLength(description, 10)) {
+      newErrors.descriptionError = 'Invalid description!';
+    }
+
+    if (newErrors.addressError || newErrors.descriptionError) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors(newErrors);
 
     const requestBody: ICreateSamba = {
       iPv4Address,
       description,
     };
 
-    if (isIPv4(iPv4Address) === false) {
-      setAddressError('Invalid Address!');
-    } else {
-      setAddressError('');
-    }
-
-    if (isDescriptionTrimmedMinLength(description, 10) === false) {
-      setDescriptionError('Invalid description!');
-    } else {
-      setDescriptionError('');
-    }
-    
-    if (addressError || descriptionError) {
-      return;
-    }
-
     const response = await createSambaAccount(requestBody);
     setResponse(response);
     setIsFormSubmitted(true);
   };
+
+  const inputFields = [
+    {
+      label: 'IPv4 Address',
+      name: 'iPv4Address',
+      type: 'text',
+      value: formData.iPv4Address,
+      placeholder: '0.0.0.0',
+      error: errors.addressError,
+      component: 'input',
+    },
+    {
+      label: 'Description',
+      name: 'description',
+      type: 'textarea',
+      value: formData.description,
+      placeholder: 'Description: Lorem ipsum dolor sit amet.',
+      error: errors.descriptionError,
+      component: 'textarea',
+    },
+  ];
 
   return (
     <SambaPostContainer>
       <SambaPostInnerContainer>
         <PostSambaTitle>Post Samba</PostSambaTitle>
         <SambaPostForm onSubmit={handleSubmit}>
-          <SambaPostInputWrapper>
-            <SambaPostLabel htmlFor="ipv4Address">IPv4Address *</SambaPostLabel>
-            <SambaPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
-            {addressError && <SambaInputError>Invalid Address!</SambaInputError>}
-          </SambaPostInputWrapper>
-          <SambaPostInputWrapper>
-            <SambaPostLabel htmlFor="description">Description *</SambaPostLabel>
-            <SambaPostTextarea
-              id="description"
-              name="description"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="description: Lorem ipsum dolor sit amet. "
-              required
-            />
-            {descriptionError && <SambaInputError>Description length should be at least 10 characters!</SambaInputError>}
-          </SambaPostInputWrapper>
+          {inputFields.map((field, index) => (
+            <SambaPostInputWrapper key={index}>
+              <SambaPostLabel htmlFor={field.name}>{field.label} *</SambaPostLabel>
+              {field.component === 'input' ? (
+                <SambaPostInput id={field.name} name={field.name} type={field.type} value={field.value} onChange={handleInputChange} placeholder={field.placeholder} required />
+              ) : (
+                <SambaPostTextarea id={field.name} name={field.name} value={field.value} onChange={handleInputChange} placeholder={field.placeholder} required />
+              )}
+              {field.error && <SambaInputError>{field.error}</SambaInputError>}
+            </SambaPostInputWrapper>
+          ))}
           <SambaPostSubmitButton type="submit">Submit</SambaPostSubmitButton>
         </SambaPostForm>
       </SambaPostInnerContainer>

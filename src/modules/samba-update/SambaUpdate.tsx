@@ -1,39 +1,43 @@
 import React, { useState } from 'react';
-import {
-  SambaContainer,
-  SambaTitle,
-  SambaForm,
-  SambaLabel,
-  UUIDInput,
-  SubmitButton,
-  InputWrapper,
-  SambaInnerContainer,
-  SambaInputError,
-} from './styles';
+import { SambaContainer, SambaTitle, SambaForm, SambaLabel, UUIDInput, SubmitButton, InputWrapper, SambaInnerContainer, SambaInputError } from './styles';
 
 import { updateSambaAccount } from '../../services/samba-service';
 import { isDescriptionTrimmedMinLength, isIPv4, isUUID } from '../../utils/inputValidators';
 import { VpnPostTextarea } from '../vpn-post/styles';
 
 const UpdateSamba = (): JSX.Element => {
-  const [uuid, setUuid] = useState<string>('');
-  const [newIpAddress, setNewIpAddress] = useState<string>('');
-  const [newDescription, setNewDescription] = useState<string>('');
-  const [uuidError, setUuidError] = useState<string>('');
-  const [ipError, setIpError] = useState<string>('');
-  const [descriptionError, setDescriptionError] = useState<string>('');
+  const [formData, setFormData] = useState({
+    uuid: '',
+    newIpAddress: '',
+    newDescription: '',
+  });
+  const [errors, setErrors] = useState({
+    uuidError: '',
+    ipError: '',
+    descriptionError: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setUuidError(!isUUID(uuid) ? 'Invalid UUID!' : '');
-    setIpError(!isIPv4(newIpAddress) ? 'Invalid IP address' : '');
-    setDescriptionError(!isDescriptionTrimmedMinLength(newDescription, 10) ? 
-      'Invalid description' : '');
+    const { uuid, newIpAddress, newDescription } = formData;
+    const newErrors = {
+      uuidError: !isUUID(uuid) ? 'Invalid UUID!' : '',
+      ipError: !isIPv4(newIpAddress) ? 'Invalid IP address' : '',
+      descriptionError: !isDescriptionTrimmedMinLength(newDescription, 10) ? 'Invalid description' : '',
+    };
 
-    if (uuidError || ipError || descriptionError) {
+    if (newErrors.uuidError || newErrors.ipError || newErrors.descriptionError) {
+      setErrors(newErrors);
       return;
     }
+
+    setErrors(newErrors);
 
     const updateData = {
       newIpAddress,
@@ -43,6 +47,36 @@ const UpdateSamba = (): JSX.Element => {
     await updateSambaAccount(uuid, updateData);
   };
 
+  const inputFields = [
+    {
+      label: 'UUID',
+      name: 'uuid',
+      type: 'text',
+      value: formData.uuid,
+      placeholder: '00000000-0000-0000-0000-000000000000',
+      error: errors.uuidError,
+      component: UUIDInput,
+    },
+    {
+      label: 'New IP Address',
+      name: 'newIpAddress',
+      type: 'text',
+      value: formData.newIpAddress,
+      placeholder: '192.168.1.1',
+      error: errors.ipError,
+      component: UUIDInput,
+    },
+    {
+      label: 'New Description',
+      name: 'newDescription',
+      type: 'text',
+      value: formData.newDescription,
+      placeholder: 'Brief description here',
+      error: errors.descriptionError,
+      component: VpnPostTextarea,
+    },
+  ];
+
   return (
     <SambaContainer>
       <SambaInnerContainer>
@@ -50,22 +84,13 @@ const UpdateSamba = (): JSX.Element => {
           <b>Update Samba</b>
         </SambaTitle>
         <SambaForm onSubmit={handleSubmit}>
-          <InputWrapper>
-            <SambaLabel htmlFor="uuid">UUID *</SambaLabel>
-            <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
-            {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
-          </InputWrapper>
-          <InputWrapper>
-            <SambaLabel htmlFor="newIpAddress">New IP Address *</SambaLabel>
-            <UUIDInput id="newIpAddress" type="text" value={newIpAddress} onChange={e => setNewIpAddress(e.target.value)} placeholder="192.168.1.1" />
-            {ipError && <SambaInputError>Invalid IP adress!</SambaInputError>}
-          </InputWrapper>
-          <InputWrapper>
-            <SambaLabel htmlFor="newDescription">New Description *</SambaLabel>
-            <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" required />
-            {descriptionError && <SambaInputError>Description length should be at least 10 characters!</SambaInputError>}
-
-          </InputWrapper>
+          {inputFields.map((field, index) => (
+            <InputWrapper key={index}>
+              <SambaLabel htmlFor={field.name}>{field.label} *</SambaLabel>
+              <field.component id={field.name} name={field.name} type={field.type} value={field.value} onChange={handleInputChange} placeholder={field.placeholder} required />
+              {field.error && <SambaInputError>{field.error}</SambaInputError>}
+            </InputWrapper>
+          ))}
           <SubmitButton type="submit">Submit</SubmitButton>
         </SambaForm>
       </SambaInnerContainer>

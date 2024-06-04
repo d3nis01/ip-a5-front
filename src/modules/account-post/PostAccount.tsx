@@ -36,12 +36,14 @@ const copyToClipboard = async (text: string) => {
 };
 
 const PostAccount = (): JSX.Element => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    email: '',
+    matricol: '',
+  });
   const [passwordError, setPasswordError] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [matricol, setMatricol] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [postResponse, setResponse] = useState<ICreateAccountResponse>();
   const [matricolError, setMatricolError] = useState<string>('');
@@ -49,14 +51,14 @@ const PostAccount = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isMatricol(matricol) === false) {
+    if (isMatricol(formData.matricol) === false) {
       setMatricolError('Matricol is not valid');
       console.error('Matricol is not valid');
       return;
     }
     setMatricolError('');
 
-    if (confirmPassword !== password) {
+    if (formData.confirmPassword !== formData.password) {
       setPasswordError('Passwords do not match');
       return;
     }
@@ -64,10 +66,10 @@ const PostAccount = (): JSX.Element => {
     setPasswordError('');
 
     const requestObject: ICreateAccount = {
-      username,
-      password,
-      email,
-      matricol,
+      username: formData.username,
+      password: formData.password,
+      email: formData.email,
+      matricol: formData.matricol,
     };
 
     const response = await createAccount(requestObject);
@@ -75,55 +77,63 @@ const PostAccount = (): JSX.Element => {
     setIsFormSubmitted(true);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const inputFields = [
+    { label: 'Username', name: 'username', type: 'text', placeholder: '', required: true },
+    { label: 'Password', name: 'password', type: 'password', placeholder: '', required: true },
+    { label: 'Confirm Password', name: 'confirmPassword', type: 'password', placeholder: '', required: true },
+    { label: 'Email', name: 'email', type: 'email', placeholder: '', required: true },
+    { label: 'Matricol', name: 'matricol', type: 'text', placeholder: '', required: true },
+  ];
+
+  const responseFields = [
+    { label: 'UUID', value: postResponse?.uuid },
+    { label: 'Status code', value: `${postResponse?.status} ${postResponse?.statusText}` },
+  ];
+
   return (
     <AccountPostContainer>
       <AccountPostInnerContainer>
         <PostAccountTitle>Post Account</PostAccountTitle>
         <AccountPostForm onSubmit={handleSubmit}>
-          <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="username">Username *</AccountPostLabel>
-            <AccountPostInput type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} placeholder="" required />
-          </AccountPostInputWrapper>
-          <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="password">Password *</AccountPostLabel>
-            <AccountPostInput type="password" id="password" name="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="" required />
-          </AccountPostInputWrapper>
-          <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="password">Confirm Password *</AccountPostLabel>
-            <AccountPostInput type="password" id="password" name="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="" required />
-            {passwordError && <AccountInputError>Passwords do not match !</AccountInputError>}
-          </AccountPostInputWrapper>
-          <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="email">Email *</AccountPostLabel>
-            <AccountPostInput type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="" required />
-          </AccountPostInputWrapper>
-          <AccountPostInputWrapper>
-            <AccountPostLabel htmlFor="matricol">Matricol *</AccountPostLabel>
-            <AccountPostInput type="text" id="matricol" name="matricol" value={matricol} onChange={e => setMatricol(e.target.value)} placeholder="" required />
-            {matricolError && <AccountInputError>Matricol is not valid!</AccountInputError>}
-          </AccountPostInputWrapper>
-
+          {inputFields.map((field, index) => (
+            <AccountPostInputWrapper key={index}>
+              <AccountPostLabel htmlFor={field.name}>{field.label} *</AccountPostLabel>
+              <AccountPostInput
+                type={field.type}
+                id={field.name}
+                name={field.name}
+                value={formData[field.name as keyof typeof formData]}
+                onChange={handleInputChange}
+                placeholder={field.placeholder}
+                required={field.required}
+              />
+              {field.name === 'confirmPassword' && passwordError && <AccountInputError>Passwords do not match!</AccountInputError>}
+              {field.name === 'matricol' && matricolError && <AccountInputError>Matricol is not valid!</AccountInputError>}
+            </AccountPostInputWrapper>
+          ))}
           <AccountPostSubmitButton type="submit">Submit</AccountPostSubmitButton>
         </AccountPostForm>
         {isFormSubmitted && (
           <AccountPostResponseSection>
             <RequestResponseLabel>Request response</RequestResponseLabel>
             <AccountPostResponseWrapper>
-              <AccountPostResponseItemWrapper>
-                <ResponseLabel>UUID</ResponseLabel>
-                <AccountPostResponseValueContainer>
-                  <ResponseValue>{postResponse?.uuid}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(postResponse?.uuid || '')}>Copy</CopyButton>
-                </AccountPostResponseValueContainer>
-              </AccountPostResponseItemWrapper>
-
-              <AccountPostResponseItemWrapper>
-                <ResponseLabel>Status code</ResponseLabel>
-                <AccountPostResponseValueContainer>
-                  <ResponseValue>{String(postResponse?.status) + ' ' + postResponse?.statusText}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(postResponse?.status) || '')}>Copy</CopyButton>
-                </AccountPostResponseValueContainer>
-              </AccountPostResponseItemWrapper>
+              {responseFields.map(
+                (field, index) =>
+                  field.value && (
+                    <AccountPostResponseItemWrapper key={index}>
+                      <ResponseLabel>{field.label}</ResponseLabel>
+                      <AccountPostResponseValueContainer>
+                        <ResponseValue>{field.value}</ResponseValue>
+                        <CopyButton onClick={() => copyToClipboard(field.value ?? '')}>Copy</CopyButton>
+                      </AccountPostResponseValueContainer>
+                    </AccountPostResponseItemWrapper>
+                  ),
+              )}
             </AccountPostResponseWrapper>
           </AccountPostResponseSection>
         )}

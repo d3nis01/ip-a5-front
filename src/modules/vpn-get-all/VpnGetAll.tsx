@@ -110,18 +110,11 @@ const VpnGetAll = (): JSX.Element => {
       <VGAContainer>
         <VGAInnerContainer>
           <VGAHeader>
-            <VGAHeaderColumnTitle>
-              <h4>UUID</h4>
-            </VGAHeaderColumnTitle>
-            <VGAHeaderColumnTitle>
-              <h4>IPv4 Address</h4>
-            </VGAHeaderColumnTitle>
-            <VGAHeaderColumnTitle>
-              <h4>Description</h4>
-            </VGAHeaderColumnTitle>
-            <VGAHeaderColumnTitle>
-              <h4>Options</h4>
-            </VGAHeaderColumnTitle>
+            {['UUID', 'IPv4 Address', 'Description', 'Options'].map((title, index) => (
+              <VGAHeaderColumnTitle key={index}>
+                <h4>{title}</h4>
+              </VGAHeaderColumnTitle>
+            ))}
           </VGAHeader>
           <VGAList>
             {VpnArray &&

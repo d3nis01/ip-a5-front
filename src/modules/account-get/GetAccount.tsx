@@ -56,6 +56,15 @@ const GetAccount = (): JSX.Element => {
     setIsFormSubmitted(true);
   };
 
+  const accountFields = [
+    { label: 'UUID', value: accountData?.id },
+    { label: 'Username', value: accountData?.username },
+    { label: 'Password', value: accountData?.password },
+    { label: 'Email', value: accountData?.email },
+    { label: 'Matricol', value: accountData?.matricol },
+    { label: 'Status code', value: `${response?.status} ${response?.statusText}` },
+  ];
+
   return (
     <AccountContainer>
       <AccountInnerContainer>
@@ -75,48 +84,18 @@ const GetAccount = (): JSX.Element => {
           <AccountResponseSection>
             <AccountRequestResponseLabel>Request Response</AccountRequestResponseLabel>
             <AccountResponsesWrapper>
-              <AccountResponseBox>
-                <AccountResponseLabel>UUID</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{accountData.id}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(accountData.id)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
-              <AccountResponseBox>
-                <AccountResponseLabel>Username</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{accountData.username}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(accountData.username)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
-              <AccountResponseBox>
-                <AccountResponseLabel>Password</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{accountData.password}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(accountData.password)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
-              <AccountResponseBox>
-                <AccountResponseLabel>Email</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{accountData.email}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(accountData.email)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
-              <AccountResponseBox>
-                <AccountResponseLabel>Matricol</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{accountData.matricol}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(accountData.matricol)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
-              <AccountResponseBox>
-                <AccountResponseLabel>Status code</AccountResponseLabel>
-                <ResponseValueWrapper>
-                  <AccountResponseValue>{String(response.status) + ' ' + String(response.statusText)}</AccountResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(response.status))}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </AccountResponseBox>
+              {accountFields.map(
+                (field, index) =>
+                  field.value && (
+                    <AccountResponseBox key={index}>
+                      <AccountResponseLabel>{field.label}</AccountResponseLabel>
+                      <ResponseValueWrapper>
+                        <AccountResponseValue>{field.value}</AccountResponseValue>
+                        <CopyButton onClick={() => copyToClipboard(field.value ?? '')}>Copy</CopyButton>
+                      </ResponseValueWrapper>
+                    </AccountResponseBox>
+                  ),
+              )}
             </AccountResponsesWrapper>
           </AccountResponseSection>
         )}

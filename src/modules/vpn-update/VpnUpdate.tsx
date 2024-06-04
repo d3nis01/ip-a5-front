@@ -19,19 +19,23 @@ import {
   VpnContainer,
 } from './styles';
 
-import { IVpnGetResponse, IVpnUpdateResponse } from '../../types/IServiceTypesRequests';
+import { IVpnUpdateResponse } from '../../types/IServiceTypesRequests';
 import { isIPv4, isUUID } from '../../utils/inputValidators';
 import { VpnPostTextarea } from '../vpn-post/styles';
 import { updateVpnAccount } from '../../services/vpn-service';
 
 const UpdateVpn = (): JSX.Element => {
-  const [uuid, setUuid] = useState<string>('');
-  const [newIpAddress, setNewIpAddress] = useState<string>('');
-  const [newDescription, setNewDescription] = useState<string>('');
-  const [sambaData, setVpnData] = useState<IVpnUpdateResponse>();
+  const [formData, setFormData] = useState({
+    uuid: '',
+    newIpAddress: '',
+    newDescription: '',
+  });
+  const [vpnData, setVpnData] = useState<IVpnUpdateResponse | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [uuidError, setUuidError] = useState<string>('');
-  const [ipError, setIpError] = useState<string>('');
+  const [errors, setErrors] = useState({
+    uuidError: '',
+    ipError: '',
+  });
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard
@@ -42,21 +46,26 @@ const UpdateVpn = (): JSX.Element => {
       });
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({ ...prevState, [name]: value }));
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!isUUID(uuid)) {
-      setUuidError('Invalid UUID!');
-      if (!isIPv4(newIpAddress)) {
-        setIpError('Invalid IP address!');
-      }
+
+    const { uuid, newIpAddress, newDescription } = formData;
+    const newErrors = {
+      uuidError: !isUUID(uuid) ? 'Invalid UUID!' : '',
+      ipError: !isIPv4(newIpAddress) ? 'Invalid IP address!' : '',
+    };
+
+    if (newErrors.uuidError || newErrors.ipError) {
+      setErrors(newErrors);
       return;
     }
-    if (!isIPv4(newIpAddress)) {
-      setIpError('Invalid IP address!');
-      return;
-    }
-    setUuidError('');
-    setIpError('');
+
+    setErrors(newErrors);
 
     const updateData = {
       newIpAddress,
@@ -68,6 +77,35 @@ const UpdateVpn = (): JSX.Element => {
     setIsFormSubmitted(true);
   };
 
+  const inputFields = [
+    {
+      label: 'UUID',
+      name: 'uuid',
+      type: 'text',
+      value: formData.uuid,
+      placeholder: '00000000-0000-0000-0000-000000000000',
+      error: errors.uuidError,
+      component: UUIDInput,
+    },
+    {
+      label: 'New IP Address',
+      name: 'newIpAddress',
+      type: 'text',
+      value: formData.newIpAddress,
+      placeholder: '192.168.1.1',
+      error: errors.ipError,
+      component: UUIDInput,
+    },
+    {
+      label: 'New Description',
+      name: 'newDescription',
+      type: 'textarea',
+      value: formData.newDescription,
+      placeholder: 'Brief description here',
+      component: VpnPostTextarea,
+    },
+  ];
+
   return (
     <VpnContainer>
       <VpnInnerContainer>
@@ -75,32 +113,29 @@ const UpdateVpn = (): JSX.Element => {
           <b>Update Vpn</b>
         </VpnTitle>
         <VpnForm onSubmit={handleSubmit}>
-          <InputWrapper>
-            <VpnLabel htmlFor="uuid">UUID *</VpnLabel>
-            <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
-            {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
-          </InputWrapper>
-          <InputWrapper>
-            <VpnLabel htmlFor="newIpAddress">New IP Address *</VpnLabel>
-            <UUIDInput id="newIpAddress" type="text" value={newIpAddress} onChange={e => setNewIpAddress(e.target.value)} placeholder="192.168.1.1" />
-            {ipError && <VpnInputError>Invalid IP adress!</VpnInputError>}
-          </InputWrapper>
-          <InputWrapper>
-            <VpnLabel htmlFor="newDescription">New Description *</VpnLabel>
-            <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" />
-          </InputWrapper>
+          {inputFields.map((field, index) => (
+            <InputWrapper key={index}>
+              <VpnLabel htmlFor={field.name}>{field.label} *</VpnLabel>
+              {field.component === UUIDInput ? (
+                <UUIDInput id={field.name} name={field.name} type={field.type} value={field.value} onChange={handleInputChange} placeholder={field.placeholder} required />
+              ) : (
+                <VpnPostTextarea id={field.name} name={field.name} value={field.value} onChange={handleInputChange} placeholder={field.placeholder} required />
+              )}
+              {field.error && <VpnInputError>{field.error}</VpnInputError>}
+            </InputWrapper>
+          ))}
           <SubmitButton type="submit">Submit</SubmitButton>
         </VpnForm>
 
-        {isFormSubmitted && (
+        {isFormSubmitted && vpnData && (
           <VpnResponseSection>
             <VpnRequestResponseLabel>Request Response</VpnRequestResponseLabel>
             <VpnResponsesWrapper>
               <VpnResponseBox>
                 <VpnResponseLabel>Status</VpnResponseLabel>
                 <ResponseValueWrapper>
-                  <VpnResponseValue>{sambaData?.status + ' ' + sambaData?.statusText}</VpnResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(sambaData?.status))}>Copy</CopyButton>
+                  <VpnResponseValue>{vpnData.status + ' ' + vpnData.statusText}</VpnResponseValue>
+                  <CopyButton onClick={() => copyToClipboard(String(vpnData.status))}>Copy</CopyButton>
                 </ResponseValueWrapper>
               </VpnResponseBox>
             </VpnResponsesWrapper>

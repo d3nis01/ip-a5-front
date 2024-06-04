@@ -41,7 +41,7 @@ const GetSamba = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isUUID(uuid) === false) {
+    if (!isUUID(uuid)) {
       setUuidError('Invalid UUID!');
       console.error('Invalid UUID');
       return;
@@ -53,6 +53,25 @@ const GetSamba = (): JSX.Element => {
     setIsFormSubmitted(true);
   };
 
+  const inputFields = [
+    {
+      label: 'UUID',
+      name: 'uuid',
+      type: 'text',
+      value: uuid,
+      onChange: (e: React.ChangeEvent<HTMLInputElement>) => setUuid(e.target.value),
+      error: uuidError,
+      placeholder: '00000000-0000-0000-0000-000000000000',
+    },
+  ];
+
+  const responseFields = [
+    { label: 'UUID', value: sambaData?.data.id },
+    { label: 'IPv4 Address', value: sambaData?.data.iPv4Address },
+    { label: 'Description', value: sambaData?.data.description },
+    { label: 'Status', value: `${sambaData?.status} ${sambaData?.statusText}` },
+  ];
+
   return (
     <SambaContainer>
       <SambaInnerContainer>
@@ -60,11 +79,13 @@ const GetSamba = (): JSX.Element => {
           <b>Get Samba</b>
         </SambaTitle>
         <SambaForm onSubmit={handleSubmit}>
-          <InputWrapper>
-            <SambaLabel htmlFor="uuid">UUID *</SambaLabel>
-            <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
-            {uuidError && <SambaInputError>Invalid UUID!</SambaInputError>}
-          </InputWrapper>
+          {inputFields.map((field, index) => (
+            <InputWrapper key={index}>
+              <SambaLabel htmlFor={field.name}>{field.label} *</SambaLabel>
+              <UUIDInput id={field.name} type={field.type} value={field.value} onChange={field.onChange} placeholder={field.placeholder} required />
+              {field.error && <SambaInputError>{field.error}</SambaInputError>}
+            </InputWrapper>
+          ))}
           <SubmitButton type="submit">Submit</SubmitButton>
         </SambaForm>
 
@@ -72,34 +93,18 @@ const GetSamba = (): JSX.Element => {
           <SambaResponseSection>
             <SambaRequestResponseLabel>Request Response</SambaRequestResponseLabel>
             <SambaResponsesWrapper>
-              <SambaResponseBox>
-                <SambaResponseLabel>UUID</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{sambaData.data.id}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(sambaData.data.id)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseBox>
-              <SambaResponseBox>
-                <SambaResponseLabel>IPv4 Address</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{sambaData.data.iPv4Address}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(sambaData.data.iPv4Address)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseBox>
-              <SambaResponseBox>
-                <SambaResponseLabel>Description</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{sambaData.data.description}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(sambaData.data.description)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseBox>
-              <SambaResponseBox>
-                <SambaResponseLabel>Status</SambaResponseLabel>
-                <ResponseValueWrapper>
-                  <SambaResponseValue>{sambaData.status + ' ' + sambaData.statusText}</SambaResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(sambaData.status) || '')}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </SambaResponseBox>
+              {responseFields.map(
+                (field, index) =>
+                  field.value && (
+                    <SambaResponseBox key={index}>
+                      <SambaResponseLabel>{field.label}</SambaResponseLabel>
+                      <ResponseValueWrapper>
+                        <SambaResponseValue>{field.value}</SambaResponseValue>
+                        <CopyButton onClick={() => copyToClipboard(field.value ?? '')}>Copy</CopyButton>
+                      </ResponseValueWrapper>
+                    </SambaResponseBox>
+                  ),
+              )}
             </SambaResponsesWrapper>
           </SambaResponseSection>
         )}

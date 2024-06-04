@@ -37,10 +37,11 @@ const GetVpn = (): JSX.Element => {
         console.error('Error copying to clipboard: ', err);
       });
   };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isUUID(uuid) === false) {
+    if (!isUUID(uuid)) {
       setUuidError('Invalid UUID!');
       console.error('Invalid UUID');
       return;
@@ -52,6 +53,25 @@ const GetVpn = (): JSX.Element => {
     setIsFormSubmitted(true);
   };
 
+  const inputFields = [
+    {
+      label: 'UUID',
+      name: 'uuid',
+      type: 'text',
+      value: uuid,
+      placeholder: '00000000-0000-0000-0000-000000000000',
+      error: uuidError,
+      component: UUIDInput,
+    },
+  ];
+
+  const responseFields = [
+    { label: 'UUID', value: vpnData?.data.id },
+    { label: 'IPv4 Address', value: vpnData?.data.iPv4Address },
+    { label: 'Description', value: vpnData?.data.description },
+    { label: 'Status', value: `${vpnData?.status} ${vpnData?.statusText}` },
+  ];
+
   return (
     <VPNContainer>
       <VPNInnerContainer>
@@ -59,11 +79,21 @@ const GetVpn = (): JSX.Element => {
           <b>Get VPN</b>
         </VPNTitle>
         <VPNForm onSubmit={handleSubmit}>
-          <InputWrapper>
-            <VPNLabel htmlFor="uuid">UUID *</VPNLabel>
-            <UUIDInput id="uuid" type="text" value={uuid} onChange={e => setUuid(e.target.value)} placeholder="00000000-0000-0000-0000-000000000000" required />
-            {uuidError && <VpnInputError>Invalid UUID!</VpnInputError>}
-          </InputWrapper>
+          {inputFields.map((field, index) => (
+            <InputWrapper key={index}>
+              <VPNLabel htmlFor={field.name}>{field.label} *</VPNLabel>
+              <field.component
+                id={field.name}
+                name={field.name}
+                type={field.type}
+                value={field.value}
+                onChange={e => setUuid(e.target.value)}
+                placeholder={field.placeholder}
+                required
+              />
+              {field.error && <VpnInputError>{field.error}</VpnInputError>}
+            </InputWrapper>
+          ))}
           <SubmitButton type="submit">Submit</SubmitButton>
         </VPNForm>
 
@@ -71,34 +101,18 @@ const GetVpn = (): JSX.Element => {
           <VPNResponseSection>
             <VPNRequestResponseLabel>Request Response</VPNRequestResponseLabel>
             <VPNResponsesWrapper>
-              <VpnResponseBox>
-                <VPNResponseLabel>UUID</VPNResponseLabel>
-                <ResponseValueWrapper>
-                  <VPNResponseValue>{vpnData.data.id}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(vpnData.data.id)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </VpnResponseBox>
-              <VpnResponseBox>
-                <VPNResponseLabel>IPv4 Address</VPNResponseLabel>
-                <ResponseValueWrapper>
-                  <VPNResponseValue>{vpnData.data.iPv4Address}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(vpnData.data.iPv4Address)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </VpnResponseBox>
-              <VpnResponseBox>
-                <VPNResponseLabel>Description</VPNResponseLabel>
-                <ResponseValueWrapper>
-                  <VPNResponseValue>{vpnData.data.description}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(vpnData.data.description)}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </VpnResponseBox>
-              <VpnResponseBox>
-                <VPNResponseLabel>Status</VPNResponseLabel>
-                <ResponseValueWrapper>
-                  <VPNResponseValue>{vpnData.status + ' ' + vpnData.statusText}</VPNResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(vpnData.status) || '')}>Copy</CopyButton>
-                </ResponseValueWrapper>
-              </VpnResponseBox>
+              {responseFields.map(
+                (field, index) =>
+                  field.value && (
+                    <VpnResponseBox key={index}>
+                      <VPNResponseLabel>{field.label}</VPNResponseLabel>
+                      <ResponseValueWrapper>
+                        <VPNResponseValue>{field.value}</VPNResponseValue>
+                        <CopyButton onClick={() => copyToClipboard(field.value ?? '')}>Copy</CopyButton>
+                      </ResponseValueWrapper>
+                    </VpnResponseBox>
+                  ),
+              )}
             </VPNResponsesWrapper>
           </VPNResponseSection>
         )}

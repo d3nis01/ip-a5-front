@@ -43,13 +43,13 @@ const SambaGetAll = (): JSX.Element => {
       cancelButtonText: 'Cancel',
       focusConfirm: false,
     }).then(async result => {
-        if (!result.isConfirmed) {
-          return;
-        } 
-        const isOk = await deleteSambaAccount(id);
-        if (isOk) {
-          setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
-        }
+      if (!result.isConfirmed) {
+        return;
+      }
+      const isOk = await deleteSambaAccount(id);
+      if (isOk) {
+        setSambaArray(prevArray => prevArray?.filter(item => item.id !== id));
+      }
     });
   };
 
@@ -102,18 +102,11 @@ const SambaGetAll = (): JSX.Element => {
       <SGAContainer>
         <SGAInnerContainer>
           <SGAHeader>
-            <SGAHeaderColumnTitle>
-              <h4>UUID</h4>
-            </SGAHeaderColumnTitle>
-            <SGAHeaderColumnTitle>
-              <h4>IPv4 Address</h4>
-            </SGAHeaderColumnTitle>
-            <SGAHeaderColumnTitle>
-              <h4>Description</h4>
-            </SGAHeaderColumnTitle>
-            <SGAHeaderColumnTitle>
-              <h4>Options</h4>
-            </SGAHeaderColumnTitle>
+            {['UUID', 'IPv4 Address', 'Description', 'Options'].map((title, index) => (
+              <SGAHeaderColumnTitle key={index}>
+                <h4>{title}</h4>
+              </SGAHeaderColumnTitle>
+            ))}
           </SGAHeader>
           <SGAList>
             {sambaArray &&
