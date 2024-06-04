@@ -43,7 +43,7 @@ const Login = (): JSX.Element => {
 
     try {
       const response = await dispatch(loginAuthActionAsync(loginCredentials));
-      if (response) {
+      if (response.payload) {
         setIsFormSubmitted(true);
         navigate(ROUTE__HOME);
       }
