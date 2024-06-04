@@ -16,15 +16,14 @@ import {
   ForgotPasswordLink,
   LoginWrapper,
 } from '../login/styles';
-import myImg from './assets/wallpaper2.jpg';
+import uaicImage from './assets/uaic-image.jpg';
 import { ILoginCredentials } from '../../types/auth/AuthTypes';
 import { LoginPageLink } from '../register/styles';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_REGISTER, ROUTE__AUTH_FORGOT_PASSWORD_FORM, ROUTE__HOME } from '../../router/constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { loginAuthActionAsync } from '../../store/actions/auth-actions';
-import { ROUTE__SEND_RECOVERY_CODE } from '../../router/constants';
 
 const Login = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
@@ -60,7 +59,7 @@ const Login = (): JSX.Element => {
   return (
     <LoginContainer>
       <LoginWrapper>
-        <LoginImage src={myImg} alt="Login Image" />
+        <LoginImage src={uaicImage} alt="Login Image" />
         <LoginInnerContainer>
           <LoginTitle>Nice to see you again</LoginTitle>
           <LoginForm onSubmit={handleSubmit}>

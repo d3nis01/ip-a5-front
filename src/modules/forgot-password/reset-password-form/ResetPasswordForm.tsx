@@ -20,6 +20,8 @@ import {
 import uaicImage from '../assets/uaic-image.jpg';
 import { resetPasswordRequest } from '../../../services/auth-service';
 import { IResetPassword } from '../../../types/auth/IResetPassword';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { ROUTE__HOME } from '../../../router/constants';
 
 const ResetPassword = (): JSX.Element => {
   const [password, setPassword] = useState<string>('');
@@ -33,6 +35,7 @@ const ResetPassword = (): JSX.Element => {
   const [passwordType, setPasswordType] = useState('password');
   const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(eyeOff);
   const [confirmPasswordType, setConfirmPasswordType] = useState('password');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,6 +61,7 @@ const ResetPassword = (): JSX.Element => {
     if (response?.message) {
       setResetResponseError(response.message);
     }
+    navigate(ROUTE__HOME);
   };
 
   const togglePasswordVisibility = () => {

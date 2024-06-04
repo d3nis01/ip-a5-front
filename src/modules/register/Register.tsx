@@ -18,7 +18,7 @@ import {
   LoginPageLink,
   RegisterWrapper,
 } from '../register/styles';
-import myImg from './assets/wallpaper2.jpg';
+import uaicImage from './assets/uaic-image.jpg';
 import { IRegisterCredentials } from '../../types/auth/AuthTypes';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
@@ -77,7 +77,7 @@ const Register = (): JSX.Element => {
   return (
     <RegisterContainer>
       <RegisterWrapper>
-        <RegisterImage src={myImg} alt="Register Image" />
+        <RegisterImage src={uaicImage} alt="Register Image" />
         <RegisterInnerContainer>
           <RegisterTitle>Register</RegisterTitle>
           <RegisterForm onSubmit={handleSubmit}>

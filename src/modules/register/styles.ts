@@ -4,8 +4,9 @@ import { styled } from 'styled-components';
 export const RegisterImage = styled.img`
   width: 400px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 20px;
   height: 100%;
+  object-position: 55% 50%;
 
   @media (max-width: 1000px) {
     display: none;

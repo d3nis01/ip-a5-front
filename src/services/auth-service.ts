@@ -5,6 +5,7 @@ import { ICurrentUserDetails } from '../types/ICurrentUserDetails';
 import { ILoginCredentials, IRegisterCredentials } from '../types/auth/AuthTypes';
 import api from '../api/api';
 import { IResetPassword } from '../types/auth/IResetPassword';
+import alertService from './alert-service';
 
 export const TOKEN_AUTH = 'access-token';
 export const REFRESH_TOKEN_AUTH = 'refresh-token';
@@ -47,5 +48,6 @@ export const forgotPasswordRequest = async (email: string) => {
 
 export const resetPasswordRequest = async (resetPasswordProps: IResetPassword) => {
   const response = await api.post('/auth/reset-password', resetPasswordProps);
+  alertService.successAlert({ title: 'Success', message: 'Password reset successfully' });
   return response.data;
 };
