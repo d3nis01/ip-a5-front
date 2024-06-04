@@ -186,7 +186,7 @@ const GetAccountEmailVariants = (): JSX.Element => {
     const response = await getAccountEmailVariants(matricol);
     setResponse(response);
     setIsFormSubmitted(true);
-    setIsPopupOpen(true); // Open the popup
+    setIsPopupOpen(true);
   };
 
   return (

@@ -66,7 +66,6 @@ const AppRouter = (): JSX.Element => {
           <Route path={ROUTE__VPN_UPDATE} element={<UpdateVpn />} />
           <Route path={ROUTE__ACCOUNTE_UPDATE} element={<UpdateAccount />} />
           <Route path={ROUTE__ACCOUNT_EMAIL_VARIANTS_GET} element={<GetAccountEmailVariants />} />
-          {/* <Route path={ROUTE__ACCOUNT_EMAIL_VARIANTS_UPDATE} element={<UpdateAccountEmailVariants />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
