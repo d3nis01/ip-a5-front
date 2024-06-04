@@ -64,7 +64,6 @@ const UpdateSamba = (): JSX.Element => {
             <SambaLabel htmlFor="newDescription">New Description *</SambaLabel>
             <VpnPostTextarea id="newDescription" value={newDescription} onChange={e => setNewDescription(e.target.value)} placeholder="Brief description here" required />
             {descriptionError && <SambaInputError>Description length should be at least 10 characters!</SambaInputError>}
-
           </InputWrapper>
           <SubmitButton type="submit">Submit</SubmitButton>
         </SambaForm>

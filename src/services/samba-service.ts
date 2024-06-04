@@ -1,7 +1,7 @@
 import axios from 'axios';
 import CustomError from '../utils/CustomError';
 import api from '../api/api';
-import { ICreateSamba, ICreateSambaResponse, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
+import { ICreateSamba, ISambaGetResponse, UpdateSambaParams } from '../types/IServiceTypesRequests';
 import { mapSambaGetAllResponseToSambaArray, mapSambaResponseToSamba } from '../mappers/samba-mappers';
 import alertService from './alert-service';
 import { AUTHORIZATION_ERROR_TITLE, DEFAULT_ERROR_MESSAGE, DEFAULT_ERROR_TITLE } from './alert-service/alert-service';

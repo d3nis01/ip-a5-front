@@ -18,7 +18,7 @@ import { IVpn } from '../../types/IServiceTypesObjects';
 import { deleteVpnAccount, getAllVpnAccount, updateVpnAccount } from '../../services/vpn-service';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
-import { isIPv4, isMatricol } from '../../utils/inputValidators';
+import { isIPv4, isDescriptionTrimmedMinLength } from '../../utils/inputValidators';
 
 const VpnGetAll = (): JSX.Element => {
   const [VpnArray, setVpnArray] = useState<IVpn[]>();
@@ -27,7 +27,7 @@ const VpnGetAll = (): JSX.Element => {
 
   useEffect(() => {
     const fetchList = async () => {
-      const getAllArray = (await getAllVpnAccount()).data;
+      const getAllArray = await getAllVpnAccount();
       setVpnArray(getAllArray);
     };
     fetchList();
@@ -48,9 +48,12 @@ const VpnGetAll = (): JSX.Element => {
         confirmButton: 'swal-confirm-button-delete',
         cancelButton: 'swal-cancel-button-delete',
       },
-    }).then(result => {
-      if (result.isConfirmed) {
-        deleteVpnAccount(id);
+    }).then(async result => {
+      if (!result.isConfirmed) {
+        return;
+      }
+      const isOk = await deleteVpnAccount(id);
+      if (isOk) {
         setVpnArray(prevArray => prevArray?.filter(item => item.id !== id));
       }
     });
@@ -67,11 +70,6 @@ const VpnGetAll = (): JSX.Element => {
         <input id="swal-input3" class="swal2-input" value="${object.description}" placeholder="Brief description here" />
       </div>
     `,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Save',
-      cancelButtonText: 'Cancel',
       focusConfirm: false,
       preConfirm: () => {
         const newIp = (document.getElementById('swal-input2') as HTMLInputElement).value;
@@ -82,7 +80,7 @@ const VpnGetAll = (): JSX.Element => {
           return false;
         }
 
-        if (newDesc.length <= 0) {
+        if (!isDescriptionTrimmedMinLength(newDesc, 10)) {
           Swal.showValidationMessage('Invalid description format');
           return false;
         }

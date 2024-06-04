@@ -5,43 +5,23 @@ import {
   VpnPostLabel,
   VpnPostInput,
   VpnPostSubmitButton,
-  VpnPostResponseSection,
-  ResponseLabel,
-  ResponseValue,
-  RequestResponseLabel,
-  CopyButton,
   VPNPostContainer,
   VPNPostInnerContainer,
   VpnPostInputWrapper,
   VpnPostTextarea,
-  VpnPostResponseWrapper,
-  VpnPostResponseItemWrapper,
-  VpnPostResponseValueContainer,
   VpnInputError,
 } from './styles';
 
 import { createVpnAccount } from '../../services/vpn-service';
-import { ICreateVpn, ICreateVpnResponse } from '../../types/IServiceTypesRequests';
-import { isIPv4 } from '../../utils/inputValidators';
-
-const copyToClipboard = async (text: string) => {
-  if (!navigator.clipboard) {
-    console.error('Clipboard not available');
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (err) {
-    console.error('Failed to copy text: ', err);
-  }
-};
+import { ICreateVpn} from '../../types/IServiceTypesRequests';
+import { isDescriptionTrimmedMinLength, isIPv4 } from '../../utils/inputValidators';
 
 const PostVpn = (): JSX.Element => {
   const [iPv4Address, setIPv4Address] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
-  const [postResponse, setResponse] = useState<ICreateVpnResponse>();
-  const [adressError, setAdressError] = useState<string>('');
+  const [addressError, setAddressError] = useState<string>('');
+  const [descriptionError, setDescriptionError] = useState<string>('');
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,14 +32,18 @@ const PostVpn = (): JSX.Element => {
     };
 
     if (isIPv4(iPv4Address) === false) {
-      setAdressError('Invalid Adress!');
-      console.error('Invalid IPv4 address');
+      setAddressError('Invalid Address!');
       return;
     }
-    setAdressError('');
+    setAddressError('');
 
-    const response = await createVpnAccount(requestBody);
-    setResponse(response);
+    if (isDescriptionTrimmedMinLength(description, 10) === false) {
+      setDescriptionError('Invalid description!');
+      return;
+    }
+    setDescriptionError('');
+
+    await createVpnAccount(requestBody);
     setIsFormSubmitted(true);
   };
 
@@ -71,7 +55,7 @@ const PostVpn = (): JSX.Element => {
           <VpnPostInputWrapper>
             <VpnPostLabel htmlFor="ipv4Address">IPv4 Address *</VpnPostLabel>
             <VpnPostInput type="text" id="iPv4Address" name="iPv4Address" value={iPv4Address} onChange={e => setIPv4Address(e.target.value)} placeholder="0.0.0.0" required />
-            {adressError && <VpnInputError>Invalid Adress!</VpnInputError>}
+            {addressError && <VpnInputError>Invalid Adress!</VpnInputError>}
           </VpnPostInputWrapper>
           <VpnPostInputWrapper>
             <VpnPostLabel htmlFor="description">Description *</VpnPostLabel>
@@ -83,31 +67,10 @@ const PostVpn = (): JSX.Element => {
               placeholder="Description: Lorem ipsum dolor sit amet."
               required
             />
+            {descriptionError && <VpnInputError>Description length should be at least 10 characters!</VpnInputError>}
           </VpnPostInputWrapper>
           <VpnPostSubmitButton type="submit">Submit</VpnPostSubmitButton>
         </VpnPostForm>
-        {isFormSubmitted && (
-          <VpnPostResponseSection>
-            <RequestResponseLabel>Request response</RequestResponseLabel>
-            <VpnPostResponseWrapper>
-              <VpnPostResponseItemWrapper>
-                <ResponseLabel>UUID</ResponseLabel>
-                <VpnPostResponseValueContainer>
-                  <ResponseValue>{postResponse?.uuid}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(postResponse?.uuid || '')}>Copy</CopyButton>
-                </VpnPostResponseValueContainer>
-              </VpnPostResponseItemWrapper>
-
-              <VpnPostResponseItemWrapper>
-                <ResponseLabel>Status code</ResponseLabel>
-                <VpnPostResponseValueContainer>
-                  <ResponseValue>{String(postResponse?.status) + ' ' + postResponse?.statusText}</ResponseValue>
-                  <CopyButton onClick={() => copyToClipboard(String(postResponse?.status) || '')}>Copy</CopyButton>
-                </VpnPostResponseValueContainer>
-              </VpnPostResponseItemWrapper>
-            </VpnPostResponseWrapper>
-          </VpnPostResponseSection>
-        )}
       </VPNPostInnerContainer>
     </VPNPostContainer>
   );
